@@ -1,0 +1,78 @@
+# ---------- Dependencies ----------
+node_modules/
+jspm_packages/
+.pnp
+.pnp.js
+
+# ---------- Build output ----------
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# ---------- Environment / secrets ----------
+# Real .env files are never committed. The *.example templates are.
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# ---------- Logs ----------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.err.log
+
+# ---------- Test / coverage ----------
+coverage/
+.nyc_output/
+.vitest/
+playwright-report/
+test-results/
+
+# ---------- Caches ----------
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+.turbo/
+.npm/
+.temp/
+tmp/
+
+# ---------- Internal planning / docs ----------
+# Private working docs — kept local, not published.
+PROJECT_MASTER_PLAN.md
+README.md
+
+# ---------- Local design reference ----------
+# Standalone Vite mockup used only for visual reference during development.
+# Not part of the npm workspaces and not imported by apps/ or packages/.
+design/
+
+# ---------- Uploaded media (local dev) ----------
+apps/api/uploads/*
+!apps/api/uploads/.gitkeep
+
+# ---------- Editor / OS ----------
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# ---------- Local tooling state ----------
+*.pem
+*.key
+!.env.example
+
+PROJECT_MASTER_PLAN.md
+README.md

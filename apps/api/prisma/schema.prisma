@@ -1,0 +1,269 @@
+// Built so far: Module 9 (Auth) + Module 1 (Tournament) + Module 2 (Team) + Module 3 (Player).
+// Later modules add their models as they are built (Section 4 step A).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  super_admin
+  team_owner
+  content_manager
+  score_manager
+  quiz_manager
+  fan
+}
+
+enum TournamentFormat {
+  league
+  knockout
+  group_knockout
+}
+
+enum PlayerPosition {
+  goalkeeper
+  defender
+  midfielder
+  forward
+}
+
+enum MatchStatus {
+  upcoming
+  live
+  completed
+  cancelled
+}
+
+enum MatchEventType {
+  goal
+  penalty
+  card
+  substitution
+  period_start
+  period_end
+  other
+}
+
+enum CommentaryType {
+  goal
+  penalty
+  card
+  substitution
+  period
+  injury
+  info
+  other
+}
+
+enum TournamentStatus {
+  draft
+  upcoming
+  ongoing
+  completed
+  cancelled
+}
+
+model Tournament {
+  id        String             @id @default(uuid()) @db.Uuid
+  name      String
+  season    String
+  format    TournamentFormat   @default(league)
+  rules     String?
+  startDate DateTime
+  endDate   DateTime
+  status    TournamentStatus   @default(draft)
+  logo      String?
+  isActive  Boolean            @default(false)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  teams Team[]
+  players Player[]
+  matches Match[]
+
+  @@unique([season, name])
+  @@index([status])
+  @@index([isActive])
+  @@index([startDate])
+}
+
+model Venue {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  address   String
+  city      String
+  capacity  Int?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  matches Match[]
+
+  @@index([city])
+}
+
+model Team {
+  id          String       @id @default(uuid()) @db.Uuid
+  name        String
+  shortName   String
+  logo        String?
+  color1      String       @default("#0a6cc2") // hex, validated at the schema boundary
+  color2      String?
+  tournamentId String      @db.Uuid
+  tournament   Tournament  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  coachName   String?
+  coachImage  String?
+  ownerId     String?      @db.Uuid
+  owner       User?        @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  sponsors Sponsor[]
+  players  Player[]
+  teamAMatches  Match[] @relation("MatchTeamA")
+  teamBMatches  Match[] @relation("MatchTeamB")
+  matchEvents   MatchEvent[] @relation("EventTeam")
+
+  @@unique([tournamentId, name])
+  @@index([tournamentId])
+  @@index([ownerId])
+}
+
+model Player {
+  id           String         @id @default(uuid()) @db.Uuid
+  name         String
+  image        String?
+  jerseyNumber Int
+  position     PlayerPosition
+  dateOfBirth  DateTime
+  nationality  String
+  teamId       String         @db.Uuid
+  team         Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  // Denormalized from the team so directory filters by tournament don't need a join.
+  tournamentId String         @db.Uuid
+  tournament   Tournament     @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  matchEvents   MatchEvent[] @relation("EventPlayer")
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([teamId, jerseyNumber])
+  @@index([teamId])
+  @@index([tournamentId])
+  @@index([position])
+}
+
+model Match {
+  id            String      @id @default(uuid()) @db.Uuid
+  tournamentId  String      @db.Uuid
+  tournament    Tournament  @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
+  teamAId       String      @db.Uuid
+  teamA         Team        @relation("MatchTeamA", fields: [teamAId], references: [id], onDelete: Cascade)
+  teamBId       String      @db.Uuid
+  teamB         Team        @relation("MatchTeamB", fields: [teamBId], references: [id], onDelete: Cascade)
+  venueId       String?     @db.Uuid
+  venue         Venue?      @relation(fields: [venueId], references: [id], onDelete: SetNull)
+  date          DateTime
+  status        MatchStatus @default(upcoming)
+  teamAScore    Int         @default(0)
+  teamBScore    Int         @default(0)
+  // Live fields are written by Module 5 (live-score), read-only for the rest.
+  currentMinute Int?
+  currentPeriod String?
+  isPaused      Boolean  @default(false)
+  summary       String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  events       MatchEvent[]
+  commentaries Commentary[]
+
+  @@index([tournamentId])
+  @@index([teamAId])
+  @@index([teamBId])
+  @@index([venueId])
+  @@index([status])
+  @@index([date])
+}
+
+model Commentary {
+  id        String          @id @default(uuid()) @db.Uuid
+  matchId   String          @db.Uuid
+  match     Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  minute    Int
+  text      String
+  type      CommentaryType  @default(info)
+  createdAt DateTime        @default(now())
+
+  @@index([matchId])
+  @@index([matchId, minute])
+}
+
+model MatchEvent {
+  id          String          @id @default(uuid()) @db.Uuid
+  matchId     String          @db.Uuid
+  match       Match           @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  eventType   MatchEventType
+  teamId      String?         @db.Uuid
+  team        Team?           @relation("EventTeam", fields: [teamId], references: [id], onDelete: SetNull)
+  playerId    String?         @db.Uuid
+  player      Player?         @relation("EventPlayer", fields: [playerId], references: [id], onDelete: SetNull)
+  minute      Int
+  description String?
+  createdAt   DateTime        @default(now())
+
+  @@index([matchId])
+  @@index([matchId, minute])
+  @@index([teamId])
+  @@index([playerId])
+}
+
+model Sponsor {
+  id        String   @id @default(uuid()) @db.Uuid
+  name      String
+  logo      String?
+  teamId    String   @db.Uuid
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([teamId, name])
+  @@index([teamId])
+}
+
+model User {
+  id          String   @id @default(uuid()) @db.Uuid
+  email       String   @unique
+  name        String
+  phone       String?
+  password    String? // bcrypt hash; set for every account (fans sign up with password + OTP)
+  role        Role     @default(fan)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  otpCodes OtpCode[]
+  ownedTeams Team[]
+
+  @@index([role])
+}
+
+model OtpCode {
+  id         String    @id @default(uuid()) @db.Uuid
+  email      String
+  codeHash   String // sha256 of the 6-digit code — never stored in plaintext
+  userId     String?   @db.Uuid
+  user       User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  expiresAt  DateTime
+  createdAt  DateTime  @default(now())
+
+  @@index([email])
+  @@index([email, consumedAt])
+  @@index([expiresAt])
+}
