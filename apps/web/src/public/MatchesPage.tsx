@@ -135,34 +135,6 @@ export function MatchesPage() {
         </section>
       )}
 
-      {/* Filters — the page title now lives in the hero. */}
-      {/* <div className="mb-8 flex flex-wrap items-center gap-2">
-        <select
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none transition-colors focus:border-pitch-orange-dark"
-          value={tFilter}
-          onChange={(e) => setTFilter(e.target.value)}
-          aria-label="Filter by tournament"
-        >
-          <option value="">All tournaments</option>
-          {tournaments.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.name} {t.season}
-            </option>
-          ))}
-        </select>
-        <select
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-700 outline-none transition-colors focus:border-pitch-orange-dark"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          aria-label="Filter by status"
-        >
-          <option value="">All</option>
-          <option value="upcoming">Upcoming</option>
-          <option value="live">Live</option>
-          <option value="completed">Completed</option>
-        </select>
-      </div> */}
-
       {!matches ? (
         <p className="text-slate-400">Loading schedule…</p>
       ) : matches.length === 0 ? (
