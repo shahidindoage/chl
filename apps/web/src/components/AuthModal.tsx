@@ -232,9 +232,7 @@ export function AuthModal({ open, onClose, initialMode = "signin" }: { open: boo
             <button className="btn-primary w-full" disabled={busy}>
               {busy ? "Signing in…" : "Sign in"}
             </button>
-            <p className="text-center text-xs text-slate-500">
-              Staff sign in at <a className="underline" href="/admin/login">/admin/login</a>
-            </p>
+         
           </form>
         ) : (
           <form
@@ -268,7 +266,7 @@ export function AuthModal({ open, onClose, initialMode = "signin" }: { open: boo
                 onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
             </div>
             <button className="btn-primary w-full" disabled={busy}>
-              {busy ? "Sending code…" : "Sign up (we'll email a code)"}
+              {busy ? "Sending code…" : "Create Account"}
             </button>
           </form>
         )}
