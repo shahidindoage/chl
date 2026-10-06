@@ -15,6 +15,9 @@ import { cacheDel, publishLiveEvent } from "../../core/lib/redis.js";
 import { getVenue } from "../tournament/tournament.service.js";
 import { getTeam } from "../team/team.service.js";
 import { getPlayer } from "../player/player.service.js";
+// Module 8 settles fan predictions when a match reaches a final result. The
+// dependency points at its service, never its repository (Section 2 rule 2).
+import { scorePredictionsForMatch } from "../fan-engagement/fan-engagement.service.js";
 import * as repo from "./match.repository.js";
 
 /**
@@ -206,7 +209,17 @@ export async function applyLiveControl(
   // Entering completed (end) always refreshes standings; score/pause keep
   // the same status, but a score bump on a live game doesn't affect the
   // table until completion — standings only count completed matches.
-  if (action === "end") await invalidateStandingsCache(existing.tournamentId);
+  if (action === "end") {
+    await invalidateStandingsCache(existing.tournamentId);
+    // Settle fan predictions at the same moment (Module 8).
+    await scorePredictionsForMatch({
+      id,
+      teamAId: existing.teamAId,
+      teamBId: existing.teamBId,
+      teamAScore: (data.teamAScore as number | undefined) ?? existing.teamAScore,
+      teamBScore: (data.teamBScore as number | undefined) ?? existing.teamBScore,
+    });
+  }
 
   const withRelations = await repo.findMatchWithRelations(id);
   const dto = toMatchDto(withRelations as MatchWithRelations);
@@ -243,6 +256,18 @@ export async function updateResult(id: string, input: UpdateResultInput): Promis
   });
   // Results feed standings (Section 2 rule 7).
   await invalidateStandingsCache(updated.tournamentId);
+
+  // Fan predictions for this match are settled once the result is final
+  // (Module 8). Scored via the fan-engagement service — this module never
+  // touches prisma.prediction (Section 2 rule 2).
+  await scorePredictionsForMatch({
+    id: updated.id,
+    teamAId: updated.teamAId,
+    teamBId: updated.teamBId,
+    teamAScore: updated.teamAScore,
+    teamBScore: updated.teamBScore,
+  });
+
   const withRelations = await repo.findMatchWithRelations(updated.id);
   return toMatchDto(withRelations as MatchWithRelations);
 }

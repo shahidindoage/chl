@@ -9,7 +9,6 @@ import {
   AllResultsModal,
   LiveScoresModal,
   MatchDetailModal,
-  NewsArticleModal,
   SearchModal,
 } from "./home/HomeModals.js";
 
@@ -22,9 +21,9 @@ function Shell() {
   const { pathname } = useLocation();
   const {
     tournament, standings, counts, live, allUpcoming, allResults,
-    liveOpen, searchOpen, allMatchesOpen, allResultsOpen, aboutOpen, detail, article,
+    liveOpen, searchOpen, allMatchesOpen, allResultsOpen, aboutOpen, detail,
     openLive, openSearch, openAbout, openMatch,
-    closeDetail, closeLive, closeSearch, closeAllMatches, closeAllResults, closeAbout, closeArticle,
+    closeDetail, closeLive, closeSearch, closeAllMatches, closeAllResults, closeAbout,
   } = useHomeData();
 
   // The homepage hero supplies its own top spacing; every other page needs
@@ -47,7 +46,6 @@ function Shell() {
       <AllMatchesModal isOpen={allMatchesOpen} matches={allUpcoming} onClose={closeAllMatches} onSelectMatch={openMatch} />
       <AllResultsModal isOpen={allResultsOpen} matches={allResults} onClose={closeAllResults} onSelectMatch={openMatch} />
       <MatchDetailModal match={detail} onClose={closeDetail} />
-      <NewsArticleModal article={article} onClose={closeArticle} />
       <SearchModal
         isOpen={searchOpen}
         matches={[...allUpcoming, ...allResults]}

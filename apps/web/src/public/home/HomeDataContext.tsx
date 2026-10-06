@@ -6,7 +6,6 @@ import * as matchApi from "../../api/match.client.js";
 import * as standingsApi from "../../api/standings.client.js";
 import * as teamApi from "../../api/team.client.js";
 import * as tournamentApi from "../../api/tournament.client.js";
-import type { NewsItem } from "../../lib/dummyNews.js";
 
 /**
  * Single source of truth for the header, footer and homepage sections.
@@ -37,7 +36,6 @@ interface HomeData {
   aboutOpen: boolean;
   authOpen: boolean;
   detail: MatchDetailDto | null;
-  article: NewsItem | null;
 
   openLive: () => void;
   openSearch: () => void;
@@ -46,7 +44,6 @@ interface HomeData {
   openAbout: () => void;
   openAuth: () => void;
   openMatch: (m: MatchDto) => void;
-  openArticle: (a: NewsItem) => void;
   closeDetail: () => void;
   closeLive: () => void;
   closeSearch: () => void;
@@ -54,7 +51,6 @@ interface HomeData {
   closeAllResults: () => void;
   closeAbout: () => void;
   closeAuth: () => void;
-  closeArticle: () => void;
 
   refreshLive: () => void;
 }
@@ -79,7 +75,6 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [authOpen, setAuthOpen] = useState(false);
   const [detail, setDetail] = useState<MatchDetailDto | null>(null);
-  const [article, setArticle] = useState<NewsItem | null>(null);
 
   // A fixture keeps status "upcoming" until a score manager starts it, so a
   // match whose kickoff has already passed is expired and must be dropped
@@ -174,7 +169,6 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
       aboutOpen,
       authOpen,
       detail,
-      article,
       openLive: () => setLiveOpen(true),
       openSearch: () => setSearchOpen(true),
       openAllMatches: () => setAllMatchesOpen(true),
@@ -182,7 +176,6 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
       openAbout: () => setAboutOpen(true),
       openAuth: () => setAuthOpen(true),
       openMatch,
-      openArticle: setArticle,
       closeDetail: () => setDetail(null),
       closeLive: () => setLiveOpen(false),
       closeSearch: () => setSearchOpen(false),
@@ -190,12 +183,11 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
       closeAllResults: () => setAllResultsOpen(false),
       closeAbout: () => setAboutOpen(false),
       closeAuth,
-      closeArticle: () => setArticle(null),
       refreshLive: fetchLive,
     }),
     [
       tournament, upcoming, recent, live, standings, allUpcoming, allResults, counts,
-      liveOpen, searchOpen, allMatchesOpen, allResultsOpen, aboutOpen, authOpen, detail, article,
+      liveOpen, searchOpen, allMatchesOpen, allResultsOpen, aboutOpen, authOpen, detail,
       openMatch, closeAuth, fetchLive,
     ]
   );

@@ -69,6 +69,8 @@ export function SiteFooter() {
     { to: "/standings", label: "Points Table" },
     { to: "/news", label: "Latest News" },
    
+    { to: "/fans", label: "Fans Hub" },
+   
     { to: "/players", label: "Players" },
     { to: "/venues", label: "Venues" },
   ];

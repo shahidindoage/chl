@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { formatDay, formatMatchDate, formatMatchTime, formatMonth } from "../../lib/format.js";
-import { NEWS_FALLBACK_IMAGE, type NewsItem } from "../../lib/dummyNews.js";
 import { TeamCrest } from "../TeamCrest.js";
 
 /**
@@ -371,61 +370,6 @@ export function AllResultsModal({
         )}
       </div>
       <ModalFooter onClose={onClose} />
-    </ModalShell>
-  );
-}
-
-/* ---------------- News article reader ---------------- */
-
-export function NewsArticleModal({ article, onClose }: { article: NewsItem | null; onClose: () => void }) {
-  if (!article) return null;
-
-  return (
-    <ModalShell onClose={onClose} size="max-w-2xl">
-      <div className="relative aspect-[16/9] w-full shrink-0">
-        <img
-          src={article.imageUrl}
-          alt={article.title}
-          className="h-full w-full object-cover"
-          referrerPolicy="no-referrer"
-          onError={(e) => {
-            e.currentTarget.src = NEWS_FALLBACK_IMAGE;
-          }}
-        />
-        <button
-          onClick={onClose}
-          aria-label="Close article"
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
-        >
-          <X className="h-5 w-5" />
-        </button>
-      </div>
-
-      <div className="space-y-4 overflow-y-auto p-6">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-500">
-          <span className="rounded-full bg-orange-100 px-2.5 py-0.5 font-bold text-pitch-orange-dark">{article.category}</span>
-          <span>{formatMatchDate(article.date)}</span>
-          <span>•</span>
-          <span>{article.readTime}</span>
-          <span className="ml-auto rounded bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
-            Sample
-          </span>
-        </div>
-
-        <h2 className="font-display text-2xl font-extrabold leading-tight text-navy sm:text-3xl">{article.title}</h2>
-
-        <p className="border-l-[3px] border-pitch-orange-dark pl-4 text-base font-medium italic text-slate-600">
-          {article.summary}
-        </p>
-
-        <div className="space-y-3 pt-2 text-sm leading-relaxed text-slate-700 sm:text-base">
-          {article.content.split("\n\n").map((para, i) => (
-            <p key={i}>{para}</p>
-          ))}
-        </div>
-      </div>
-
-      <ModalFooter onClose={onClose} label="Done Reading" />
     </ModalShell>
   );
 }

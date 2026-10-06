@@ -13,11 +13,12 @@ import { playerRouter } from "./modules/player/player.routes.js";
 import { matchRouter } from "./modules/match/match.routes.js";
 import { standingsRouter } from "./modules/standings/standings.routes.js";
 import { liveRouter } from "./modules/live-score/live-score.routes.js";
+import { newsRouter } from "./modules/news/news.routes.js";
+import { fanEngagementRouter } from "./modules/fan-engagement/fan-engagement.routes.js";
 
 /**
  * Express app — mounts module routers, one line per module (Section 6).
- * Later modules: tournament, team, player, match, standings,
- * live-score, news, fan-engagement, admin.
+ * Later modules: fan-engagement, admin.
  */
 export function createApp(): Express {
   const app = express();
@@ -52,7 +53,12 @@ export function createApp(): Express {
   app.use("/api/matches", matchRouter);
   app.use("/api/standings", standingsRouter);
   app.use("/api/live", liveRouter);
+  app.use("/api/news", newsRouter);
+  app.use("/api/fans", fanEngagementRouter);
   // ... one line per module
+
+  // Uploaded media is served from /uploads (Module 7, Section 1 storage).
+  app.use("/uploads", express.static(env.UPLOAD_DIR, { maxAge: "7d", index: false, dotfiles: "deny" }));
 
   app.use(notFoundHandler);
   app.use(errorHandler);

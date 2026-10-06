@@ -1,0 +1,35 @@
+/**
+ * Module 7 — News & Media input schemas.
+ * Shapes live in @tournament/shared (Section 6 reuse pattern).
+ */
+export {
+  createArticleSchema,
+  updateArticleSchema,
+  createReelSchema,
+  updateReelSchema,
+  createGallerySchema,
+  updateGallerySchema,
+  listArticlesQuerySchema,
+  featuredArticlesQuerySchema,
+  listReelsQuerySchema,
+  listGalleriesQuerySchema,
+  idParamsSchema,
+  articleSlugParamsSchema,
+  NEWS_CATEGORIES,
+  newsCategoryLabel,
+  slugify,
+  type CreateArticleInput,
+  type UpdateArticleInput,
+  type CreateReelInput,
+  type UpdateReelInput,
+  type CreateGalleryInput,
+  type UpdateGalleryInput,
+  type ListArticlesQuery,
+  type ListReelsQuery,
+  type ListGalleriesQuery,
+  type ArticleDto,
+  type ReelDto,
+  type GalleryDto,
+  type GalleryImageDto,
+  type NewsCategoryName,
+} from "@tournament/shared";

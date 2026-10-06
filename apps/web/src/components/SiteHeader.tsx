@@ -18,11 +18,8 @@ const NAV_ITEMS = [
   { to: "/matches", label: "Matches", end: false },
   { to: "/standings", label: "Standings", end: false },
   { to: "/teams", label: "Teams", end: false },
-  // { to: "/players", label: "Players", end: false },
-  // { to: "/venues", label: "Venues", end: false },
-   { to: "/fans", label: "Fans", end: false },
   { to: "/news", label: "News", end: false },
- 
+  { to: "/fans", label: "Fans", end: false },
 ] as const;
 
 /**
@@ -31,7 +28,10 @@ const NAV_ITEMS = [
  * the bar keeps dark text and the logo keeps its real colours — a route not
  * listed falls back to the solid white bar. Extend as pages adopt PageHero.
  */
-const PAGE_HERO_ROUTES = new Set(["/matches", "/standings", "/teams", "/players", "/venues", "/news", "/fans"]);
+const PAGE_HERO_ROUTES = new Set([
+  "/matches", "/standings", "/teams", "/news", "/reels", "/gallery",
+  "/fans", "/quizzes", "/predict", "/leaderboard",
+]);
 
 export interface SiteHeaderProps {
   onOpenSearch: () => void;

@@ -6,3 +6,5 @@ export * from "./player.js";
 export * from "./match.js";
 export * from "./standings.js";
 export * from "./live-score.js";
+export * from "./news.js";
+export * from "./fan-engagement.js";

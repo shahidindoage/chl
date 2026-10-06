@@ -8,7 +8,7 @@ const SUPABASE = "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/pub
 export const LEAGUE_ASSETS = {
   logo: `${SUPABASE}/hockeylogo-rm.png`,
   patch: `${SUPABASE}/patchnew2.png`,
-  heroBanner: `${SUPABASE}/hero.png`,
+  heroBanner: `${SUPABASE}/hockey%20banner.jpg%20(2).jpeg`,
   standingBanner: `${SUPABASE}/stand.png`,
   ctaBanner: "/banner.png",
 } as const;

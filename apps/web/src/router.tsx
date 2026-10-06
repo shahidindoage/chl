@@ -13,7 +13,15 @@ import { RequireRole } from "./components/RequireRole.js";
 import { AccountPage } from "./public/AccountPage.js";
 import { HomePage } from "./public/HomePage.js";
 import { FansPage } from "./public/FansPage.js";
+import { NewsAdminPage } from "./admin/news/NewsAdminPage.js";
 import { NewsPage } from "./public/NewsPage.js";
+import { NewsDetailPage } from "./public/NewsDetailPage.js";
+import { ReelsPage } from "./public/ReelsPage.js";
+import { GalleryPage } from "./public/GalleryPage.js";
+import { QuizPage } from "./public/QuizPage.js";
+import { PredictPage } from "./public/PredictPage.js";
+import { LeaderboardPage } from "./public/LeaderboardPage.js";
+import { FanEngagementAdminPage } from "./admin/fan-engagement/FanEngagementAdminPage.js";
 import { MatchDetailPage } from "./public/MatchDetailPage.js";
 import { MatchesPage } from "./public/MatchesPage.js";
 import { LiveMatchPage } from "./public/LiveMatchPage.js";
@@ -48,6 +56,12 @@ export const routes = [
   { path: "/matches/:id", element: <MatchDetailPage /> },
   { path: "/matches/:id/live", element: <LiveMatchPage /> },
   { path: "/news", element: <NewsPage /> },
+  { path: "/news/:slug", element: <NewsDetailPage /> },
+  { path: "/reels", element: <ReelsPage /> },
+  { path: "/gallery", element: <GalleryPage /> },
+  { path: "/quizzes", element: <QuizPage /> },
+  { path: "/predict", element: <PredictPage /> },
+  { path: "/leaderboard", element: <LeaderboardPage /> },
   { path: "/fans", element: <FansPage /> },
   { path: "/standings", element: <StandingsPage /> },
   { path: "/admin/login", element: <AdminLoginPage /> },
@@ -103,6 +117,22 @@ export const routes = [
         ),
       },
       {
+        path: "fans",
+        element: (
+          <RequireRole roles={["super_admin", "quiz_manager"]}>
+            <FanEngagementAdminPage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "news",
+        element: (
+          <RequireRole roles={["super_admin", "content_manager"]}>
+            <NewsAdminPage />
+          </RequireRole>
+        ),
+      },
+      {
         path: "live",
         element: (
           <RequireRole roles={["super_admin", "score_manager"]}>
@@ -125,6 +155,12 @@ export const routes = [
 
 function AdminShell() {
   const canSeeMatches = useAuthStore((s) => s.user?.role === "super_admin" || s.user?.role === "score_manager");
+  const canManageNews = useAuthStore(
+    (s) => s.user?.role === "super_admin" || s.user?.role === "content_manager"
+  );
+  const canManageFans = useAuthStore(
+    (s) => s.user?.role === "super_admin" || s.user?.role === "quiz_manager"
+  );
   return (
     <div>
       <nav className="mb-4 flex gap-4 text-sm">
@@ -134,6 +170,8 @@ function AdminShell() {
         {canSeeMatches && <Link className="text-brand-600 underline" to="/admin/matches">Matches</Link>}
         {canSeeMatches && <Link className="text-red-600 underline" to="/admin/live">Live control</Link>}
         <Link className="text-brand-600 underline" to="/admin/standings">Standings</Link>
+        {canManageNews && <Link className="text-brand-600 underline" to="/admin/news">News &amp; media</Link>}
+      {canManageFans && <Link className="text-brand-600 underline" to="/admin/fans">Fan engagement</Link>}
         <Link className="text-brand-600 underline" to="/admin/users">Users</Link>
       </nav>
       <Outlet />
@@ -145,11 +183,7 @@ function AdminHomeNote() {
   return (
     <div className="card">
       <h1 className="mb-2 text-xl font-bold">Admin portal</h1>
-      <p className="text-sm text-slate-600">
-        Modules live: Auth (9) — <Link className="underline" to="/admin/users">users</Link>;
-        Tournament (1) — <Link className="underline" to="/admin/tournaments">tournaments &amp; venues</Link>.
-        Team / player modules arrive next in Phase 1.
-      </p>
+   
     </div>
   );
 }

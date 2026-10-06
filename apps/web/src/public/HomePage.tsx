@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import { CtaBanner } from "./home/CtaBanner.js";
+import { FanEngagementCta } from "./home/FanEngagementCta.js";
 import { HeroSection } from "./home/HeroSection.js";
 import { useHomeData } from "./home/HomeDataContext.js";
 import { LatestNewsSection } from "./home/LatestNewsSection.js";
@@ -15,7 +16,7 @@ import { UpcomingMatchesSection } from "./home/UpcomingMatchesSection.js";
  */
 export function HomePage() {
   const navigate = useNavigate();
-  const { tournament, upcoming, recent, live, standings, openAllMatches, openAllResults, openMatch, openArticle } = useHomeData();
+  const { tournament, upcoming, recent, live, standings, openAllMatches, openAllResults, openMatch } = useHomeData();
 
   const exploreMatches = () => {
     const el = document.getElementById("upcoming-matches-section");
@@ -65,7 +66,9 @@ export function HomePage() {
 
         <CtaBanner onExplore={exploreMatches} />
 
-        <LatestNewsSection onSelectArticle={openArticle} />
+        <FanEngagementCta />
+
+        <LatestNewsSection />
       </main>
     </div>
   );
