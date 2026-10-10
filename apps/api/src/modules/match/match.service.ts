@@ -48,11 +48,13 @@ function toMatchDto(m: MatchWithRelations): MatchDto {
     updatedAt: m.updatedAt.toISOString(),
     teamA: {
       id: m.teamA.id, name: m.teamA.name, shortName: m.teamA.shortName,
-      logo: m.teamA.logo, color1: m.teamA.color1,
+      logo: m.teamA.logo, backgroundImage: m.teamA.backgroundImage, heroImage: m.teamA.heroImage,
+      color1: m.teamA.color1,
     },
     teamB: {
       id: m.teamB.id, name: m.teamB.name, shortName: m.teamB.shortName,
-      logo: m.teamB.logo, color1: m.teamB.color1,
+      logo: m.teamB.logo, backgroundImage: m.teamB.backgroundImage, heroImage: m.teamB.heroImage,
+      color1: m.teamB.color1,
     },
     venue: m.venue ? { id: m.venue.id, name: m.venue.name, city: m.venue.city } : null,
   };

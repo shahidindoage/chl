@@ -10,8 +10,8 @@ import { prisma } from "../../core/lib/prisma.js";
  */
 
 const matchInclude = {
-  teamA: { select: { id: true, name: true, shortName: true, logo: true, color1: true, tournamentId: true } },
-  teamB: { select: { id: true, name: true, shortName: true, logo: true, color1: true, tournamentId: true } },
+  teamA: { select: { id: true, name: true, shortName: true, logo: true, backgroundImage: true, heroImage: true, color1: true, tournamentId: true } },
+  teamB: { select: { id: true, name: true, shortName: true, logo: true, backgroundImage: true, heroImage: true, color1: true, tournamentId: true } },
   venue: { select: { id: true, name: true, city: true } },
 } satisfies Prisma.MatchInclude;
 

@@ -1,4 +1,5 @@
 import { PageHero } from "../components/PageHero.js";
+import { LEAGUE_ASSETS } from "../lib/assets.js";
 
 /** Public FE: tournament ambassador programme (static content for now). */
 
@@ -53,6 +54,8 @@ export function AmbassadorPage() {
       <PageHero
         title="Tournament Ambassador"
         description="The face of the Chhattisgarh Hockey League, on and off the pitch."
+        image={LEAGUE_ASSETS.ambassadorHero}
+        position="right center"
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Ambassador" }]}
       />
 

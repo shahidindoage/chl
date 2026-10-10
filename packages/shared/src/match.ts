@@ -20,6 +20,9 @@ export const matchTeamInfoSchema = z.object({
   name: z.string(),
   shortName: z.string(),
   logo: z.string().nullable(),
+  // Card art, used for the split-diagonal backgrounds on match cards.
+  backgroundImage: z.string().nullable(),
+  heroImage: z.string().nullable(),
   color1: z.string(),
 });
 export type MatchTeamInfo = z.infer<typeof matchTeamInfoSchema>;

@@ -49,7 +49,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-emerald-900/60 bg-pitch-pitch pt-14 pb-8 text-emerald-100/90">
+    <footer className="relative overflow-hidden border-t border-emerald-900/60 bg-[#0c3d2a] pt-14 pb-8 text-emerald-100/90">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* About */}

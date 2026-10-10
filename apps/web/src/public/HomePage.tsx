@@ -30,7 +30,7 @@ export function HomePage() {
       <main className="flex-1">
         <HeroSection tournament={tournament} />
 
-        <HomeSponsorsStrip />
+        
 
         {live.length > 0 && (
           <section className="border-b border-red-100 bg-red-50/60">
@@ -72,6 +72,8 @@ export function HomePage() {
         <FanEngagementCta />
 
         <LatestNewsSection />
+
+        <HomeSponsorsStrip />
       </main>
     </div>
   );

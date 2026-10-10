@@ -37,18 +37,23 @@ export function SponsorsPage() {
           if (group.length === 0) return null;
           return (
             <section key={tier} className="mt-10">
-              <h2 className="font-display text-xl font-extrabold text-navy">{TIER_LABEL[tier]}</h2>
+              <h2 className="text-center text-[11px] font-bold uppercase tracking-[0.25em] text-slate-400">
+                {TIER_LABEL[tier]}
+              </h2>
 
-              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {/* Flex with a capped basis so every tier centres cleanly,
+                  including tiers holding a single sponsor. */}
+              <div className="mt-4 flex flex-wrap items-stretch justify-center gap-3 sm:gap-4">
                 {group.map((s) => (
                   <div
                     key={s.name}
-                    className="flex aspect-[2/1] items-center justify-center overflow-hidden rounded-xl p-3"
+                    className="flex min-w-[8rem] max-w-[13rem] flex-1 basis-40 items-center justify-center rounded-xl  p-4 "
                   >
                     <img
                       src={s.logo}
                       alt={`${s.name} logo`}
-                      className="h-full w-full object-contain"
+                      title={s.name}
+                      className="h-20 max-w-full object-contain"
                       loading="lazy"
                     />
                   </div>

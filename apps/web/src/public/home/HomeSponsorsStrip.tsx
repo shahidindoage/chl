@@ -38,39 +38,64 @@ export const HOME_SPONSORS: Sponsor[] = [
 ];
 
 export function HomeSponsorsStrip() {
+  // Group by tier so sponsors sharing a label sit under one heading rather
+  // than repeating "Partner" on every row.
+  const tiers = [...new Set(HOME_SPONSORS.map((s) => s.tier))];
+
   return (
-    <section className="relative w-full border-b border-slate-200">
-      <div className="w-full px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-        <ul className="flex flex-wrap items-stretch gap-4 lg:gap-6">
-          {HOME_SPONSORS.map((s) => (
-            <li
-              key={s.name}
-              className="flex min-w-[9rem] flex-1 basis-40 flex-col items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
-            >
-              {s.logo ? (
-                <img
-                  src={s.logo}
-                  alt={`${s.name} logo`}
-                  loading="lazy"
-                  className="h-12 w-full max-w-[9rem] object-contain"
-                  onError={(e) => {
-                    // Swap in initials if the remote asset is unavailable.
-                    const el = e.currentTarget;
-                    el.style.display = "none";
-                    el.nextElementSibling?.classList.remove("hidden");
-                  }}
-                />
-              ) : null}
-              {/* Fallback, revealed only if the image fails to load. */}
-              <span
-                className={`font-display text-2xl font-extrabold text-navy ${s.logo ? "hidden" : ""}`}
-              >
-                {s.name}
-              </span>
-              <span className="text-[10px] uppercase tracking-[0.15em] text-slate-400">{s.tier}</span>
-            </li>
+    <section className="relative w-full bg-pitch-pitch">
+      <div className="w-full px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
+        <div className="mx-auto flex max-w-5xl flex-col gap-6 sm:gap-8">
+          {tiers.map((tier) => (
+            <section key={tier}>
+              <h2 className="text-center text-[11px] font-bold uppercase tracking-[0.25em] text-white/50">
+                {tier}
+              </h2>
+
+              {/* Logos for this tier, laid out horizontally. Flex with equal flex-basis so
+                  the tiles share the row evenly and centre their logo. */}
+<ul className="mt-4 flex flex-wrap items-stretch justify-center gap-3 sm:gap-4">
+                {HOME_SPONSORS.filter((s) => s.tier === tier).map((s) => (
+                  <li
+                    key={s.name}
+                    className="flex min-w-[8rem] max-w-[13rem] flex-1 basis-40 items-center justify-center rounded-xl px-3 py-4 transition-colors duration-200 "
+                  >
+                    {/* Full-width text-centred wrapper is the reliable way to
+                        centre an image whose intrinsic width varies. */}
+                    <span className="w-fit text-center">
+                      {s.logo ? (
+                        <img
+                          src={s.logo}
+                          alt={`${s.name} logo`}
+                          loading="lazy"
+                          title={s.name}
+                          /* brightness-0 + invert forces every logo to pure white
+                             so the marks read as one set on the dark green. */
+                          className="inline-block h-12 max-w-full object-contain brightness-0 invert"
+                          onError={(e) => {
+                            // Swap in initials if the remote asset is unavailable.
+                            const el = e.currentTarget;
+                            el.style.display = "none";
+                            el.parentElement
+                              ?.querySelector("[data-fallback]")
+                              ?.classList.remove("hidden");
+                          }}
+                        />
+                      ) : null}
+                      {/* Fallback, revealed only if the image fails to load. */}
+                      <span
+                        data-fallback
+                        className={`font-display text-xl font-extrabold text-white ${s.logo ? "hidden" : ""}`}
+                      >
+                        {s.name}
+                      </span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

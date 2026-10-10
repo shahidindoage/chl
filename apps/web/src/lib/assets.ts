@@ -13,6 +13,8 @@ export const LEAGUE_ASSETS = {
   ctaBanner: "/banner.png",
   /** Looping background for the mid-page CTA banner. */
   ctaVideo: `${SUPABASE}/hailuo-2_3_create_a_video-0.mp4`,
+  /** PageHero artwork for the ambassador page. */
+  ambassadorHero: `${SUPABASE}/Indian%20Hockey%20Player%20in%20Motion.png`,
 } as const;
 
 /**
