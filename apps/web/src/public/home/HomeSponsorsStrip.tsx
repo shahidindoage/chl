@@ -30,7 +30,7 @@ export const HOME_SPONSORS: Sponsor[] = [
   },
   {
     name: "SBI",
-    tier: "Associate",
+    tier: "Banking Partner",
     // The bank's own CDN 404s on hot-link, so this falls back to initials.
     logo: "https://sbi.bank.in/o/SBI-Theme/images/custom/logo.png",
   },

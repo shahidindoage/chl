@@ -10,7 +10,7 @@ import { PageHero } from "../components/PageHero.js";
 const TIER_LABEL: Record<string, string> = {
   Title: "Title Partner",
   Official: "Powered By",
-  Partner: "Associate",
+  Partner: "Banking Partner",
 };
 
 const sponsors = [

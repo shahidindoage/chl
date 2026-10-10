@@ -8,10 +8,10 @@ import { PageHero } from "../components/PageHero.js";
  */
 const ambassador = {
   name: "Sardara Singh",
-  role: "Brand Ambassador",
+  role: "League Ambassador",
   line: "Former Captain, Indian Men's Hockey Team",
   initials: "SS",
-  image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Indian_hockey_team_captain_saradara_singh_with_other_players_at_kalinga_stadium_%28cropped%29.jpg/500px-Indian_hockey_team_captain_saradara_singh_with_other_players_at_kalinga_stadium_%28cropped%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail",
+  image: "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/Sardara%20Singh%20-%20TOURNAMENT%20AMBASSADOR.webp",
   intro:
     "A legendary former captain and midfielder of the Indian men's field hockey team, and one of the most decorated players of his generation.",
   highlights: [
