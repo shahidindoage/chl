@@ -11,7 +11,7 @@ import { useAuthStore } from "../../store/auth.store.js";
 interface Toast { kind: "error" | "ok"; text: string }
 
 const emptyForm = {
-  name: "", shortName: "", logo: "", backgroundImage: "", heroImage: "", captainId: "", ownerName: "",
+  name: "", shortName: "", logo: "", backgroundImage: "", heroImage: "", captainId: "", ownerName: "", ownerImage: "",
   websiteUrl: "", facebookUrl: "", instagramUrl: "", xUrl: "",
   color1: "#0a6cc2", color2: "",
   tournamentId: "", coachName: "", coachImage: "",
@@ -65,6 +65,7 @@ export function TeamAdminPage() {
       xUrl: f.xUrl || null,
       captainId: f.captainId || null,
       ownerName: f.ownerName || null,
+      ownerImage: f.ownerImage || null,
       color1: f.color1, color2: f.color2 || null, tournamentId: f.tournamentId,
       coachName: f.coachName || null, coachImage: f.coachImage || null,
       ownerId: null, // team_owner gets themselves assigned server-side
@@ -89,7 +90,7 @@ export function TeamAdminPage() {
       name: t.name, shortName: t.shortName, logo: t.logo ?? "", color1: t.color1,
       backgroundImage: t.backgroundImage ?? "",
       heroImage: t.heroImage ?? "", captainId: t.captainId ?? "",
-      ownerName: t.ownerName ?? "",
+      ownerName: t.ownerName ?? "", ownerImage: t.ownerImage ?? "",
       websiteUrl: t.websiteUrl ?? "", facebookUrl: t.facebookUrl ?? "",
       instagramUrl: t.instagramUrl ?? "", xUrl: t.xUrl ?? "",
       color2: t.color2 ?? "", tournamentId: t.tournamentId,
@@ -151,6 +152,7 @@ export function TeamAdminPage() {
             <p className="mt-1 text-[11px] text-slate-400">Must be a player on this squad. Only available once the team has players.</p>
           </div>
           <div><label className="label">Owner name</label><input className="input" maxLength={160} placeholder="Franchise or company name" value={form.ownerName} onChange={(e) => setForm({ ...form, ownerName: e.target.value })} /></div>
+          <div><label className="label">Owner image URL</label><input className="input" placeholder="/uploads/... or https://..." value={form.ownerImage} onChange={(e) => setForm({ ...form, ownerImage: e.target.value })} /></div>
           <div><label className="label">Website URL</label><input className="input" value={form.websiteUrl} onChange={(e) => setForm({ ...form, websiteUrl: e.target.value })} /></div>
           <div><label className="label">Facebook URL</label><input className="input" value={form.facebookUrl} onChange={(e) => setForm({ ...form, facebookUrl: e.target.value })} /></div>
           <div><label className="label">Instagram URL</label><input className="input" value={form.instagramUrl} onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })} /></div>

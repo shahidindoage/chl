@@ -139,6 +139,8 @@ model Team {
   /// Display name of the owning franchise, e.g. a company name. ownerId stays
   /// the linked login, this is just what the public page shows.
   ownerName     String?
+  /// Portrait/logo shown beside the owner on the team profile.
+  ownerImage    String?
   color1      String       @default("#0a6cc2") // hex, validated at the schema boundary
   color2      String?
   tournamentId String      @db.Uuid

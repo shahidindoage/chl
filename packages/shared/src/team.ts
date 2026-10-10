@@ -38,6 +38,7 @@ export const teamSchema = z.object({
   captainId: z.string().uuid().nullable(),
   captain: captainInfoSchema.nullable(),
   ownerName: z.string().nullable(),
+  ownerImage: z.string().nullable(),
   tournamentId: z.string().uuid(),
   coachName: z.string().nullable(),
   coachImage: z.string().nullable(),
@@ -88,6 +89,7 @@ const teamFields = {
   xUrl: mediaUrl,
   captainId: z.string().uuid().nullish(),
   ownerName: z.string().trim().max(160).nullish(),
+  ownerImage: mediaUrl,
   color1: z.string().trim().regex(hexColor, "Must be a hex color like #0a6cc2"),
   color2: z.string().trim().regex(hexColor, "Must be a hex color like #ffffff").nullish(),
   tournamentId: z.string().uuid("Tournament id must be a UUID"),
@@ -112,6 +114,7 @@ export type CreateTeamInput = {
   xUrl?: string | null;
   captainId?: string | null;
   ownerName?: string | null;
+  ownerImage?: string | null;
   color1: string;
   color2?: string | null;
   tournamentId: string;

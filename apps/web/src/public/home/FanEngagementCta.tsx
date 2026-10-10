@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles, Trophy } from "lucide-react";
+import { ArrowRight, CircleQuestionMark, Sparkles, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { SectionEyebrow } from "../../components/SectionEyebrow.js";
@@ -34,7 +34,7 @@ export function FanEngagementCta() {
           />
           <CtaCard
             to="/quizzes"
-            icon={<Trophy className="h-5 w-5" />}
+            icon={<CircleQuestionMark className="h-5 w-5" />}
             title="Play a Quiz"
             body="Test your knowledge of the league. One attempt per quiz, highest score wins."
             cta="Take a quiz"

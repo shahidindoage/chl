@@ -30,7 +30,7 @@ export function AboutTournamentPage() {
   return (
     <div>
       <PageHero
-        title="About the Tournament"
+        title="About the League"
         description="The Chhattisgarh Hockey League — the state's premier club hockey competition."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "About" }]}
       />

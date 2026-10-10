@@ -29,6 +29,7 @@ function toTeamDto(t: {
   instagramUrl: string | null; xUrl: string | null;
   captainId: string | null;
   ownerName: string | null;
+  ownerImage: string | null;
   captain?: { id: string; name: string; image: string | null; position: PlayerPosition } | null;
   color1: string; color2: string | null; tournamentId: string;
   coachName: string | null; coachImage: string | null; ownerId: string | null;
@@ -47,6 +48,7 @@ function toTeamDto(t: {
   xUrl: t.xUrl,
   captainId: t.captainId,
   ownerName: t.ownerName,
+  ownerImage: t.ownerImage,
   captain: t.captain
     ? { id: t.captain.id, name: t.captain.name, image: t.captain.image, position: t.captain.position }
     : null,
@@ -136,6 +138,7 @@ if (actor.role === "team_owner") {
   xUrl: input.xUrl ?? null,
   captainId: input.captainId ?? null,
   ownerName: input.ownerName ?? null,
+  ownerImage: input.ownerImage ?? null,
       color1: input.color1,
       color2: input.color2 ?? null,
       tournamentId: input.tournamentId,
@@ -185,6 +188,7 @@ const clash = await repo.findTeamByTournamentName(input.tournamentId, input.name
   xUrl: input.xUrl ?? null,
   captainId: input.captainId ?? null,
   ownerName: input.ownerName ?? null,
+  ownerImage: input.ownerImage ?? null,
     color1: input.color1,
     color2: input.color2 ?? null,
     tournamentId: input.tournamentId,

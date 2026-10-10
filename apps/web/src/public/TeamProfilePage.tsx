@@ -23,11 +23,34 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-function InfoCard({ label, value }: { label: string; value: string }) {
+function InfoCard({
+  label,
+  value,
+  image,
+  imageAlt,
+}: {
+  label: string;
+  value: string;
+  image?: string | null;
+  imageAlt?: string;
+}) {
   return (
-    <div className="rounded-lg bg-white px-4 py-3 shadow-sm">
+    <div className="rounded-lg bg-white px-4 py-4 shadow-sm">
       <p className="text-sm font-bold text-navy">{label}</p>
-      <p className="mt-0.5 text-sm text-slate-600">{value}</p>
+
+      {image && (
+        /* object-contain and no fixed square, so the artwork is never cropped
+           or squashed - it renders at its original proportions. */
+        <img
+          src={image}
+          alt={imageAlt ?? label}
+          title={imageAlt ?? value}
+          className="mt-2 h-12 w-full object-contain object-left"
+        />
+      )}
+      {
+        label == "Owner" ? <></> : <p className="mt-2 truncate text-sm text-slate-600">{value}</p>
+      }
     </div>
   );
 }
@@ -213,7 +236,12 @@ export function TeamProfilePage() {
             <div className="grid gap-3 pt-8 sm:grid-cols-3">
               <InfoCard label="Captain" value={team.captain?.name ?? "—"} />
               <InfoCard label="Coach" value={team.coachName ?? "—"} />
-              <InfoCard label="Owner" value={team.ownerName ?? (team.ownerId ? "Registered owner" : "—")} />
+              <InfoCard
+                label="Owner"
+                value={team.ownerName ?? (team.ownerId ? "Registered owner" : "—")}
+                image={team.ownerImage}
+                imageAlt={team.ownerName ?? "Team owner"}
+              />
             </div>
 
             {/* Squad preview — one player per position, so the four cards
