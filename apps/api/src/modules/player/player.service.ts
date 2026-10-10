@@ -26,8 +26,10 @@ function toPlayerDto(p: repo.PlayerRow): PlayerDto {
     jerseyNumber: p.jerseyNumber,
     position: p.position,
     dateOfBirth: p.dateOfBirth.toISOString(),
-    nationality: p.nationality,
-    teamId: p.teamId,
+nationality: p.nationality,
+  flagImage: p.flagImage,
+  backgroundImage: p.backgroundImage,
+  teamId: p.teamId,
     tournamentId: p.tournamentId,
     createdAt: p.createdAt.toISOString(),
     updatedAt: p.updatedAt.toISOString(),
@@ -66,6 +68,8 @@ export async function createPlayer(input: CreatePlayerInput, actor: Actor): Prom
       position: input.position,
       dateOfBirth: new Date(input.dateOfBirth),
       nationality: input.nationality,
+    flagImage: input.flagImage ?? null,
+    backgroundImage: input.backgroundImage ?? null,
       teamId: team.id,
       tournamentId: team.tournamentId,
     });
@@ -103,6 +107,8 @@ export async function updatePlayer(id: string, input: UpdatePlayerInput, actor: 
       position: input.position,
       dateOfBirth: new Date(input.dateOfBirth),
       nationality: input.nationality,
+    flagImage: input.flagImage ?? null,
+    backgroundImage: input.backgroundImage ?? null,
       teamId: input.teamId,
       tournamentId,
     });
@@ -127,9 +133,11 @@ export async function reassignPlayer(id: string, teamId: string, actor: Actor): 
     throw ApiError.conflict(`Jersey #${existing.jerseyNumber} is taken on ${targetTeam.name} — update the jersey number first`);
   }
 
-  const updated = await repo.updatePlayer(id, {
+const updated = await repo.updatePlayer(id, {
     name: existing.name,
     image: existing.image,
+    flagImage: existing.flagImage,
+    backgroundImage: existing.backgroundImage,
     jerseyNumber: existing.jerseyNumber,
     position: existing.position,
     dateOfBirth: existing.dateOfBirth,

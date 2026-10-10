@@ -1,0 +1,87 @@
+{
+  "tournament": "Chhattisgarh Hockey League",
+  "_note": "Field names below match the Create Article form at /admin/news exactly. The admin panel generates the slug from the title, so there is no slug field here. Cover 'image' must be an http(s) URL or an uploaded /uploads/... path - leave it as null to add it later.",
+  "valid_categories": [
+    "match_report",
+    "preview",
+    "league_update",
+    "spotlight",
+    "interview",
+    "announcement"
+  ],
+  "tag_rule": "Lowercase letters, numbers and dashes only. No spaces. At most 10 tags per article.",
+  "articles": [
+    {
+      "title": "Chhattisgarh Hockey League Kicks Off With A Full House At Raipur",
+      "summary": "The new season opened in front of a packed arena as two of the state's strongest sides went head to head in the opening fixture.",
+      "content": "The Chhattisgarh Hockey League got underway this week at a packed Raipur arena, with the opening fixture played in front of a full house of supporters.\n\nThe two sides traded chances from the opening minutes, with the goalkeepers earning early plaudits for a series of sharp saves. The match stayed level through the first half before a decisive break in the second period settled the result.\n\nOrganisers confirmed the opening round of the league will run across the state's major centres before the playoff stage later in the season. Ticket details for the next round of fixtures are expected to be announced shortly.\n\nSupporters can follow every fixture, result and standings update on the league's official news page.",
+      "category": "match_report",
+      "tags": ["opening", "raipur", "season-start", "match-report"],
+      "isFeatured": true,
+      "image": null
+    },
+    {
+      "title": "League Preview: Five Young Players Set To Make Their Mark",
+      "summary": "With the new season approaching, we look at the emerging talents expected to shape the Chhattisgarh Hockey League this year.",
+      "content": "Every new season brings a handful of fresh faces, and the Chhattisgarh Hockey League is no exception. As preparations gather pace, several academy players have earned selection and are expected to feature prominently.\n\nThese players come from varied backgrounds, including school and state-level programmes. What they share is technical composure and a willingness to work off the ball, qualities that tend to translate well to the professional game.\n\nCoaches across the league have been impressed by the standard of the current intake. Several have compared this group favourably with previous seasons, noting a stronger technical foundation.\n\nWhether that translates into points on the table remains to be seen, but the expectation is that the league's competitive standard will rise again this campaign.",
+      "category": "preview",
+      "tags": ["preview", "young-players", "academy", "season-preview"],
+      "isFeatured": true,
+      "image": null
+    },
+    {
+      "title": "League Update: Expanded Fixture List Confirmed For The Season",
+      "summary": "The governing committee has confirmed an expanded schedule, with additional fixtures and venues added across the season.",
+      "content": "The league's governing committee has confirmed an expanded fixture list for the upcoming Chhattisgarh Hockey League season.\n\nThe updated schedule adds a number of additional fixtures, allowing clubs and supporters more opportunities to follow the action across the season. Venues have been reviewed to reduce unnecessary travel where possible.\n\nClubs have been notified of the revised dates and are finalising their squads accordingly. Supporters will find the full list of fixtures, along with kick-off times, published on the fixtures page.\n\nAny further changes will be announced through the league's official channels as early as possible, allowing fans and clubs to plan accordingly.",
+      "category": "league_update",
+      "tags": ["fixtures", "schedule", "league-update", "venues"],
+      "isFeatured": false,
+      "image": null
+    },
+    {
+      "title": "Spotlight: The Goalkeeper Keeping Hopes Alive",
+      "summary": "A string of outstanding saves has earned this season's most reliable goalkeeper a dedicated spotlight.",
+      "content": "Goalkeepers rarely feature in matchday headlines, but the contribution of this season's leading shot-stopper has been impossible to ignore.\n\nAcross recent fixtures the goalkeeper has produced a series of saves that kept the team's hopes alive in matches where the run of play went against them. Their composure under pressure has become a defining feature of the side's defensive play.\n\nCoaches have praised the consistency of the performances, particularly the way an experienced back line has been organised in front of an outstanding keeper.\n\nThe statistics underline the impact. Save percentages sit comfortably above the league average, and several matches have been decided in the final minutes by interventions that looked destined to end in a goal.\n\nFor supporters of the side, the goalkeeper's form offers genuine encouragement heading into the remaining fixtures.",
+      "category": "spotlight",
+      "tags": ["goalkeeper", "player-profile", "spotlight", "saves"],
+      "isFeatured": true,
+      "image": null
+    },
+    {
+      "title": "Interview: The Coach Building A Winning Mentality",
+      "summary": "We sat down with the head coach to discuss squad rotation, discipline and what it takes to build a winning run.",
+      "content": "In this interview, we speak with the head coach about the season so far, the importance of squad rotation, and the mindset required for a sustained league run.\n\nOn squad rotation: \"We have a deep squad this season, and keeping players fresh matters. Rotation is not about dropping anyone; it is about making sure the team is sharp across a long campaign.\"\n\nOn discipline: \"Hockey is a structured game. Discipline off the ball is as important as the work we do with it. We have clear standards and we hold everyone to them.\"\n\nOn what drives the team: \"The supporters. When the arena is full, the players feel it. That energy carries us through the difficult stretches of a match.\"\n\nThe coach was candid about the challenges ahead, noting that consistency and squad fitness will be decisive as the season progresses.",
+      "category": "interview",
+      "tags": ["interview", "coach", "team-ethics", "season-focus"],
+      "isFeatured": false,
+      "image": null
+    },
+    {
+      "title": "Registration Open For The Chhattisgarh Hockey League",
+      "summary": "Clubs across the state can now register for the new season. Entry details and deadlines have been confirmed.",
+      "content": "Registration is now open for clubs wishing to compete in the Chhattisgarh Hockey League.\n\nClubs are asked to submit their squad details, coaching staff information and supporting documentation before the published deadline. Late registrations may be considered subject to availability.\n\nRegistration requires confirmation of the club's home venue, along with the contact details of the team manager and head coach. Any changes to the registered squad after the deadline must be notified to the league in writing.\n\nConfirmed clubs will receive their fixture allocations and venue schedules once the registration window closes. Supporters can follow team news and squad announcements through the league's official channels in the meantime.",
+      "category": "announcement",
+      "tags": ["registration", "clubs", "announcement", "season-registration"],
+      "isFeatured": false,
+      "image": null
+    },
+    {
+      "title": "Match Report: A Hard-Fought Derby Ends With Nothing Between The Sides",
+      "summary": "Neither side could find the breakthrough in a tightly contested local derby played in front of a loud home crowd.",
+      "content": "The local derby finished 0-0 after a hard-fought contest, with neither side able to find the breakthrough in front of a vocal home crowd.\n\nThe match was tight throughout, with both teams creating promising chances that were either cleared at the last moment or kept out by disciplined defending. The goalkeepers were outstanding, making several important interventions to preserve the scoreline.\n\nTactically, both coaches made adjustments after the break in search of a decisive moment. The second half produced the better chances, but the finishing could not match the quality of the opportunities.\n\nThe draw leaves both sides level on points in the standings and keeps the race for the top of the table tight heading into the next round of fixtures.\n\nBoth coaches praised their sides' effort and character, while acknowledging that the attacking third will need to be sharper in the fixtures ahead.",
+      "category": "match_report",
+      "tags": ["derby", "draw", "match-report", "standings"],
+      "isFeatured": false,
+      "image": null
+    },
+    {
+      "title": "Community Update: Grassroots Programme Expands To New Centres",
+      "summary": "The league's grassroots development drive is expanding, bringing structured coaching to more districts across the state.",
+      "content": "The league's grassroots development programme is expanding to new centres across Chhattisgarh, bringing structured coaching to districts that previously had limited access to it.\n\nThe programme focuses on basic skills, fitness and match awareness for players in the youngest age groups, and is delivered with support from local clubs and qualified coaches.\n\nOrganisers believe early participation is the single most effective way to raise the standard of hockey in the state over the long term, and that talent identification should begin as young as possible.\n\nRegistration for the new centres opens shortly. Clubs and schools interested in hosting a centre are encouraged to make contact with the league's development team.",
+      "category": "league_update",
+      "tags": ["grassroots", "development", "community", "coaching"],
+      "isFeatured": false,
+      "image": null
+    }
+  ]
+}

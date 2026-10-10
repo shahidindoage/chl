@@ -66,6 +66,21 @@ export function listMatches(params: {
   ]).then(([items, total]) => ({ items, total }));
 }
 
+/** Dashboard aggregate — read by the admin module via matchService (rule 2). */
+export function countMatches(filter?: {
+  tournamentId?: string;
+  status?: string;
+  from?: Date;
+}): Promise<number> {
+  return prisma.match.count({
+    where: {
+      ...(filter?.tournamentId ? { tournamentId: filter.tournamentId } : {}),
+      ...(filter?.status ? { status: filter.status as never } : {}),
+      ...(filter?.from ? { date: { gte: filter.from } } : {}),
+    },
+  });
+}
+
 export function createEvent(data: Prisma.MatchEventUncheckedCreateInput): Promise<MatchEvent> {
   return prisma.matchEvent.create({ data });
 }

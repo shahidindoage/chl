@@ -194,6 +194,21 @@ export async function listQuizzes(
   };
 }
 
+/** Dashboard aggregates, exposed for the admin module (it must not read prisma). */
+export async function getFanEngagementStats(): Promise<{
+  quizzes: Record<string, number>;
+  attempts: number;
+  predictions: number;
+}> {
+  const [quizzes, totals] = await Promise.all([
+    repo.countQuizzesByStatus(),
+    repo.countFanEngagement(),
+  ]);
+  return { quizzes, ...totals };
+}
+
+
+
 /* ---------------- Attempting ---------------- */
 
 function assertQuizOpen(quiz: repo.QuizRow, now: Date): void {

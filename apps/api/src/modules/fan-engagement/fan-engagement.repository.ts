@@ -171,6 +171,23 @@ export function listQuizzes(params: {
   ]).then(([items, total]) => ({ items, total }));
 }
 
+/** Dashboard aggregate — read by the admin module via the service (rule 2). */
+export function countQuizzesByStatus(): Promise<Record<string, number>> {
+  return prisma.quiz.groupBy({ by: ["status"], _count: { _all: true } }).then((rows) =>
+    rows.reduce<Record<string, number>>((acc, r) => {
+      acc[r.status] = r._count._all;
+      return acc;
+    }, {})
+  );
+}
+
+/** Dashboard aggregate — participation totals for the fan-engagement panel. */
+export function countFanEngagement(): Promise<{ attempts: number; predictions: number }> {
+  return Promise.all([prisma.quizAttempt.count(), prisma.prediction.count()]).then(
+    ([attempts, predictions]) => ({ attempts, predictions })
+  );
+}
+
 /* ---------------- Attempts ---------------- */
 
 export function findAttempt(quizId: string, userId: string): Promise<QuizAttemptRow | null> {

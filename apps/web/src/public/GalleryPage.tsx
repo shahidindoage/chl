@@ -42,8 +42,7 @@ export function GalleryPage() {
         ) : (
           galleries.map((g) => (
             <section key={g.id}>
-              <h2 className="font-display text-xl font-extrabold text-navy sm:text-2xl">{g.title}</h2>
-              <p className="mt-1 text-xs text-slate-400">{g.images.length} photos</p>
+           
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {g.images.map((img) => (
                   <button

@@ -1,5 +1,8 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+import { AdminDashboardPage } from "./admin/AdminDashboardPage.js";
+import { AdminShell } from "./admin/AdminShell.js";
+import { ActivityLogPage } from "./admin/ActivityLogPage.js";
 import { AdminLoginPage } from "./admin/auth/AdminLoginPage.js";
 import { UserManagementPage } from "./admin/auth/UserManagementPage.js";
 import { MatchAdminPage } from "./admin/match/MatchAdminPage.js";
@@ -10,6 +13,9 @@ import { TeamAdminPage } from "./admin/team/TeamAdminPage.js";
 import { TournamentAdminPage } from "./admin/tournament/TournamentAdminPage.js";
 import { AppShell } from "./components/AppShell.js";
 import { RequireRole } from "./components/RequireRole.js";
+import { AboutTournamentPage } from "./public/AboutTournamentPage.js";
+import { AmbassadorPage } from "./public/AmbassadorPage.js";
+import { SponsorsPage } from "./public/SponsorsPage.js";
 import { AccountPage } from "./public/AccountPage.js";
 import { HomePage } from "./public/HomePage.js";
 import { FansPage } from "./public/FansPage.js";
@@ -32,8 +38,6 @@ import { TeamProfilePage } from "./public/TeamProfilePage.js";
 import { TeamsPage } from "./public/TeamsPage.js";
 import { TournamentInfoPage } from "./public/TournamentInfoPage.js";
 import { VenueDetailPage, VenuesPage } from "./public/VenuesPage.js";
-import { useAuthStore } from "./store/auth.store.js";
-
 /**
  * Router. The shell (site header, footer, homepage modals) wraps every
  * route, so the admin area inherits the same chrome as the public pages.
@@ -64,6 +68,9 @@ export const routes = [
   { path: "/leaderboard", element: <LeaderboardPage /> },
   { path: "/fans", element: <FansPage /> },
   { path: "/standings", element: <StandingsPage /> },
+  { path: "/about", element: <AboutTournamentPage /> },
+  { path: "/ambassador", element: <AmbassadorPage /> },
+  { path: "/sponsors", element: <SponsorsPage /> },
   { path: "/admin/login", element: <AdminLoginPage /> },
   {
     path: "/admin",
@@ -75,7 +82,17 @@ export const routes = [
       </RequireRole>
     ),
     children: [
-      { index: true, element: <AdminHomeNote /> },
+      { index: true, element: <AdminDashboardPage /> },
+      {
+        path: "activity",
+        element: (
+          <RequireRole
+            roles={["super_admin", "team_owner", "content_manager", "score_manager", "quiz_manager"]}
+          >
+            <ActivityLogPage />
+          </RequireRole>
+        ),
+      },
       {
         path: "tournaments",
         element: (
@@ -152,41 +169,6 @@ export const routes = [
   },
   { path: "*", element: <NotFound /> },
 ];
-
-function AdminShell() {
-  const canSeeMatches = useAuthStore((s) => s.user?.role === "super_admin" || s.user?.role === "score_manager");
-  const canManageNews = useAuthStore(
-    (s) => s.user?.role === "super_admin" || s.user?.role === "content_manager"
-  );
-  const canManageFans = useAuthStore(
-    (s) => s.user?.role === "super_admin" || s.user?.role === "quiz_manager"
-  );
-  return (
-    <div>
-      <nav className="mb-4 flex gap-4 text-sm">
-        <Link className="text-brand-600 underline" to="/admin/tournaments">Tournaments &amp; venues</Link>
-        <Link className="text-brand-600 underline" to="/admin/teams">Teams</Link>
-        <Link className="text-brand-600 underline" to="/admin/players">Players</Link>
-        {canSeeMatches && <Link className="text-brand-600 underline" to="/admin/matches">Matches</Link>}
-        {canSeeMatches && <Link className="text-red-600 underline" to="/admin/live">Live control</Link>}
-        <Link className="text-brand-600 underline" to="/admin/standings">Standings</Link>
-        {canManageNews && <Link className="text-brand-600 underline" to="/admin/news">News &amp; media</Link>}
-      {canManageFans && <Link className="text-brand-600 underline" to="/admin/fans">Fan engagement</Link>}
-        <Link className="text-brand-600 underline" to="/admin/users">Users</Link>
-      </nav>
-      <Outlet />
-    </div>
-  );
-}
-
-function AdminHomeNote() {
-  return (
-    <div className="card">
-      <h1 className="mb-2 text-xl font-bold">Admin portal</h1>
-   
-    </div>
-  );
-}
 
 function NotFound() {
   return (

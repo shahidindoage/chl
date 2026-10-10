@@ -20,7 +20,17 @@ const NAV_ITEMS = [
   { to: "/teams", label: "Teams", end: false },
   { to: "/news", label: "News", end: false },
   { to: "/fans", label: "Fans", end: false },
+  { to: "/gallery", label: "Photo Gallery", end: false },
 ] as const;
+
+/** Pages grouped under the About dropdown. */
+const ABOUT_ITEMS = [
+  { to: "/about", label: "About the Tournament", blurb: "Format, history and development" },
+  { to: "/ambassador", label: "Tournament Ambassador", blurb: "The Face of Chhattisgarh Hockey" },
+  { to: "/sponsors", label: "Sponsors", blurb: "The partners behind the league" },
+] as const;
+
+const ABOUT_ROUTES: ReadonlySet<string> = new Set<string>(ABOUT_ITEMS.map((i) => i.to));
 
 /**
  * Routes that render a full-bleed <PageHero> (or the homepage hero). The
@@ -32,6 +42,8 @@ const PAGE_HERO_ROUTES = new Set([
   "/matches", "/standings", "/teams", "/news", "/reels", "/gallery",
   "/fans", "/quizzes", "/predict", "/leaderboard",
 ]);
+
+for (const route of ABOUT_ROUTES) PAGE_HERO_ROUTES.add(route);
 
 export interface SiteHeaderProps {
   onOpenSearch: () => void;
@@ -48,6 +60,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
   const { authOpen, openAuth, closeAuth } = useHomeData();
   const { pathname } = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   // A transparent bar is only possible where light artwork sits underneath.
@@ -63,7 +76,25 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setAboutOpen(false);
   }, [pathname]);
+
+  // Any click outside the dropdown closes it.
+  useEffect(() => {
+    if (!aboutOpen) return;
+    const onDocClick = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest("[data-about-menu]")) setAboutOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setAboutOpen(false);
+    };
+    document.addEventListener("click", onDocClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("click", onDocClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [aboutOpen]);
 
   const isAdmin = Boolean(user && user.role !== "fan");
 
@@ -99,7 +130,69 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
           </Link>
 
           <nav className="hidden items-center gap-8 lg:gap-10 md:flex" id="header-nav">
-            {NAV_ITEMS.map((item) => (
+            {/* First item is always Home. */}
+            <NavLink
+              to="/"
+              end
+              className={({ isActive }) =>
+                `relative py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
+                  isActive ? "text-pitch-orange-dark" : "text-[#1e293b] hover:text-pitch-orange-dark"
+                }`
+              }
+            >
+              {({ isActive }) => (
+                <>
+                  Home
+                  {isActive && (
+                    <span className="absolute bottom-0 left-0 h-[2.5px] w-full rounded-full bg-pitch-orange-dark" />
+                  )}
+                </>
+              )}
+            </NavLink>
+
+            {/* Then the About dropdown, then the rest of the nav. */}
+            <div
+              className="relative"
+              data-about-menu
+              onMouseEnter={() => setAboutOpen(true)}
+              onMouseLeave={() => setAboutOpen(false)}
+            >
+              <button
+                type="button"
+                aria-expanded={aboutOpen}
+                aria-haspopup="true"
+                onClick={() => setAboutOpen((v) => !v)}
+                className={`relative flex items-center py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
+                  aboutOpen || ABOUT_ROUTES.has(pathname)
+                    ? "text-pitch-orange-dark"
+                    : "text-[#1e293b] hover:text-pitch-orange-dark"
+                }`}
+              >
+                About
+                {(aboutOpen || ABOUT_ROUTES.has(pathname)) && (
+                  <span className="absolute bottom-0 left-0 h-[2.5px] w-full rounded-full bg-pitch-orange-dark" />
+                )}
+              </button>
+
+              {aboutOpen && (
+                <div className="absolute left-1/2 top-full z-30 w-72 -translate-x-1/2 pt-3">
+                  <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+                    {ABOUT_ITEMS.map((item) => (
+                      <Link
+                        key={item.to}
+                        to={item.to}
+                        className="block border-b border-slate-100 px-4 py-3 transition-colors last:border-b-0 hover:bg-orange-50/60"
+                      >
+                        <span className="block text-sm font-semibold text-navy">{item.label}</span>
+                        <span className="mt-0.5 block text-xs text-slate-500">{item.blurb}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {NAV_ITEMS.filter((item) => item.to !== "/").map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -120,12 +213,6 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
                 )}
               </NavLink>
             ))}
-            {/* <button
-              onClick={onOpenAbout}
-              className="relative py-2 text-sm font-semibold text-[#1e293b] transition-colors duration-200 hover:text-pitch-orange-dark lg:text-[15px]"
-            >
-              About
-            </button> */}
           </nav>
 
           {/* Search first, auth last: the account action is always the
@@ -201,15 +288,20 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
                 {item.label}
               </NavLink>
             ))}
-            {/* <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAbout();
-              }}
-              className="w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-            >
-              About
-            </button> */}
+            {/* Mobile has no hover, so the three pages list flat. */}
+            {ABOUT_ITEMS.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `block w-full rounded-lg px-4 py-2.5 text-left text-sm font-medium transition-colors ${
+                    isActive ? "bg-orange-50 font-semibold text-pitch-orange-dark" : "text-slate-700 hover:bg-slate-50"
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
           </div>
 
           <div className="mt-3 space-y-2 border-t border-slate-100 pt-3">

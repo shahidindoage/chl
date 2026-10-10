@@ -1,5 +1,7 @@
-import type { CreateTeamInput, SponsorDto, TeamDto, TournamentDto } from "@tournament/shared";
+import type { CreateTeamInput, PlayerDto, SponsorDto, TeamDto, TournamentDto } from "@tournament/shared";
 import { FormEvent, useCallback, useEffect, useState } from "react";
+
+import * as playerApi from "../../api/player.client.js";
 
 import * as teamApi from "../../api/team.client.js";
 import * as tournamentApi from "../../api/tournament.client.js";
@@ -9,7 +11,9 @@ import { useAuthStore } from "../../store/auth.store.js";
 interface Toast { kind: "error" | "ok"; text: string }
 
 const emptyForm = {
-  name: "", shortName: "", logo: "", color1: "#0a6cc2", color2: "",
+  name: "", shortName: "", logo: "", backgroundImage: "", heroImage: "", captainId: "", ownerName: "",
+  websiteUrl: "", facebookUrl: "", instagramUrl: "", xUrl: "",
+  color1: "#0a6cc2", color2: "",
   tournamentId: "", coachName: "", coachImage: "",
 };
 
@@ -36,9 +40,31 @@ export function TeamAdminPage() {
   }, []);
   useEffect(() => { void load(); }, [load]);
 
+  // Captain must be on the edited team's own squad, so the options depend on
+  // which team is open in the form.
+  const [squad, setSquad] = useState<PlayerDto[]>([]);
+  useEffect(() => {
+    if (!form.tournamentId) { setSquad([]); return; }
+    let cancelled = false;
+    playerApi
+      .listPlayers({ page: 1, limit: 100, tournamentId: form.tournamentId })
+      .then((d) => { if (!cancelled) setSquad(d.items); })
+      .catch(() => { if (!cancelled) setSquad([]); });
+    return () => { cancelled = true; };
+  }, [form.tournamentId]);
+  const captainOptions = squad.filter((p) => !editingId || p.teamId === editingId);
+
   function toInput(f: typeof emptyForm): CreateTeamInput {
     return {
       name: f.name, shortName: f.shortName, logo: f.logo || null,
+      backgroundImage: f.backgroundImage || null,
+      heroImage: f.heroImage || null,
+      websiteUrl: f.websiteUrl || null,
+      facebookUrl: f.facebookUrl || null,
+      instagramUrl: f.instagramUrl || null,
+      xUrl: f.xUrl || null,
+      captainId: f.captainId || null,
+      ownerName: f.ownerName || null,
       color1: f.color1, color2: f.color2 || null, tournamentId: f.tournamentId,
       coachName: f.coachName || null, coachImage: f.coachImage || null,
       ownerId: null, // team_owner gets themselves assigned server-side
@@ -61,6 +87,11 @@ export function TeamAdminPage() {
     setEditingId(t.id);
     setForm({
       name: t.name, shortName: t.shortName, logo: t.logo ?? "", color1: t.color1,
+      backgroundImage: t.backgroundImage ?? "",
+      heroImage: t.heroImage ?? "", captainId: t.captainId ?? "",
+      ownerName: t.ownerName ?? "",
+      websiteUrl: t.websiteUrl ?? "", facebookUrl: t.facebookUrl ?? "",
+      instagramUrl: t.instagramUrl ?? "", xUrl: t.xUrl ?? "",
       color2: t.color2 ?? "", tournamentId: t.tournamentId,
       coachName: t.coachName ?? "", coachImage: t.coachImage ?? "",
     });
@@ -91,10 +122,39 @@ export function TeamAdminPage() {
           <div><label className="label">Name</label><input className="input" required minLength={2} maxLength={120} value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></div>
           <div><label className="label">Short name</label><input className="input" required minLength={2} maxLength={8} pattern="[A-Za-z0-9]+" value={form.shortName} onChange={(e) => setForm({ ...form, shortName: e.target.value.toUpperCase() })} /></div>
           <div><label className="label">Logo URL</label><input className="input" value={form.logo} onChange={(e) => setForm({ ...form, logo: e.target.value })} /></div>
+          <div>
+            <label className="label">Background image URL</label>
+            <input className="input" placeholder="/uploads/... or https://..." value={form.backgroundImage} onChange={(e) => setForm({ ...form, backgroundImage: e.target.value })} />
+            <p className="mt-1 text-[11px] text-slate-400">
+              Card art behind the team&apos;s circular crest. Falls back to a colour derived from Color 1.
+            </p>
+          </div>
           <div className="flex items-end gap-3">
             <div><label className="label">Color 1</label><input type="color" className="h-10 w-16 rounded border" value={form.color1} onChange={(e) => setForm({ ...form, color1: e.target.value })} /></div>
             <div><label className="label">Color 2</label><input type="color" className="h-10 w-16 rounded border" value={form.color2 || "#ffffff"} onChange={(e) => setForm({ ...form, color2: e.target.value })} /></div>
           </div>
+          <div>
+            <label className="label">Hero banner URL</label>
+            <input className="input" placeholder="/uploads/... or https://..." value={form.heroImage} onChange={(e) => setForm({ ...form, heroImage: e.target.value })} />
+            <p className="mt-1 text-[11px] text-slate-400">Wide banner across the top of the public team page.</p>
+          </div>
+          <div>
+            <label className="label">Captain</label>
+            <select className="input" value={form.captainId} onChange={(e) => setForm({ ...form, captainId: e.target.value })}>
+              <option value="">No captain set</option>
+              {captainOptions.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} (#{p.jerseyNumber} {p.position})
+                </option>
+              ))}
+            </select>
+            <p className="mt-1 text-[11px] text-slate-400">Must be a player on this squad. Only available once the team has players.</p>
+          </div>
+          <div><label className="label">Owner name</label><input className="input" maxLength={160} placeholder="Franchise or company name" value={form.ownerName} onChange={(e) => setForm({ ...form, ownerName: e.target.value })} /></div>
+          <div><label className="label">Website URL</label><input className="input" value={form.websiteUrl} onChange={(e) => setForm({ ...form, websiteUrl: e.target.value })} /></div>
+          <div><label className="label">Facebook URL</label><input className="input" value={form.facebookUrl} onChange={(e) => setForm({ ...form, facebookUrl: e.target.value })} /></div>
+          <div><label className="label">Instagram URL</label><input className="input" value={form.instagramUrl} onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })} /></div>
+          <div><label className="label">X (Twitter) URL</label><input className="input" value={form.xUrl} onChange={(e) => setForm({ ...form, xUrl: e.target.value })} /></div>
           <div><label className="label">Coach name</label><input className="input" maxLength={120} value={form.coachName} onChange={(e) => setForm({ ...form, coachName: e.target.value })} /></div>
           <div><label className="label">Coach photo URL</label><input className="input" value={form.coachImage} onChange={(e) => setForm({ ...form, coachImage: e.target.value })} /></div>
         </div>

@@ -90,6 +90,29 @@ export function listArticles(params: {
   ]).then(([items, total]) => ({ items, total }));
 }
 
+/** Dashboard aggregate — read by the admin module via newsService (rule 2). */
+export function countContent(): Promise<{
+  articles: number;
+  publishedArticles: number;
+  drafts: number;
+  reels: number;
+  galleries: number;
+}> {
+  return Promise.all([
+    prisma.article.count(),
+    prisma.article.count({ where: { isPublished: true } }),
+    prisma.article.count({ where: { isPublished: false } }),
+    prisma.reel.count({ where: { isPublished: true } }),
+    prisma.gallery.count({ where: { isPublished: true } }),
+  ]).then(([articles, publishedArticles, drafts, reels, galleries]) => ({
+    articles,
+    publishedArticles,
+    drafts,
+    reels,
+    galleries,
+  }));
+}
+
 export function listFeaturedArticles(take: number): Promise<ArticleRow[]> {
   return prisma.article.findMany({
     where: { isPublished: true, isFeatured: true },

@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import { ApiError } from "../../core/utils/ApiError.js";
+import { audit } from "../activity-log/activity-log.service.js";
 import * as newsService from "./news.service.js";
 import type {
   CreateArticleInput,
@@ -35,30 +36,45 @@ function requireActor(req: Request): newsService.Actor {
 
 export async function createArticle(req: Request, res: Response): Promise<void> {
   const article = await newsService.createArticle(req.body as CreateArticleInput);
+  audit(req, {
+    action: "article.create",
+    entity: "article",
+    entityId: article.id,
+    metadata: { title: article.title, category: article.category },
+  });
   res.status(201).json({ article });
 }
 
 export async function updateArticle(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const article = await newsService.updateArticle(id, req.body as UpdateArticleInput);
+  audit(req, {
+    action: "article.update",
+    entity: "article",
+    entityId: article.id,
+    metadata: { fields: Object.keys(req.body as object) },
+  });
   res.status(200).json({ article });
 }
 
 export async function publishArticle(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const article = await newsService.publishArticle(id);
+  audit(req, { action: "article.publish", entity: "article", entityId: article.id });
   res.status(200).json({ article });
 }
 
 export async function unpublishArticle(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const article = await newsService.unpublishArticle(id);
+  audit(req, { action: "article.unpublish", entity: "article", entityId: article.id });
   res.status(200).json({ article });
 }
 
 export async function deleteArticle(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const result = await newsService.deleteArticle(id);
+  audit(req, { action: "article.delete", entity: "article", entityId: id });
   res.status(200).json(result);
 }
 
@@ -89,30 +105,40 @@ export async function getArticleTags(_req: Request, res: Response): Promise<void
 
 export async function createReel(req: Request, res: Response): Promise<void> {
   const reel = await newsService.createReel(req.body as CreateReelInput);
+  audit(req, { action: "reel.create", entity: "reel", entityId: reel.id, metadata: { title: reel.title } });
   res.status(201).json({ reel });
 }
 
 export async function updateReel(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const reel = await newsService.updateReel(id, req.body as UpdateReelInput);
+  audit(req, {
+    action: "reel.update",
+    entity: "reel",
+    entityId: reel.id,
+    metadata: { fields: Object.keys(req.body as object) },
+  });
   res.status(200).json({ reel });
 }
 
 export async function publishReel(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const reel = await newsService.publishReel(id);
+  audit(req, { action: "reel.publish", entity: "reel", entityId: reel.id });
   res.status(200).json({ reel });
 }
 
 export async function unpublishReel(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const reel = await newsService.unpublishReel(id);
+  audit(req, { action: "reel.unpublish", entity: "reel", entityId: reel.id });
   res.status(200).json({ reel });
 }
 
 export async function deleteReel(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const result = await newsService.deleteReel(id);
+  audit(req, { action: "reel.delete", entity: "reel", entityId: id });
   res.status(200).json(result);
 }
 
@@ -132,30 +158,45 @@ export async function listReels(req: Request, res: Response): Promise<void> {
 
 export async function createGallery(req: Request, res: Response): Promise<void> {
   const gallery = await newsService.createGallery(req.body as CreateGalleryInput);
+  audit(req, {
+    action: "gallery.create",
+    entity: "gallery",
+    entityId: gallery.id,
+    metadata: { title: gallery.title, images: gallery.images.length },
+  });
   res.status(201).json({ gallery });
 }
 
 export async function updateGallery(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const gallery = await newsService.updateGallery(id, req.body as UpdateGalleryInput);
+  audit(req, {
+    action: "gallery.update",
+    entity: "gallery",
+    entityId: gallery.id,
+    metadata: { fields: Object.keys(req.body as object) },
+  });
   res.status(200).json({ gallery });
 }
 
 export async function publishGallery(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const gallery = await newsService.publishGallery(id);
+  audit(req, { action: "gallery.publish", entity: "gallery", entityId: gallery.id });
   res.status(200).json({ gallery });
 }
 
 export async function unpublishGallery(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const gallery = await newsService.unpublishGallery(id);
+  audit(req, { action: "gallery.unpublish", entity: "gallery", entityId: gallery.id });
   res.status(200).json({ gallery });
 }
 
 export async function deleteGallery(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   const result = await newsService.deleteGallery(id);
+  audit(req, { action: "gallery.delete", entity: "gallery", entityId: id });
   res.status(200).json(result);
 }
 

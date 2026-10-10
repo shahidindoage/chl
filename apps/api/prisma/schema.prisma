@@ -1,5 +1,6 @@
-// Built so far: Modules 9, 1, 2, 3, 4, 6, 5 and 7 (Auth, Tournament, Team, Player,
-// Match, Standings, Live Score, News & Media).
+// Built so far: Modules 9, 1, 2, 3, 4, 6, 5, 7, 8, 10 and 11 (Auth, Tournament,
+// Team, Player, Match, Standings, Live Score, News & Media, Fan Engagement,
+// Admin Portal Polish, Web Push Notifications).
 // Later modules add their models as they are built (Section 4 step A).
 
 generator client {
@@ -122,6 +123,22 @@ model Team {
   name        String
   shortName   String
   logo        String?
+  /// Card art shown behind the team's circular crest on public team cards.
+  /// /uploads/... or an http(s) URL — validated at the schema boundary.
+  backgroundImage String?
+  /// Wide banner art behind the team profile hero.
+  heroImage     String?
+  /// Social links shown as icons under the team name on the profile hero.
+  websiteUrl    String?
+  facebookUrl   String?
+  instagramUrl  String?
+  xUrl          String?
+  /// Team captain — must be a player on this squad (enforced in the service).
+  captainId     String?    @db.Uuid
+  captain       Player?    @relation("TeamCaptain", fields: [captainId], references: [id], onDelete: SetNull)
+  /// Display name of the owning franchise, e.g. a company name. ownerId stays
+  /// the linked login, this is just what the public page shows.
+  ownerName     String?
   color1      String       @default("#0a6cc2") // hex, validated at the schema boundary
   color2      String?
   tournamentId String      @db.Uuid
@@ -138,6 +155,7 @@ model Team {
   teamAMatches  Match[] @relation("MatchTeamA")
   teamBMatches  Match[] @relation("MatchTeamB")
   matchEvents   MatchEvent[] @relation("EventTeam")
+  followers     TeamFollow[]
 
   @@unique([tournamentId, name])
   @@index([tournamentId])
@@ -158,6 +176,12 @@ model Player {
   tournamentId String         @db.Uuid
   tournament   Tournament     @relation(fields: [tournamentId], references: [id], onDelete: Cascade)
   matchEvents   MatchEvent[] @relation("EventPlayer")
+  /// Country flag badge on squad cards (small circular icon).
+  flagImage      String?
+  /// Art behind the player photo on squad cards.
+  backgroundImage String?
+  /// Team this player captains, if any.
+  captainOf      Team[]     @relation("TeamCaptain")
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 
@@ -262,6 +286,9 @@ model User {
   ownedTeams Team[]
   quizAttempts QuizAttempt[]
   predictions  Prediction[]
+  activityLogs ActivityLog[]
+  pushSubscriptions PushSubscription[]
+  teamFollows  TeamFollow[]
 
   @@index([role])
 }
@@ -444,4 +471,66 @@ model GalleryImage {
   gallery   Gallery @relation(fields: [galleryId], references: [id], onDelete: Cascade)
 
   @@index([galleryId, sortOrder])
+}
+
+// ---------- Module 10 — Admin Portal Polish ----------
+
+/// Append-only audit trail of admin write actions. Written by the activity-log
+/// module, read by the admin log viewer. No updatedAt — entries are immutable.
+model ActivityLog {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String?  @db.Uuid // null only if the user was deleted afterwards
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String? // snapshot, so the entry stays readable after a rename
+  userRole  Role?
+  /// Dotted action verb, e.g. "team.create", "match.result.update".
+  action    String
+  /// Entity kind the action targeted, e.g. "team", "match", "article".
+  entity    String
+  entityId  String?
+  /// Small JSON blob of context — ids, changed field names, counts. Never secrets.
+  metadata  Json?
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+  @@index([entity])
+  @@index([userId, createdAt])
+}
+
+// ---------- Module 11 - Web Push Notifications ----------
+
+/// One browser/device Push API subscription. A user on three devices has three
+/// rows. Endpoints go stale constantly (browsers rotate them), so rows are
+/// deleted on 404/410 rather than left to accumulate.
+model PushSubscription {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// Browser-generated endpoint URL — globally unique, which is how a
+  /// re-subscribe updates in place instead of duplicating.
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+/// The opt-in: a fan follows a team and gets a push when that team goes live.
+/// This is the only notification preference — a global "notify me everything"
+/// switch was deliberately avoided, because fans who mute once never come back.
+model TeamFollow {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  teamId    String   @db.Uuid
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, teamId])
+  @@index([teamId])
 }

@@ -11,6 +11,8 @@ export const playerSchema = z.object({
   position: z.enum(PLAYER_POSITIONS),
   dateOfBirth: z.string().datetime(),
   nationality: z.string(),
+  flagImage: z.string().nullable(),
+  backgroundImage: z.string().nullable(),
   teamId: z.string().uuid(),
   tournamentId: z.string().uuid(),
   createdAt: z.string().datetime(),
@@ -27,9 +29,21 @@ export const playerProfileSchema = playerSchema.extend({
 });
 export type PlayerProfileDto = z.infer<typeof playerProfileSchema>;
 
+/** An uploaded path or an http(s) URL — never a data: or javascript: value. */
+const mediaUrl = z
+  .string()
+  .trim()
+  .max(500)
+  .refine((v) => v.startsWith("/uploads/") || /^https?:\/\//i.test(v), {
+    message: "Must be an uploaded path (/uploads/...) or an http(s) URL",
+  })
+  .nullish();
+
 const playerFields = {
   name: z.string().trim().min(2).max(120),
   image: z.string().trim().max(500).nullish(),
+  flagImage: mediaUrl,
+  backgroundImage: mediaUrl,
   jerseyNumber: z.coerce.number().int().min(1).max(99),
   position: z.enum(PLAYER_POSITIONS),
   dateOfBirth: z.coerce.date().refine((d) => d < new Date(), "Date of birth must be in the past")
@@ -44,6 +58,8 @@ export const createPlayerSchema = z.object({
 export interface CreatePlayerInput {
   name: string;
   image?: string | null;
+  flagImage?: string | null;
+  backgroundImage?: string | null;
   jerseyNumber: number;
   position: PlayerPositionName;
   dateOfBirth: Date | string;

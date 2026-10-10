@@ -1,10 +1,10 @@
 import type { TeamDto } from "@tournament/shared";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import * as teamApi from "../api/team.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
+import { TeamCard } from "../components/TeamCard.js";
 
 /** Public FE (Module 2): teams directory grid, filterable by tournament. */
 export function TeamsPage() {
@@ -57,21 +57,9 @@ export function TeamsPage() {
           </p>
         </div>
       ) : (
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {teams.map((t) => (
-            <Link key={t.id} to={`/teams/${t.id}`} className="card flex items-center gap-3 hover:border-brand-500 hover:shadow-md">
-              {t.logo ? (
-                <img src={t.logo} alt="" className="h-12 w-12 rounded object-contain" />
-              ) : (
-                <span className="flex h-12 w-12 items-center justify-center rounded-full text-sm font-black text-white" style={{ background: t.color1 }}>
-                  {t.shortName}
-                </span>
-              )}
-              <div>
-                <h2 className="font-bold">{t.name}</h2>
-                <p className="text-xs text-slate-500">{t.shortName}{t.coachName ? ` · ${t.coachName}` : ""}</p>
-              </div>
-            </Link>
+            <TeamCard key={t.id} team={t} />
           ))}
         </div>
       )}

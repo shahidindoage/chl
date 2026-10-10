@@ -191,6 +191,17 @@ export async function getFeaturedArticles(limit: number): Promise<ArticleDto[]> 
   return (await repo.listFeaturedArticles(limit)).map(toArticleDto);
 }
 
+/** Dashboard aggregate, exposed for the admin module (it must not read prisma). */
+export async function countContent(): Promise<{
+  articles: number;
+  publishedArticles: number;
+  drafts: number;
+  reels: number;
+  galleries: number;
+}> {
+  return repo.countContent();
+}
+
 export async function getArticleTags(): Promise<string[]> {
   return repo.listArticleTags();
 }

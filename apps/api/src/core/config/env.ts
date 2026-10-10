@@ -26,6 +26,15 @@ const envSchema = z.object({
 
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(900_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().default(100),
+
+  // Module 11 - Web Push (VAPID). The subject must be a mailto: or https: URL;
+  // push services show it to the user as the sender of the notification.
+  VAPID_SUBJECT: z.string().default("mailto:admin@tournament.local"),
+  VAPID_PUBLIC_KEY: z.string().optional().default(""),
+  VAPID_PRIVATE_KEY: z.string().optional().default(""),
+  // How many HTTP sends to a push service run at once. Keeps a fan-out from
+  // opening thousands of sockets at once under PM2 cluster mode.
+  PUSH_CONCURRENCY: z.coerce.number().int().min(1).max(50).default(10),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -42,3 +51,10 @@ export type Env = typeof env;
 
 export const isProduction = env.NODE_ENV === "production";
 export const isTest = env.NODE_ENV === "test";
+
+/**
+ * Web Push is off unless VAPID keys are present, so a dev machine without them
+ * boots fine and the rest of the app is unaffected.
+ */
+export const isPushEnabled =
+  env.VAPID_PUBLIC_KEY.length > 0 && env.VAPID_PRIVATE_KEY.length > 0;

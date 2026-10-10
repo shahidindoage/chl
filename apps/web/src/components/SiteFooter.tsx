@@ -73,6 +73,9 @@ export function SiteFooter() {
    
     { to: "/players", label: "Players" },
     { to: "/venues", label: "Venues" },
+    { to: "/about", label: "About the Tournament" },
+    { to: "/ambassador", label: "Ambassador" },
+    { to: "/sponsors", label: "Sponsors" },
   ];
 
   return (

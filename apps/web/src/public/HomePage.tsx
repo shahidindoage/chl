@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { CtaBanner } from "./home/CtaBanner.js";
 import { FanEngagementCta } from "./home/FanEngagementCta.js";
 import { HeroSection } from "./home/HeroSection.js";
+import { HomeSponsorsStrip } from "./home/HomeSponsorsStrip.js";
 import { useHomeData } from "./home/HomeDataContext.js";
 import { LatestNewsSection } from "./home/LatestNewsSection.js";
 import { RecentResultsSection } from "./home/RecentResultsSection.js";
@@ -28,6 +29,8 @@ export function HomePage() {
     <div className="flex min-h-screen flex-col bg-pitch-cream font-sans text-slate-900">
       <main className="flex-1">
         <HeroSection tournament={tournament} />
+
+        <HomeSponsorsStrip />
 
         {live.length > 0 && (
           <section className="border-b border-red-100 bg-red-50/60">

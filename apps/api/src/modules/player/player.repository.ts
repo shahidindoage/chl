@@ -13,6 +13,8 @@ export type PlayerRow = Player;
 export function createPlayer(data: {
   name: string;
   image: string | null;
+  flagImage: string | null;
+  backgroundImage: string | null;
   jerseyNumber: number;
   position: Player["position"];
   dateOfBirth: Date;
@@ -36,6 +38,8 @@ export function findPlayerByTeamJersey(teamId: string, jerseyNumber: number): Pr
 export function updatePlayer(id: string, data: {
   name: string;
   image: string | null;
+  flagImage: string | null;
+  backgroundImage: string | null;
   jerseyNumber: number;
   position: Player["position"];
   dateOfBirth: Date;

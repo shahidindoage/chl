@@ -1,0 +1,359 @@
+{
+  "tournament": "Chhattisgarh Hockey League",
+  "_note": "Field names below match the Create Quiz form at /admin/fans exactly. Paste each question's text and options into the quiz editor. Every 'correctKey' value matches one of that question's own 'key' values - the admin panel and API both reject a mismatch.",
+  "option_key_convention": "Use short lowercase keys (a, b, c, d) and repeat them per question. Keys only need to be unique within a single question.",
+  "quizzes": [
+    {
+      "title": "Hockey Basics: Rules You Need To Know",
+      "description": "The fundamentals every Chhattisgarh Hockey League fan should know before the first whistle.",
+      "status": "active",
+      "pointsPerQuestion": 1,
+      "questions": [
+        {
+          "question": "How many players from one team are on the field at any time?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Seven" },
+            { "key": "b", "label": "Eleven" },
+            { "key": "c", "label": "Six" },
+            { "key": "d", "label": "Nine" }
+          ],
+          "correctKey": "b",
+          "points": 1
+        },
+        {
+          "question": "A hockey match is played in two halves with a short break in between.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 1
+        },
+        {
+          "question": "What is awarded for putting the ball into the opponent's goal from the field?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Two points" },
+            { "key": "b", "label": "One goal" },
+            { "key": "c", "label": "Three points" },
+            { "key": "d", "label": "A penalty corner" }
+          ],
+          "correctKey": "b",
+          "points": 1
+        },
+        {
+          "question": "How many players may a team name as substitutes for a match?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Five" },
+            { "key": "b", "label": "Twelve" },
+            { "key": "c", "label": "Seven" },
+            { "key": "d", "label": "No limit" }
+          ],
+          "correctKey": "a",
+          "points": 1
+        },
+        {
+          "question": "A penalty corner is taken from the backline, 10 yards from the goal.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 1
+        },
+        {
+          "question": "How long is the interval between the two halves of a match?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "5 minutes" },
+            { "key": "b", "label": "15 minutes" },
+            { "key": "c", "label": "10 minutes" },
+            { "key": "d", "label": "2 minutes" }
+          ],
+          "correctKey": "a",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "title": "Positions On The Pitch",
+      "description": "Goalkeeper to forward - know what each role is responsible for.",
+      "status": "active",
+      "pointsPerQuestion": 2,
+      "questions": [
+        {
+          "question": "Which position wears protective headgear, leg guards and a heavily padded chest piece?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Goalkeeper" },
+            { "key": "b", "label": "Centre forward" },
+            { "key": "c", "label": "Left wing" },
+            { "key": "d", "label": "Centre halfback" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "The centre forward is mainly responsible for scoring goals.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "A fullback primarily defends the flanks and helps build attacks from the back.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "Which position links defence and attack and often receives the ball after a free hit?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Centre halfback" },
+            { "key": "b", "label": "Infield" },
+            { "key": "c", "label": "Goalkeeper" },
+            { "key": "d", "label": "Fullback" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "A goal scorer plus a penalty corner specialist plus a sweeper together make up a penalty corner unit.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "title": "Chhattisgarh Hockey League: History And Records",
+      "description": "The teams, rivalries and milestones that shaped the league so far.",
+      "status": "active",
+      "pointsPerQuestion": 2,
+      "questions": [
+        {
+          "question": "Which Chhattisgarh city is the traditional home base of the league's biggest hockey culture?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Raipur" },
+            { "key": "b", "label": "Nagpur" },
+            { "key": "c", "label": "Indore" },
+            { "key": "d", "label": "Bhopal" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "The league's indoor season is played on artificial turf rather than natural grass.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "A hat-trick in hockey means scoring how many goals in one match?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Five" },
+            { "key": "b", "label": "Two" },
+            { "key": "c", "label": "Three" },
+            { "key": "d", "label": "Four" }
+          ],
+          "correctKey": "c",
+          "points": 2
+        },
+        {
+          "question": "The league awards three points for a win, one for a draw and none for a defeat.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "Which two Bhilai-area clubs have historically contested the most watched local derby?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Steel City and Iron Riders" },
+            { "key": "b", "label": "Raipur Tigers and Bilaspur Bears" },
+            { "key": "c", "label": "Jagdalpur Warriors and Durg Knights" },
+            { "key": "d", "label": "Korba Stars and Sarguja Hawks" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "Which state does the Chhattisgarh Hockey League represent?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Chhattisgarh" },
+            { "key": "b", "label": "Odisha" },
+            { "key": "c", "label": "Jharkhand" },
+            { "key": "d", "label": "Madhya Pradesh" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "title": "Set Pieces And Scoring Technique",
+      "description": "Free hits, long corners and the skills that decide tight matches.",
+      "status": "active",
+      "pointsPerQuestion": 2,
+      "questions": [
+        {
+          "question": "A free hit is taken from the spot where the infringement happened, with all opponents 5 yards away.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "Which stroke pushes the ball a long distance without a backswing, used heavily from the 23-metre line?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "The drag flick" },
+            { "key": "b", "label": "The penalty stroke" },
+            { "key": "c", "label": "The push" },
+            { "key": "d", "label": "The scoop" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "A penalty stroke is awarded when a foul prevents a probable goal and no other penalty applies.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "What is the maximum number of players a team may name on the match squad list?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "16" },
+            { "key": "b", "label": "11" },
+            { "key": "c", "label": "23" },
+            { "key": "d", "label": "18" }
+          ],
+          "correctKey": "a",
+          "points": 2
+        },
+        {
+          "question": "Which of these is a standard piece of goalkeeper equipment?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Thigh pad" },
+            { "key": "b", "label": "Knee pad" },
+            { "key": "c", "label": "Hand protector" },
+            { "key": "d", "label": "All of the above" }
+          ],
+          "correctKey": "d",
+          "points": 2
+        }
+      ]
+    },
+    {
+      "title": "League Season Challenge",
+      "description": "A harder round on squad rules, formats and discipline. Worth double points.",
+      "status": "active",
+      "pointsPerQuestion": 3,
+      "questions": [
+        {
+          "question": "How many points does a team earn for a draw?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "One point" },
+            { "key": "b", "label": "Two points" },
+            { "key": "c", "label": "No points" },
+            { "key": "d", "label": "Half a point" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        },
+        {
+          "question": "A player is shown a green card for a minor offence and must leave the field briefly.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        },
+        {
+          "question": "A yellow card offence results in the player being suspended from the next match.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        },
+        {
+          "question": "A red card is issued for which level of offence?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "A minor or deliberate offence" },
+            { "key": "b", "label": "Only a foul in own half" },
+            { "key": "c", "label": "Only dangerous play" },
+            { "key": "d", "label": "Only dissent" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        },
+        {
+          "question": "The top teams qualify for the playoffs at the end of the league stage.",
+          "type": "true_false",
+          "options": [
+            { "key": "a", "label": "True" },
+            { "key": "b", "label": "False" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        },
+        {
+          "question": "Which factor decides the league table when two teams finish level on points?",
+          "type": "single_choice",
+          "options": [
+            { "key": "a", "label": "Goal difference, then goals scored" },
+            { "key": "b", "label": "Number of yellow cards" },
+            { "key": "c", "label": "Coin toss" },
+            { "key": "d", "label": "Total shots taken" }
+          ],
+          "correctKey": "a",
+          "points": 3
+        }
+      ]
+    }
+  ]
+}

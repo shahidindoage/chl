@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 
 import { ApiError } from "../../core/utils/ApiError.js";
+import { audit } from "../activity-log/activity-log.service.js";
 import { listUsers } from "../auth/auth.service.js";
 import * as service from "./fan-engagement.service.js";
 import type {
@@ -39,6 +40,12 @@ export async function getQuiz(req: Request, res: Response): Promise<void> {
 export async function createQuiz(req: Request, res: Response): Promise<void> {
   actor(req);
   const quiz = await service.createQuiz(req.body);
+  audit(req, {
+    action: "quiz.create",
+    entity: "quiz",
+    entityId: quiz.id,
+    metadata: { title: quiz.title, questions: quiz.questions.length },
+  });
   res.status(201).json({ quiz });
 }
 
@@ -46,6 +53,12 @@ export async function updateQuiz(req: Request, res: Response): Promise<void> {
   actor(req);
   const { id } = req.params as { id: string };
   const quiz = await service.updateQuiz(id, req.body);
+  audit(req, {
+    action: "quiz.update",
+    entity: "quiz",
+    entityId: quiz.id,
+    metadata: { questions: quiz.questions.length },
+  });
   res.status(200).json({ quiz });
 }
 
@@ -54,6 +67,7 @@ export async function setQuizStatus(req: Request, res: Response): Promise<void> 
   const { id } = req.params as { id: string };
   const { status } = req.body as { status: "draft" | "active" | "closed" };
   const quiz = await service.setQuizStatus(id, status);
+  audit(req, { action: "quiz.status.update", entity: "quiz", entityId: quiz.id, metadata: { status } });
   res.status(200).json({ quiz });
 }
 
@@ -61,6 +75,7 @@ export async function deleteQuiz(req: Request, res: Response): Promise<void> {
   actor(req);
   const { id } = req.params as { id: string };
   const result = await service.deleteQuiz(id);
+  audit(req, { action: "quiz.delete", entity: "quiz", entityId: id });
   res.status(200).json(result);
 }
 
@@ -103,8 +118,14 @@ export async function getMyPrediction(req: Request, res: Response): Promise<void
   res.status(200).json({ prediction });
 }
 
+/**
+ * Read-only for managers, but worth auditing: it exposes every supporter's
+ * pick for a match, which is the closest thing to personal data in this module.
+ */
 export async function listPredictions(req: Request, res: Response): Promise<void> {
   actor(req);
+  const { matchId } = req.params as { matchId?: string };
+  audit(req, { action: "prediction.list", entity: "prediction", entityId: matchId ?? null });
   const query = req.query as unknown as ListPredictionsQuery;
   const result = await service.listPredictions(query);
   res.status(200).json(result);

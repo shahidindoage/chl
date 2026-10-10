@@ -66,6 +66,22 @@ export function listUsers(params: {
   ]).then(([items, total]) => ({ items, total }));
 }
 
+/** Dashboard aggregate — read by the admin module via authService (rule 2). */
+export function countUsers(filter?: { role?: Role }): Promise<number> {
+  return prisma.user.count({ where: filter?.role ? { role: filter.role } : {} });
+}
+
+/** Newest signups, for the dashboard's "recent users" panel. */
+type RecentUserRow = Pick<User, "id" | "name" | "email" | "role" | "createdAt">;
+
+export function findRecentUsers(limit: number): Promise<RecentUserRow[]> {
+  return prisma.user.findMany({
+    orderBy: { createdAt: "desc" },
+    take: limit,
+    select: { id: true, name: true, email: true, role: true, createdAt: true },
+  });
+}
+
 export function countRecentOtpForEmail(email: string, since: Date): Promise<number> {
   return prisma.otpCode.count({ where: { email, createdAt: { gte: since } } });
 }

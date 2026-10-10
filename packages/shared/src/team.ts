@@ -2,6 +2,24 @@ import { z } from "zod";
 
 const hexColor = /^#[0-9a-fA-F]{6}$/;
 
+/** Enough of a captain to render a name on the team profile. */
+const captainInfoSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  image: z.string().nullable(),
+  position: z.string(),
+});
+
+/** An uploaded path or an http(s) URL — never a data: or javascript: value. */
+const mediaUrl = z
+  .string()
+  .trim()
+  .max(500)
+  .refine((v) => v.startsWith("/uploads/") || /^https?:\/\//i.test(v), {
+    message: "Must be an uploaded path (/uploads/...) or an http(s) URL",
+  })
+  .nullish();
+
 export const teamSchema = z.object({
   id: z.string().uuid(),
   name: z.string(),
@@ -9,6 +27,17 @@ export const teamSchema = z.object({
   logo: z.string().nullable(),
   color1: z.string(),
   color2: z.string().nullable(),
+  // Card art shown behind the team's circular crest on public team cards.
+  backgroundImage: z.string().nullable(),
+  // Wide banner art behind the team profile hero.
+  heroImage: z.string().nullable(),
+  websiteUrl: z.string().nullable(),
+  facebookUrl: z.string().nullable(),
+  instagramUrl: z.string().nullable(),
+  xUrl: z.string().nullable(),
+  captainId: z.string().uuid().nullable(),
+  captain: captainInfoSchema.nullable(),
+  ownerName: z.string().nullable(),
   tournamentId: z.string().uuid(),
   coachName: z.string().nullable(),
   coachImage: z.string().nullable(),
@@ -42,6 +71,23 @@ const teamFields = {
     .max(8)
     .regex(/^[A-Za-z0-9]+$/, "Short name: 2-8 letters/numbers only"),
   logo: z.string().trim().max(500).nullish(),
+  // Card background art. Must be an uploaded path or an http(s) URL so the
+  // browser never evaluates a data: or javascript: value into CSS url().
+  backgroundImage: z
+    .string()
+    .trim()
+    .max(500)
+    .refine((v) => v.startsWith("/uploads/") || /^https?:\/\//i.test(v), {
+      message: "Must be an uploaded path (/uploads/...) or an http(s) URL",
+    })
+    .nullish(),
+  heroImage: mediaUrl,
+  websiteUrl: mediaUrl,
+  facebookUrl: mediaUrl,
+  instagramUrl: mediaUrl,
+  xUrl: mediaUrl,
+  captainId: z.string().uuid().nullish(),
+  ownerName: z.string().trim().max(160).nullish(),
   color1: z.string().trim().regex(hexColor, "Must be a hex color like #0a6cc2"),
   color2: z.string().trim().regex(hexColor, "Must be a hex color like #ffffff").nullish(),
   tournamentId: z.string().uuid("Tournament id must be a UUID"),
@@ -58,6 +104,14 @@ export type CreateTeamInput = {
   name: string;
   shortName: string;
   logo?: string | null;
+  backgroundImage?: string | null;
+  heroImage?: string | null;
+  websiteUrl?: string | null;
+  facebookUrl?: string | null;
+  instagramUrl?: string | null;
+  xUrl?: string | null;
+  captainId?: string | null;
+  ownerName?: string | null;
   color1: string;
   color2?: string | null;
   tournamentId: string;

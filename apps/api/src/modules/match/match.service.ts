@@ -165,6 +165,15 @@ export async function listCompletedMatches(tournamentId: string): Promise<MatchD
   return items.map(toMatchDto);
 }
 
+/** Dashboard aggregate, exposed for the admin module (it must not read prisma). */
+export async function countMatches(filter?: {
+  tournamentId?: string;
+  status?: string;
+  from?: Date;
+}): Promise<number> {
+  return repo.countMatches(filter);
+}
+
 /**
  * Internal data source for Module 5 (live control) — the only sanctioned
  * way to move a match through its live lifecycle. Validates transitions

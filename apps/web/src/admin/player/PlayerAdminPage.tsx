@@ -10,7 +10,8 @@ import { useAuthStore } from "../../store/auth.store.js";
 interface Toast { kind: "error" | "ok"; text: string }
 
 const emptyForm = {
-  name: "", image: "", jerseyNumber: "", position: "forward" as PlayerPositionName,
+  name: "", image: "", flagImage: "", backgroundImage: "",
+  jerseyNumber: "", position: "forward" as PlayerPositionName,
   dateOfBirth: "", nationality: "", teamId: "",
 };
 
@@ -61,7 +62,8 @@ export function PlayerAdminPage() {
 
   function toInput(f: typeof emptyForm) {
     return {
-      name: f.name, image: f.image || null, jerseyNumber: Number(f.jerseyNumber),
+      name: f.name, image: f.image || null, flagImage: f.flagImage || null,
+    backgroundImage: f.backgroundImage || null, jerseyNumber: Number(f.jerseyNumber),
       position: f.position, dateOfBirth: f.dateOfBirth, nationality: f.nationality,
       teamId: f.teamId,
     };
@@ -82,7 +84,8 @@ export function PlayerAdminPage() {
   function fill(p: PlayerDto) {
     setEditingId(p.id);
     setForm({
-      name: p.name, image: p.image ?? "", jerseyNumber: String(p.jerseyNumber),
+      name: p.name, image: p.image ?? "", flagImage: p.flagImage ?? "",
+    backgroundImage: p.backgroundImage ?? "", jerseyNumber: String(p.jerseyNumber),
       position: p.position, dateOfBirth: p.dateOfBirth.slice(0, 10), nationality: p.nationality,
       teamId: p.teamId,
     });
@@ -126,6 +129,8 @@ export function PlayerAdminPage() {
           <div><label className="label">Date of birth</label><input type="date" required max={new Date().toISOString().slice(0, 10)} min="1900-01-02" className="input" value={form.dateOfBirth} onChange={(e) => setForm({ ...form, dateOfBirth: e.target.value })} /></div>
           <div><label className="label">Nationality</label><input className="input" required minLength={2} maxLength={60} value={form.nationality} onChange={(e) => setForm({ ...form, nationality: e.target.value })} /></div>
           <div className="sm:col-span-2"><label className="label">Photo URL</label><input className="input" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} /></div>
+          <div><label className="label">Flag image URL</label><input className="input" placeholder="/uploads/... or https://..." value={form.flagImage} onChange={(e) => setForm({ ...form, flagImage: e.target.value })} /></div>
+          <div><label className="label">Card background image URL</label><input className="input" placeholder="/uploads/... or https://..." value={form.backgroundImage} onChange={(e) => setForm({ ...form, backgroundImage: e.target.value })} /></div>
         </div>
         <div className="flex gap-2">
           <button className="btn-primary" disabled={busy}>{busy ? "Saving…" : editingId ? "Save changes" : "Register"}</button>

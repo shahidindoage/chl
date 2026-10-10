@@ -15,10 +15,13 @@ import { standingsRouter } from "./modules/standings/standings.routes.js";
 import { liveRouter } from "./modules/live-score/live-score.routes.js";
 import { newsRouter } from "./modules/news/news.routes.js";
 import { fanEngagementRouter } from "./modules/fan-engagement/fan-engagement.routes.js";
+import { adminRouter } from "./modules/admin/admin.routes.js";
+import { activityLogRouter } from "./modules/activity-log/activity-log.routes.js";
+import { notificationsRouter } from "./modules/notifications/notifications.routes.js";
 
 /**
  * Express app — mounts module routers, one line per module (Section 6).
- * Later modules: fan-engagement, admin.
+ * All modules are built; Module 11 adds /api/notifications (web push).
  */
 export function createApp(): Express {
   const app = express();
@@ -55,6 +58,9 @@ export function createApp(): Express {
   app.use("/api/live", liveRouter);
   app.use("/api/news", newsRouter);
   app.use("/api/fans", fanEngagementRouter);
+  app.use("/api/admin", adminRouter);
+  app.use("/api/admin", activityLogRouter);
+  app.use("/api/notifications", notificationsRouter);
   // ... one line per module
 
   // Uploaded media is served from /uploads (Module 7, Section 1 storage).

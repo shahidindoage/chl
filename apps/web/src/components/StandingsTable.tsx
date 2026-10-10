@@ -15,7 +15,7 @@ export function StandingsTable({ standings, compact = false }: { standings: Stan
         ["#", (r) => r.position],
         ["Team", (r) => (
           <span className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full" style={{ background: r.color1 }} />
+        
             {r.logo && <img src={r.logo} alt="" className="h-5 w-5 object-contain" />}
             <Link to={`/teams/${r.teamId}`} className="font-medium text-brand-700 hover:underline">{r.teamName}</Link>
           </span>

@@ -8,10 +8,15 @@
     <meta name="description" content="Official website for the Chhattisgarh Hockey League featuring upcoming matches, points table standings, recent results, and live scores." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Body text only. Headings use the self-hosted Druk faces declared in
+         src/styles.css, so Playfair Display is no longer requested. -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <!-- Druk is in use above the fold: warm the first faces early. -->
+    <link rel="preload" href="/fonts/DrukText-Heavy-Trial.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/DrukText-Bold-Trial.otf" as="font" type="font/otf" crossorigin />
   </head>
   <body class="bg-pitch-cream text-slate-900 antialiased selection:bg-pitch-orange selection:text-white">
     <div id="root"></div>

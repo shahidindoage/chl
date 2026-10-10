@@ -1,4 +1,4 @@
-import type { Team } from "@prisma/client";
+import type { PlayerPosition, Team } from "@prisma/client";
 import type {
   CreateTeamInput,
   ListTeamsQuery,
@@ -23,25 +23,43 @@ const OWNER_MANAGED_ROLES = new Set<Role>(["team_owner"]);
 
 function toTeamDto(t: {
   id: string; name: string; shortName: string; logo: string | null;
+  backgroundImage: string | null;
+  heroImage: string | null;
+  websiteUrl: string | null; facebookUrl: string | null;
+  instagramUrl: string | null; xUrl: string | null;
+  captainId: string | null;
+  ownerName: string | null;
+  captain?: { id: string; name: string; image: string | null; position: PlayerPosition } | null;
   color1: string; color2: string | null; tournamentId: string;
   coachName: string | null; coachImage: string | null; ownerId: string | null;
   createdAt: Date; updatedAt: Date;
-}): TeamDto {
+  }): TeamDto {
   return {
-    id: t.id,
-    name: t.name,
-    shortName: t.shortName,
-    logo: t.logo,
-    color1: t.color1,
-    color2: t.color2,
-    tournamentId: t.tournamentId,
-    coachName: t.coachName,
-    coachImage: t.coachImage,
-    ownerId: t.ownerId,
-    createdAt: t.createdAt.toISOString(),
-    updatedAt: t.updatedAt.toISOString(),
+  id: t.id,
+  name: t.name,
+  shortName: t.shortName,
+  logo: t.logo,
+  backgroundImage: t.backgroundImage,
+  heroImage: t.heroImage,
+  websiteUrl: t.websiteUrl,
+  facebookUrl: t.facebookUrl,
+  instagramUrl: t.instagramUrl,
+  xUrl: t.xUrl,
+  captainId: t.captainId,
+  ownerName: t.ownerName,
+  captain: t.captain
+    ? { id: t.captain.id, name: t.captain.name, image: t.captain.image, position: t.captain.position }
+    : null,
+  color1: t.color1,
+  color2: t.color2,
+  tournamentId: t.tournamentId,
+  coachName: t.coachName,
+  coachImage: t.coachImage,
+  ownerId: t.ownerId,
+  createdAt: t.createdAt.toISOString(),
+  updatedAt: t.updatedAt.toISOString(),
   };
-}
+  }
 
 function toSponsorDto(s: {
   id: string; name: string; logo: string | null; teamId: string;
@@ -70,6 +88,22 @@ async function requireTeamAccess(teamId: string, actor: Actor): Promise<Team> {
   throw ApiError.forbidden("You can only manage your own team");
 }
 
+/**
+ * A captain must be a player on this team's own squad. Checked here rather
+ * than by the DB, since captainId is a plain FK and nothing stops a caller
+ * pointing it at a player from another side.
+ */
+async function assertCaptainOnSquad(captainId: string | null | undefined, teamId: string): Promise<string | null> {
+  if (!captainId) return null;
+  // A dynamic import avoids a circular module dependency at load time.
+  const { getPlayer } = await import("../player/player.service.js");
+  const player = await getPlayer(captainId);
+  if (player.teamId !== teamId) {
+    throw ApiError.badRequest("Captain must be a player on this team's squad");
+  }
+  return captainId;
+}
+
 export async function createTeam(input: CreateTeamInput, actor: Actor): Promise<TeamDto> {
   // Validate the parent tournament exists via its OWN service (rule 2).
   await getTournament(input.tournamentId);
@@ -78,9 +112,15 @@ export async function createTeam(input: CreateTeamInput, actor: Actor): Promise<
   if (clash) throw ApiError.conflict(`A team "${input.name}" already exists in this tournament`);
 
   let ownerId = input.ownerId ?? null;
-  if (actor.role === "team_owner") {
+if (actor.role === "team_owner") {
     // A team_owner always owns the teams they create; they cannot assign to others.
     ownerId = actor.id;
+  }
+
+  // On create the squad does not exist yet, so a captain can only be set
+  // later by editing the team.
+  if (input.captainId) {
+    throw ApiError.badRequest("Set the captain after the team has players");
   }
 
   try {
@@ -88,6 +128,14 @@ export async function createTeam(input: CreateTeamInput, actor: Actor): Promise<
       name: input.name,
       shortName: input.shortName,
       logo: input.logo ?? null,
+  backgroundImage: input.backgroundImage ?? null,
+  heroImage: input.heroImage ?? null,
+  websiteUrl: input.websiteUrl ?? null,
+  facebookUrl: input.facebookUrl ?? null,
+  instagramUrl: input.instagramUrl ?? null,
+  xUrl: input.xUrl ?? null,
+  captainId: input.captainId ?? null,
+  ownerName: input.ownerName ?? null,
       color1: input.color1,
       color2: input.color2 ?? null,
       tournamentId: input.tournamentId,
@@ -112,10 +160,12 @@ export async function updateTeam(id: string, input: UpdateTeamInput, actor: Acto
 
   await getTournament(input.tournamentId);
 
-  const clash = await repo.findTeamByTournamentName(input.tournamentId, input.name);
+const clash = await repo.findTeamByTournamentName(input.tournamentId, input.name);
   if (clash && clash.id !== id) {
     throw ApiError.conflict(`A team "${input.name}" already exists in this tournament`);
   }
+
+  await assertCaptainOnSquad(input.captainId, id);
 
   // team_owner cannot reassign ownership or move their team to another tournament owner.
   let ownerId = input.ownerId ?? null;
@@ -127,6 +177,14 @@ export async function updateTeam(id: string, input: UpdateTeamInput, actor: Acto
     name: input.name,
     shortName: input.shortName,
     logo: input.logo ?? null,
+  backgroundImage: input.backgroundImage ?? null,
+  heroImage: input.heroImage ?? null,
+  websiteUrl: input.websiteUrl ?? null,
+  facebookUrl: input.facebookUrl ?? null,
+  instagramUrl: input.instagramUrl ?? null,
+  xUrl: input.xUrl ?? null,
+  captainId: input.captainId ?? null,
+  ownerName: input.ownerName ?? null,
     color1: input.color1,
     color2: input.color2 ?? null,
     tournamentId: input.tournamentId,
@@ -134,7 +192,10 @@ export async function updateTeam(id: string, input: UpdateTeamInput, actor: Acto
     coachImage: input.coachImage ?? null,
     ownerId,
   });
-  return toTeamDto(updated);
+  // The update returns the bare row, which has no captain object. Re-read so the
+// response shape matches getTeam() and callers see the same captain detail.
+  const withCaptain = await repo.findTeamWithSponsors(id);
+  return toTeamDto(withCaptain ?? updated);
 }
 
 export async function deleteTeam(id: string, actor: Actor): Promise<{ deleted: true; id: string }> {
@@ -162,6 +223,11 @@ export async function listTeams(query: ListTeamsQuery): Promise<{
     ...(query.tournamentId ? { tournamentId: query.tournamentId } : {}),
   });
   return { items: items.map(toTeamDto), pagination: pagination(query.page, query.limit, total) };
+}
+
+/** Dashboard aggregate, exposed for the admin module (it must not read prisma). */
+export async function countTeams(tournamentId?: string): Promise<number> {
+  return repo.countTeams(tournamentId);
 }
 
 export async function addSponsor(teamId: string, data: { name: string; logo?: string | null }, actor: Actor): Promise<SponsorDto> {

@@ -26,7 +26,11 @@ export default {
       },
       fontFamily: {
         sans: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui", "sans-serif"],
-        display: ["'Playfair Display'", "Georgia", "serif"],
+        // Druk replaces Playfair Display for headings. Druk is very heavy and
+        // condensed, so it only suits large text — see the caveat below.
+        display: ["Druk", "'Plus Jakarta Sans'", "ui-sans-serif", "system-ui", "sans-serif"],
+        // Wider cut, for the biggest headlines and numerals.
+        displayWide: ["'Druk Wide'", "Druk", "'Plus Jakarta Sans'", "sans-serif"],
       },
     },
   },

@@ -2,6 +2,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------- Brand fonts ----------
+ * Druk is a heavy condensed display face — used for headings and numerals.
+ * Only the weights the design actually uses are registered; the full trial
+ * folder is 1.15MB and every unused face is a download the visitor pays for.
+ * "Druk Wide" is the wide-tracked cut, used for the biggest headlines.
+ */
+@font-face {
+  font-family: "Druk";
+  src: url("/fonts/DrukText-Medium-Trial.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk";
+  src: url("/fonts/DrukText-Bold-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk";
+  src: url("/fonts/DrukText-Heavy-Trial.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk";
+  src: url("/fonts/DrukText-BoldItalic-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk";
+  src: url("/fonts/DrukText-HeavyItalic-Trial.otf") format("opentype");
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Druk Wide";
+  src: url("/fonts/DrukTextWide-Medium-Trial.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk Wide";
+  src: url("/fonts/DrukTextWide-Heavy-Trial.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Druk Wide";
+  src: url("/fonts/DrukTextWide-Bold-Trial.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   body {
     /* Full-bleed heroes use 100vw, which overshoots by the scrollbar width. */

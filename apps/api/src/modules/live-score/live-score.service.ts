@@ -11,6 +11,7 @@ import type { Commentary } from "@prisma/client";
 import { ApiError } from "../../core/utils/ApiError.js";
 import { publishLiveEvent } from "../../core/lib/redis.js";
 import { getMatch, applyLiveControl } from "../match/match.service.js";
+import * as notifications from "../notifications/notifications.service.js";
 import * as repo from "./live-score.repository.js";
 
 /**
@@ -46,11 +47,43 @@ async function liveStatus(matchId: string): Promise<LiveStatusDto> {
   };
 }
 
+/**
+ * Module 11 — web push hooks.
+ *
+ * Every one of these is fire-and-forget and wrapped: a push failure must never
+ * fail the score update that triggered it, so the control call has already
+ * succeeded by the time we get here.
+ */
+async function pushShape(id: string): Promise<notifications.MatchForNotification | null> {
+  try {
+    const m = await getMatch(id);
+    return {
+      id: m.id,
+      teamAId: m.teamAId,
+      teamBId: m.teamBId,
+      teamAName: m.teamA.name,
+      teamBName: m.teamB.name,
+      teamAScore: m.teamAScore,
+      teamBScore: m.teamBScore,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function safely(run: () => Promise<unknown>): void {
+  void run().catch(() => undefined);
+}
+
 export async function startMatch(id: string, input: StartMatchControlInput): Promise<LiveStatusDto> {
   await applyLiveControl(id, "start", {
     currentMinute: input.minute,
     currentPeriod: input.period,
     isPaused: false,
+  });
+  safely(async () => {
+    const shape = await pushShape(id);
+    if (shape) await notifications.notifyMatchStarted(shape);
   });
   return liveStatus(id);
 }
@@ -75,6 +108,10 @@ export async function endMatch(id: string, input: EndMatchControlInput): Promise
   });
   // Final broadcast so open viewers switch to the completed view instantly.
   await publishLiveEvent(id, "match:ended", { matchId: id, at: new Date().toISOString() });
+  safely(async () => {
+    const shape = await pushShape(id);
+    if (shape) await notifications.notifyMatchEnded(shape);
+  });
   return liveStatus(id);
 }
 
@@ -95,6 +132,21 @@ export async function updateLiveScore(id: string, input: LiveScoreInput): Promis
     after.currentPeriod !== before.currentPeriod
   ) {
     await publishLiveEvent(id, "match:score", after);
+  }
+  // Only a goal that changes the lead is worth interrupting a follower for;
+  // the notification service applies that rule itself.
+  const scoreMoved =
+    after.teamAScore !== before.teamAScore || after.teamBScore !== before.teamBScore;
+  if (scoreMoved) {
+    safely(async () => {
+      const shape = await pushShape(id);
+      if (shape) {
+        await notifications.notifyGoalScored(shape, {
+          a: before.teamAScore,
+          b: before.teamBScore,
+        });
+      }
+    });
   }
   return after;
 }

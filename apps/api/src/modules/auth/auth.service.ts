@@ -232,6 +232,24 @@ export async function listUsers(page: number, limit: number): Promise<{
   };
 }
 
+/** Dashboard aggregates, exposed for the admin module (it must not read prisma). */
+export async function countUsers(filter?: { role?: Role }): Promise<number> {
+  return repo.countUsers(filter);
+}
+
+export async function findRecentUsers(
+  limit: number
+): Promise<{ id: string; name: string; email: string; role: Role; createdAt: string }[]> {
+  const rows = await repo.findRecentUsers(limit);
+  return rows.map((u) => ({
+    id: u.id,
+    name: u.name,
+    email: u.email,
+    role: u.role,
+    createdAt: u.createdAt.toISOString(),
+  }));
+}
+
 export async function updateUserRole(
   targetUserId: string,
   role: Role,

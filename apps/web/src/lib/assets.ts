@@ -13,5 +13,15 @@ export const LEAGUE_ASSETS = {
   ctaBanner: "/banner.png",
 } as const;
 
+/**
+ * Homepage hero slides, cross-faded automatically. Keep these distinct — the
+ * slider stacks them, so a repeated URL just fades to an identical frame.
+ */
+export const HERO_SLIDES = [
+  LEAGUE_ASSETS.heroBanner,
+  LEAGUE_ASSETS.standingBanner,
+  LEAGUE_ASSETS.ctaBanner,
+] as const;
+
 /** Fallback headline when no tournament is active yet. */
 export const LEAGUE_FALLBACK_NAME = "Chhattisgarh Hockey League";

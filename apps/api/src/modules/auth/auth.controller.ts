@@ -3,6 +3,7 @@ import type { Request, Response } from "express";
 import type { AuthUser } from "@tournament/shared";
 
 import { ApiError } from "../../core/utils/ApiError.js";
+import { audit } from "../activity-log/activity-log.service.js";
 import * as authService from "./auth.service.js";
 import type {
   ConfirmSignUpInput,
@@ -64,6 +65,13 @@ export async function updateUserRole(req: Request, res: Response): Promise<void>
   const { role } = req.body as UpdateUserRoleInput;
   if (!req.user) throw ApiError.unauthorized();
   const user = await authService.updateUserRole(id, role, { id: req.user.id, role: req.user.role });
+  // Privilege changes are the highest-value thing in this log.
+  audit(req, {
+    action: "user.role.update",
+    entity: "user",
+    entityId: user.id,
+    metadata: { newRole: user.role, email: user.email },
+  });
   res.status(200).json({ user });
 }
 
@@ -71,5 +79,6 @@ export async function deleteUser(req: Request, res: Response): Promise<void> {
   const { id } = req.params as { id: string };
   if (!req.user) throw ApiError.unauthorized();
   const result = await authService.deleteUser(id, { id: req.user.id });
+  audit(req, { action: "user.delete", entity: "user", entityId: id });
   res.status(200).json(result);
 }

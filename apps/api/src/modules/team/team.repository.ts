@@ -44,10 +44,20 @@ export function listTeams(params: {
   ]).then(([items, total]) => ({ items, total }));
 }
 
+/** Dashboard aggregate — read by the admin module via teamService (rule 2). */
+export function countTeams(tournamentId?: string): Promise<number> {
+  return prisma.team.count({ where: tournamentId ? { tournamentId } : {} });
+}
+
 export function findTeamWithSponsors(id: string) {
   return prisma.team.findUnique({
     where: { id },
-    include: { sponsors: { orderBy: { createdAt: "asc" } } },
+    // The captain relation is resolved here; the captain's squad membership is
+    // still owned by the player module, so only these display fields are read.
+    include: {
+      sponsors: { orderBy: { createdAt: "asc" } },
+      captain: { select: { id: true, name: true, image: true, position: true } },
+    },
   });
 }
 
