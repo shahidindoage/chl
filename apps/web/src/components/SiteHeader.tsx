@@ -15,9 +15,10 @@ import { AuthModal } from "./AuthModal.js";
 
 const NAV_ITEMS = [
   { to: "/", label: "Home", end: true },
+  { to: "/teams", label: "Teams", end: false },
   { to: "/matches", label: "Matches", end: false },
   { to: "/standings", label: "Standings", end: false },
-  { to: "/teams", label: "Teams", end: false },
+
   { to: "/news", label: "News", end: false },
   { to: "/fans", label: "Fans", end: false },
   { to: "/gallery", label: "Photo Gallery", end: false },

@@ -1,0 +1,14 @@
+=======================================
+
+Public Key:
+BD2yrye7hPf3guTAM-V2xHK8F6BvOTTjYikFoE3LOFFZaU7H_60T2TWtI782TPsE4PXRCfqqicusTNxBMp6E7cg
+
+Private Key:
+4zKblML-XrGlIQ3RLlK2gG9d8VguVr3GAK7YllK098I
+
+======================================= 
+
+VAPID_SUBJECT=mailto:admin@tournament.local
+VAPID_PUBLIC_KEY=BD2yrye7hPf3guTAM-V2xHK8F6BvOTTjYikFoE3LOFFZaU7H_60T2TWtI782TPsE4PXRCfqqicusTNxBMp6E7cg
+VAPID_PRIVATE_KEY=4zKblML-XrGlIQ3RLlK2gG9d8VguVr3GAK7YllK098I
+PUSH_CONCURRENCY=10

@@ -68,14 +68,7 @@ export function SiteFooter() {
     { to: "/matches", label: "Matches & Fixtures" },
     { to: "/standings", label: "Points Table" },
     { to: "/news", label: "Latest News" },
-   
     { to: "/fans", label: "Fans Hub" },
-   
-    { to: "/players", label: "Players" },
-    { to: "/venues", label: "Venues" },
-    { to: "/about", label: "About the Tournament" },
-    { to: "/ambassador", label: "Ambassador" },
-    { to: "/sponsors", label: "Sponsors" },
   ];
 
   return (
