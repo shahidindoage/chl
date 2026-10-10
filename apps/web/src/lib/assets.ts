@@ -11,6 +11,8 @@ export const LEAGUE_ASSETS = {
   heroBanner: `${SUPABASE}/hockey%20banner.jpg%20(2).jpeg`,
   standingBanner: `${SUPABASE}/stand.png`,
   ctaBanner: "/banner.png",
+  /** Looping background for the mid-page CTA banner. */
+  ctaVideo: `${SUPABASE}/hailuo-2_3_create_a_video-0.mp4`,
 } as const;
 
 /**
