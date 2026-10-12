@@ -9,6 +9,7 @@ import { LatestNewsSection } from "./home/LatestNewsSection.js";
 import { RecentResultsSection } from "./home/RecentResultsSection.js";
 import { StandingsSection } from "./home/StandingsSection.js";
 import { UpcomingMatchesSection } from "./home/UpcomingMatchesSection.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /**
  * Public homepage rebuilt to match the design reference in ../../design.
@@ -16,6 +17,7 @@ import { UpcomingMatchesSection } from "./home/UpcomingMatchesSection.js";
  * mockup; every value comes from the real API through HomeDataProvider.
  */
 export function HomePage() {
+  useSeo();
   const navigate = useNavigate();
   const { tournament, upcoming, recent, live, standings, openAllMatches, openAllResults, openMatch } = useHomeData();
 

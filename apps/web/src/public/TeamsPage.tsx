@@ -5,9 +5,11 @@ import * as teamApi from "../api/team.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
 import { TeamCard } from "../components/TeamCard.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public FE (Module 2): teams directory grid, filterable by tournament. */
 export function TeamsPage() {
+  useSeo();
   const [teams, setTeams] = useState<TeamDto[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 

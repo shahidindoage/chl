@@ -1,10 +1,12 @@
 import { PageHero } from "../components/PageHero.js";
 import { SPONSORS, TIER_LABEL, TIER_ORDER } from "../lib/sponsors.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public FE: sponsors page. Data lives in src/lib/sponsors.ts, shared with
  *  the homepage strip so the two cannot drift apart. */
 
 export function SponsorsPage() {
+  useSeo();
   return (
     <div>
       <PageHero

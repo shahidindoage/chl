@@ -12,6 +12,7 @@ import { SectionEyebrow } from "../components/SectionEyebrow.js";
 import { TeamCrest } from "../components/TeamCrest.js";
 import { formatMatchDate, formatMatchTime } from "../lib/format.js";
 import { useAuthStore } from "../store/auth.store.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /**
  * Fans area — the single home for supporter features (Section 8 Module 8).
@@ -24,6 +25,7 @@ const SECTION_LINK =
   "inline-flex items-center gap-1.5 text-xs font-bold text-pitch-orange-dark hover:underline";
 
 export function FansPage() {
+  useSeo();
   return (
     <div>
       <PageHero

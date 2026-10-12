@@ -1,5 +1,6 @@
 import { PageHero } from "../components/PageHero.js";
 import { LEAGUE_ASSETS } from "../lib/assets.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public FE: tournament ambassador programme (static content for now). */
 
@@ -34,6 +35,7 @@ const ambassador = {
 };
 
 export function AmbassadorPage() {
+  useSeo();
   return (
     <div>
       <PageHero

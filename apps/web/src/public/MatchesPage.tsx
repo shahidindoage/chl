@@ -9,6 +9,7 @@ import { apiErrorMessage } from "../api/client.js";
 import { MatchCard } from "../components/MatchCard.js";
 import { PageHero } from "../components/PageHero.js";
 import { SectionEyebrow } from "../components/SectionEyebrow.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Cards revealed per section before "Load More". */
 const PAGE_SIZE = 4;
@@ -24,6 +25,7 @@ const REFRESH_MS = 10_000;
  * a match is in progress.
  */
 export function MatchesPage() {
+  useSeo();
   const [matches, setMatches] = useState<MatchDto[] | null>(null);
   const [live, setLive] = useState<MatchDto[]>([]);
   const [tournaments, setTournaments] = useState<TournamentDto[]>([]);

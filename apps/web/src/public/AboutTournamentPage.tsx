@@ -1,4 +1,5 @@
 import { PageHero } from "../components/PageHero.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /**
  * Public FE: about the tournament.
@@ -64,6 +65,7 @@ const backers = [
 ];
 
 export function AboutTournamentPage() {
+  useSeo();
   return (
     <div>
       <PageHero

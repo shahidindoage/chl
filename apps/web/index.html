@@ -4,8 +4,84 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    <title>Chhattisgarh Hockey League</title>
-    <meta name="description" content="Official website for the Chhattisgarh Hockey League featuring upcoming matches, points table standings, recent results, and live scores." />
+    <!--
+      Static head metadata for the homepage. The app is a client-rendered SPA,
+      so src/hooks/useSeo.ts rewrites these on navigation; this block is what
+      non-JS crawlers and link unfurlers read. Keep the two in sync.
+
+      Structured data below is read by search engines without executing JS,
+      which is what earns rich results for fixtures and the league itself.
+    -->
+    <title>Chhattisgarh Hockey League — Official Website</title>
+    <meta
+      name="description"
+      content="The Chhattisgarh Hockey League is the state's own franchise hockey league, sanctioned by Hockey India. Follow fixtures, live scores, standings and news."
+    />
+    <link rel="canonical" href="http://chhattisgarhhockeyleague.com/" />
+
+    <meta property="og:site_name" content="Chhattisgarh Hockey League" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Chhattisgarh Hockey League — Official Website" />
+    <meta
+      property="og:description"
+      content="The Chhattisgarh Hockey League is the state's own franchise hockey league, sanctioned by Hockey India. Follow fixtures, live scores, standings and news."
+    />
+    <meta property="og:url" content="http://chhattisgarhhockeyleague.com/" />
+    <meta property="og:image" content="http://chhattisgarhhockeyleague.com/logo.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chhattisgarh Hockey League — Official Website" />
+    <meta
+      name="twitter:description"
+      content="The Chhattisgarh Hockey League is the state's own franchise hockey league, sanctioned by Hockey India. Follow fixtures, live scores, standings and news."
+    />
+
+    <!-- Organisation + venue. sports governing body, event status and the
+         broadcast partner are the facts search engines can render inline. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsOrganization",
+        "name": "Chhattisgarh Hockey League",
+        "alternateName": "CHL",
+        "url": "http://chhattisgarhhockeyleague.com/",
+        "logo": "http://chhattisgarhhockeyleague.com/logo.png",
+        "sport": "Hockey",
+        "description": "The Chhattisgarh Hockey League is the state's own franchise hockey league, sanctioned by Hockey India. Six regional franchises play for the CHL title over 12 days in Raipur.",
+        "foundingDate": "2026-08-26",
+        "location": {
+          "@type": "Place",
+          "name": "Raipur, Chhattisgarh, India",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Raipur",
+            "addressRegion": "Chhattisgarh",
+            "addressCountry": "IN"
+          }
+        },
+        "event": {
+          "@type": "SportsEvent",
+          "name": "Chhattisgarh Hockey League 2026",
+          "startDate": "2026-10-21",
+          "endDate": "2026-11-01",
+          "eventStatus": "https://schema.org/EventScheduled",
+          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+          "isAccessibleForFree": true,
+          "sport": "Hockey",
+          "homeTeam": { "@type": "SportsTeam", "name": "Chhattisgarh Hockey League" },
+          "location": {
+            "@type": "Place",
+            "name": "SVP International Hockey Stadium",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "G.E. Road",
+              "addressLocality": "Raipur",
+              "addressRegion": "Chhattisgarh",
+              "addressCountry": "IN"
+            }
+          }
+        }
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <!-- Body text only. Headings use the self-hosted Druk faces declared in

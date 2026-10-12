@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import * as newsApi from "../api/news.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public photo gallery — grid with a lightbox (Section 8). */
 export function GalleryPage() {
+  useSeo();
   const [galleries, setGalleries] = useState<GalleryDto[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lightbox, setLightbox] = useState<{ url: string; caption: string | null } | null>(null);

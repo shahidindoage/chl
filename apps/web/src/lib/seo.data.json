@@ -1,0 +1,58 @@
+{
+  "siteName": "Chhattisgarh Hockey League",
+  "siteUrl": "http://chhattisgarhhockeyleague.com",
+  "titleSuffix": " | Chhattisgarh Hockey League",
+  "defaultDescription": "Official website for the Chhattisgarh Hockey League featuring fixtures, standings, results and live scores.",
+  "routes": [
+    {
+      "path": "/",
+      "title": "Home",
+      "description": "The Chhattisgarh Hockey League is the state's own franchise hockey league, sanctioned by Hockey India. Follow fixtures, live scores, standings and news."
+    },
+    {
+      "path": "/about",
+      "title": "About CHL",
+      "description": "The Chhattisgarh Hockey League is the state's franchise hockey league, sanctioned by Hockey India. 21 Oct to 1 Nov 2026 at SVP International Hockey Stadium, Raipur."
+    },
+    {
+      "path": "/ambassador",
+      "title": "League Ambassador",
+      "description": "Meet the League ambassador for the Chhattisgarh Hockey League and learn about the ambassador programme promoting grassroots hockey across the state."
+    },
+    {
+      "path": "/sponsors",
+      "title": "Sponsors",
+      "description": "The organisations that make the Chhattisgarh Hockey League possible — title, official, broadcast and banking partners."
+    },
+    {
+      "path": "/teams",
+      "title": "Teams",
+      "description": "Every franchise in the Chhattisgarh Hockey League — squads, coaches and full match history for all six teams."
+    },
+    {
+      "path": "/matches",
+      "title": "Matches & Fixtures",
+      "description": "Upcoming fixtures, recent results and live scores from the Chhattisgarh Hockey League, with kickoff times and venues."
+    },
+    {
+      "path": "/standings",
+      "title": "Points Table",
+      "description": "The Chhattisgarh Hockey League points table — standings, matches played, wins, draws and goal difference for all six teams."
+    },
+    {
+      "path": "/news",
+      "title": "Latest News",
+      "description": "Match reports, previews, league updates and announcements from the Chhattisgarh Hockey League."
+    },
+    {
+      "path": "/fans",
+      "title": "Fans Hub",
+      "description": "Play quizzes, predict match winners and climb the Chhattisgarh Hockey League leaderboard."
+    },
+    {
+      "path": "/gallery",
+      "title": "Photo Gallery",
+      "description": "Photos and galleries from the Chhattisgarh Hockey League — match action, team images and League moments."
+    }
+  ]
+}

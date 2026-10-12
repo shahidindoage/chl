@@ -8,6 +8,7 @@ import * as newsApi from "../api/news.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
 import { formatMatchDate } from "../lib/format.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public news feed (Section 8 Module 7: news feed + detail page). */
 const PAGE_SIZE = 9;
@@ -16,6 +17,7 @@ const PAGE_SIZE = 9;
 const FALLBACK_IMAGE = "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/hero.png";
 
 export function NewsPage() {
+  useSeo();
   const [articles, setArticles] = useState<ArticleDto[] | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<string>("all");

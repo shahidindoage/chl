@@ -7,9 +7,11 @@ import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
 import { StandingsTable } from "../components/StandingsTable.js";
 import { LEAGUE_ASSETS } from "../lib/assets.js";
+import { useSeo } from "../hooks/useSeo.js";
 
 /** Public FE (Module 6): full points table, calculated + cached server-side. */
 export function StandingsPage() {
+  useSeo();
   const [selected, setSelected] = useState<string>("");
   const [standings, setStandings] = useState<StandingsDto | null>(null);
   const [error, setError] = useState<string | null>(null);
