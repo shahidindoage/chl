@@ -52,7 +52,7 @@ export function HeroSection({ tournament }: { tournament: TournamentDto | null }
   return (
     <section
       id="hero-section"
-      className="relative flex min-h-[520px] items-center overflow-hidden border-b border-stone-200/60 bg-pitch-cream-warm bg-cover bg-center bg-no-repeat sm:min-h-[560px] lg:min-h-0 lg:aspect-[1680/639]"
+      className="relative flex min-h-[540px] items-center overflow-hidden border-b border-stone-200/60 bg-pitch-cream-warm bg-cover bg-center bg-no-repeat sm:min-h-[560px] lg:min-h-0 lg:aspect-[1680/639]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}

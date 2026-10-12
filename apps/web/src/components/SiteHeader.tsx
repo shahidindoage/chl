@@ -114,19 +114,33 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between transition-all duration-300 sm:h-24">
-          <Link
-            to="/"
-            className="group relative z-20 flex select-none items-center pl-10 sm:pl-14 lg:pl-0"
-            aria-label="Chhattisgarh Hockey League home"
-          >
-            <img
-              src={LEAGUE_ASSETS.logo}
-              alt="Chhattisgarh Hockey League"
-              className={`w-auto origin-left object-contain transition-all duration-300 group-hover:scale-105 ${
-                solid ? "h-14 drop-shadow-sm sm:h-16" : "h-24 translate-y-2.5 drop-shadow-md sm:h-28 lg:h-32"
-              }`}
-            />
-          </Link>
+          {/* Hamburger and the main logo travel together as one left-hand group.
+              Keeping them as separate flex children let justify-between push
+              the logo into the centre of the bar on mobile. */}
+          <div className="flex min-w-0 items-center">
+            <button
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="-ml-2 flex shrink-0 items-center rounded-lg p-2 text-slate-700 transition-colors hover:text-slate-950 sm:hidden"
+              aria-label="Toggle navigation menu"
+              aria-expanded={mobileMenuOpen}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+
+            <Link
+              to="/"
+              className="group relative z-20 flex select-none items-center sm:pl-14 lg:pl-0"
+              aria-label="Chhattisgarh Hockey League home"
+            >
+              <img
+                src={LEAGUE_ASSETS.logo}
+                alt="Chhattisgarh Hockey League"
+                className={`w-auto origin-left object-contain transition-all duration-300 group-hover:scale-105 ${
+                  solid ? "h-14 drop-shadow-sm sm:h-16" : "h-24 translate-y-2.5 drop-shadow-md sm:h-28 lg:h-32"
+                }`}
+              />
+            </Link>
+          </div>
 
           <nav className="hidden items-center gap-8 lg:gap-10 md:flex" id="header-nav">
             {/* First item is always Home. */}
@@ -265,17 +279,11 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             }`}
           />
 
+          {/* Search and the secondary mark, right-aligned on mobile. The
+              hamburger now lives on the far left. */}
           <div className="flex items-center gap-2 sm:hidden">
             <button onClick={onOpenSearch} aria-label="Search" className="p-2 text-slate-700">
               <Search className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              className="rounded-lg p-2 text-slate-700 transition-colors hover:text-slate-950"
-              aria-label="Toggle navigation menu"
-              aria-expanded={mobileMenuOpen}
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
 
             {/* Secondary mark, last in the bar on small screens too. Smaller
@@ -283,7 +291,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             <img
               src={LEAGUE_ASSETS.headerLogo2}
               alt="Chhattisgarh Hockey League"
-              className={`ml-1 shrink-0 select-none object-contain opacity-90 transition-all duration-300 ${
+              className={`shrink-0 select-none object-contain opacity-90 transition-all duration-300 ${
                 solid ? "h-8" : "h-14"
               }`}
             />
