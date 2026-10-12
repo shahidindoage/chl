@@ -116,34 +116,42 @@ function headFor(route) {
   ].join("\n    ");
 }
 
-/** Replace the whole <head> content, keeping the meta/link/script tags Vite needs. */
+/**
+ * Replace the whole <head> content, keeping the meta/link/script tags Vite needs.
+ *
+ * Removal is done on whole blocks, never line by line: the static JSON-LD and
+ * the explanatory comments in index.html span many lines, so a line-based filter
+ * removes only the opening tag and leaks the rest into the page as bare text.
+ */
 function render(route) {
   const head = template.match(/<head>([\s\S]*?)<\/head>/i);
   if (!head) throw new Error("prerender: no <head> found in dist/index.html");
 
-  // Preserve the tags the build needs: charset, viewport, icon, font links,
-  // preloads and the module script. Replace only the SEO block.
-  const keep = head[1]
+  let keep = head[1];
+
+  // Whole-block removals. Order matters: comments first, so their contents
+  // can't be re-matched by the tag patterns below.
+  keep = keep
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<title>[\s\S]*?<\/title>/gi, "")
+    .replace(/<meta\b[^>]*name=["']description["'][^>]*>/gi, "")
+    .replace(/<meta\b[^>]*\bname=["']robots["'][^>]*>/gi, "")
+    .replace(/<meta\b[^>]*\bproperty=["']og:[^>]*>/gi, "")
+    .replace(/<meta\b[^>]*\bname=["']twitter:[^>]*>/gi, "")
+    .replace(/<link\b[^>]*\brel=["']canonical["'][^>]*>/gi, "");
+
+  // Collapse the blank lines the removals left behind.
+  keep = keep
     .split("\n")
-    .filter((line) => {
-      const t = line.trim();
-      if (!t) return false;
-      if (t.startsWith("<title")) return false;
-      if (/name="description"/.test(t)) return false;
-      if (/rel="canonical"/.test(t)) return false;
-      if (/property="og:/.test(t)) return false;
-      if (/name="twitter:/.test(t)) return false;
-      if (/application\/ld\+json/.test(t)) return false;
-      // Drop the static multi-line SEO comment block.
-      if (t.startsWith("<!--") || t.startsWith("Structured data") || t.startsWith("broadcast partner")) return false;
-      if (t.startsWith("non-JS crawlers") || t.startsWith("which is what earns")) return false;
-      return true;
-    })
-    .join("\n    ");
+    .map((line) => line.trimEnd())
+    .filter((line, i, all) => line.trim() !== "" || all[i - 1]?.trim() !== "")
+    .join("\n    ")
+    .trim();
 
   return template.replace(
     /<head>[\s\S]*?<\/head>/i,
-    `<head>\n    ${keep}\n    ${headFor(route)}\n  </head>`
+    `<head>\n    ${keep}\n\n    ${headFor(route)}\n  </head>`
   );
 }
 
