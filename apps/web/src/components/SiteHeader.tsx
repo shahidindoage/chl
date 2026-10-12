@@ -62,18 +62,14 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
   const { pathname } = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
-  // A transparent bar is only possible where light artwork sits underneath.
-  const canBeTransparent = pathname === "/" || PAGE_HERO_ROUTES.has(pathname);
-  const solid = scrolled || mobileMenuOpen || !canBeTransparent;
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // The header is always solid. It used to go transparent over pages with a light
+  // cream hero, but that left the bar floating over light artwork with no
+  // contrast guarantee. PAGE_HERO_ROUTES is kept for reference in case the
+  // transparent variant is ever wanted back.
+  void PAGE_HERO_ROUTES;
+  void pathname;
+  const solid = true;
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -101,7 +97,9 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+      /* sticky, not fixed: the bar stays visible but occupies flow space, so page
+         content starts underneath it with no compensating padding anywhere. */
+      className={`sticky top-0 z-40 transition-all duration-300 ${
         solid
           ? "border-b border-slate-200/80 bg-white/95 shadow-sm backdrop-blur-md"
           : "border-b border-transparent bg-transparent"

@@ -14,9 +14,8 @@ import { LEAGUE_ASSETS } from "../lib/assets.js";
  *
  * Full-bleed: `w-screen` + `left-1/2 -translate-x-1/2` escapes AppShell's
  * `max-w-7xl` container (plain negative margins would only cancel the
- * padding), while `-mt-24 sm:-mt-28` cancels the fixed-header offset so the
- * artwork tucks under the site header. Body has `overflow-x: clip` to absorb
- * the 100vw/scrollbar discrepancy.
+ * padding). The site header is sticky and sits in flow, so the artwork simply
+ * begins underneath it with no offset to cancel.
  */
 
 export interface Crumb {
@@ -36,16 +35,16 @@ export interface PageHeroProps {
 export function PageHero({ title, breadcrumb, description, image, position = "center" }: PageHeroProps) {
   return (
     <section
-      className="relative -mt-24 left-1/2 flex min-h-[300px] w-screen -translate-x-1/2 items-center overflow-hidden border-b border-stone-200/60 bg-pitch-cream-warm bg-cover sm:-mt-28 sm:min-h-[360px] lg:min-h-[420px]"
+      className="relative left-1/2 flex min-h-[300px] w-screen -translate-x-1/2 items-center overflow-hidden border-b border-stone-200/60 bg-pitch-cream-warm bg-cover sm:min-h-[360px] lg:min-h-[420px]"
       style={{ backgroundImage: `url("${image ?? LEAGUE_ASSETS.standingBanner}")`, backgroundPosition: position }}
     >
       {/* Cream wash from the left keeps the breadcrumb and title dark and
           legible, mirroring the homepage hero. */}
       <div className="absolute inset-0 bg-gradient-to-r from-pitch-cream-warm/95 via-pitch-cream-warm/75 to-transparent lg:via-pitch-cream-warm/30 lg:w-3/5" />
 
-      {/* Centred, with top padding kept generous so the fixed site header
-          never overlaps the breadcrumb at the shortest breakpoint. */}
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 lg:px-8">
+      {/* Centred. The sticky header occupies flow space, so no extra top padding is
+          needed to keep the breadcrumb clear of it. */}
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <nav aria-label="Breadcrumb">
           <ol className="flex flex-wrap items-center gap-1.5 text-xs font-medium text-slate-500 sm:text-sm">
             {breadcrumb.map((crumb, i) => {

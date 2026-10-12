@@ -26,17 +26,25 @@ function Shell() {
     closeDetail, closeLive, closeSearch, closeAllMatches, closeAllResults, closeAbout,
   } = useHomeData();
 
-  // The homepage hero supplies its own top spacing; every other page needs
-  // padding to clear the fixed header.
+  // The header is sticky (in flow), so nothing has to offset it. The homepage
+  // stays full-bleed so its banner runs edge to edge directly beneath the bar,
+  // and interior pages get the standard container with their own top padding.
   const isHome = pathname === "/";
 
   return (
     <div className="flex min-h-screen flex-col bg-pitch-cream font-sans text-slate-900">
       <SiteHeader onOpenSearch={openSearch} onOpenLiveScores={openLive} onOpenAbout={openAbout} />
 
-      {/* The homepage runs full-bleed; every other page gets the standard
-          container plus room for the fixed header. */}
-      <div className={isHome ? "flex-1" : "mx-auto w-full max-w-7xl flex-1 px-4 pb-12 pt-24 sm:px-6 sm:pt-28 lg:px-8"}>
+{/* The sticky header occupies flow space, so nothing needs to offset it. The
+          homepage stays full-bleed (no max-width, no side padding) so the banner
+          runs edge to edge directly beneath the bar. */}
+      <div
+        className={
+          isHome
+            ? "flex-1"
+            : "mx-auto w-full max-w-7xl flex-1 px-4 pb-12 sm:px-6 lg:px-8"
+        }
+      >
         <Outlet />
       </div>
 
