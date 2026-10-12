@@ -6,7 +6,7 @@ import { HeroSection } from "./home/HeroSection.js";
 import { HomeSponsorsStrip } from "./home/HomeSponsorsStrip.js";
 import { useHomeData } from "./home/HomeDataContext.js";
 import { LatestNewsSection } from "./home/LatestNewsSection.js";
-import { RecentResultsSection } from "./home/RecentResultsSection.js";
+// import { RecentResultsSection } from "./home/RecentResultsSection.js";
 import { StandingsSection } from "./home/StandingsSection.js";
 import { UpcomingMatchesSection } from "./home/UpcomingMatchesSection.js";
 import { useSeo } from "../hooks/useSeo.js";
@@ -19,8 +19,8 @@ import { useSeo } from "../hooks/useSeo.js";
 export function HomePage() {
   useSeo();
   const navigate = useNavigate();
-  const { tournament, upcoming, recent, live, standings, openAllMatches, openAllResults, openMatch } = useHomeData();
-
+  const { tournament, upcoming, live, standings, openAllMatches, openMatch } = useHomeData();
+// , openAllResults, recent
   const exploreMatches = () => {
     const el = document.getElementById("upcoming-matches-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -67,7 +67,7 @@ export function HomePage() {
 
         <StandingsSection standings={standings} />
 
-        <RecentResultsSection matches={recent} onViewAll={openAllResults} onSelectMatch={openMatch} />
+        {/* <RecentResultsSection matches={recent} onViewAll={openAllResults} onSelectMatch={openMatch} /> */}
 
         <CtaBanner onExplore={exploreMatches} />
 

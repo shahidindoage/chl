@@ -36,9 +36,9 @@ export const HERO_SLIDES_DESKTOP = [
 ] as const;
 
 export const HERO_SLIDES_MOBILE = [
-  `${HERO_BASE}/Hero_banner_1_mobile.png`,
-  `${HERO_BASE}/Hero_banner_2_mobile.png`,
-  `${HERO_BASE}/Hero_banner_3_mobile.png`,
+  `${HERO_BASE}/Mobile%20size.png`,
+  `${HERO_BASE}/mobile%20.png`,
+  `${HERO_BASE}/mobile%20banner-2.png`,
 ] as const;
 
 /** Fallback headline when no tournament is active yet. */
