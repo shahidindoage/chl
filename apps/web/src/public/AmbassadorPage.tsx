@@ -33,21 +33,6 @@ const ambassador = {
   tags: ["Arjuna Award", "Padma Shri", "Rajiv Gandhi Khel Ratna"],
 };
 
-const benefits = [
-  {
-    title: "Be the voice of the game",
-    body: "Represent the league at fixtures, community events and through the season's media.",
-  },
-  {
-    title: "Grow the grassroots",
-    body: "Work directly with the development programme and help identify the next generation of players.",
-  },
-  {
-    title: "Shape the competition",
-    body: "Ambassadors sit on the outreach committee, feeding supporter feedback back to the league committee.",
-  },
-];
-
 export function AmbassadorPage() {
   return (
     <div>
@@ -60,14 +45,7 @@ export function AmbassadorPage() {
       />
 
       <div className="mx-auto max-w-7xl">
-        <section className="mt-10 grid gap-4 sm:grid-cols-3">
-          {benefits.map((b) => (
-            <div key={b.title} className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-              <h2 className="font-display text-base font-extrabold text-navy">{b.title}</h2>
-              <p className="mt-2 text-sm text-slate-500">{b.body}</p>
-            </div>
-          ))}
-        </section>
+       
 
         {/* Feature card — portrait left, content right. */}
         <article className="mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg">

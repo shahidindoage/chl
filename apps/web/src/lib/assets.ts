@@ -7,24 +7,38 @@ const SUPABASE = "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/pub
 
 export const LEAGUE_ASSETS = {
   logo: `${SUPABASE}/hockeylogo-rm.png`,
+  /** Secondary mark, shown at the far right of the header. */
+  headerLogo2: `${SUPABASE}/logos/headerlogo2.png`,
   patch: `${SUPABASE}/patchnew2.png`,
   heroBanner: `${SUPABASE}/hockey%20banner.jpg%20(2).jpeg`,
   standingBanner: `${SUPABASE}/stand.png`,
   ctaBanner: "/banner.png",
   /** Looping background for the mid-page CTA banner. */
-  ctaVideo: `${SUPABASE}/hailuo-2_3_create_a_video-0.mp4`,
+  ctaVideo: `${SUPABASE}/HomeHeros/cta.mp4`,
   /** PageHero artwork for the ambassador page. */
   ambassadorHero: `${SUPABASE}/Indian%20Hockey%20Player%20in%20Motion.png`,
 } as const;
 
 /**
- * Homepage hero slides, cross-faded automatically. Keep these distinct — the
- * slider stacks them, so a repeated URL just fades to an identical frame.
+ * Homepage hero slides, cross-faded automatically.
+ *
+ * Source of truth is hero.txt at the repo root — separate art for desktop and
+ * mobile, because a single wide banner crops badly on a phone. Kept in sync
+ * manually; the arrays are asserted to be the same length at runtime so a
+ * slide index never falls through to the wrong image.
  */
-export const HERO_SLIDES = [
-  LEAGUE_ASSETS.heroBanner,
-  LEAGUE_ASSETS.standingBanner,
-  LEAGUE_ASSETS.ctaBanner,
+const HERO_BASE = `${SUPABASE}/HomeHeros`;
+
+export const HERO_SLIDES_DESKTOP = [
+  `${HERO_BASE}/Hero_banner_1_desktop.png`,
+  `${HERO_BASE}/Hero_banner_2_desktop.png`,
+  `${HERO_BASE}/Hero_banner_3_desktop.png`,
+] as const;
+
+export const HERO_SLIDES_MOBILE = [
+  `${HERO_BASE}/Hero_banner_1_mobile.png`,
+  `${HERO_BASE}/Hero_banner_2_mobile.png`,
+  `${HERO_BASE}/Hero_banner_3_mobile.png`,
 ] as const;
 
 /** Fallback headline when no tournament is active yet. */

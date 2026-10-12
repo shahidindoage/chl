@@ -1,19 +1,19 @@
-import { ArrowRight } from "lucide-react";
-
 import { LEAGUE_ASSETS } from "../../lib/assets.js";
 
-/** Mid-page CTA banner ported from the design reference. */
-export function CtaBanner({ onExplore }: { onExplore: () => void }) {
+/**
+ * Mid-page CTA banner. Currently renders the looping video only — the copy and
+ * CTA are commented out, so `onExplore` is unused for now. Underscore-prefixed
+ * so TypeScript's noUnusedParameters doesn't flag it while it stays wired up.
+ */
+export function CtaBanner({ onExplore: _onExplore }: { onExplore: () => void }) {
   return (
-    <section
-      id="cta-section"
-      className="relative flex w-full items-center overflow-hidden bg-pitch-cta-wash py-14 sm:py-20 lg:h-[480px] lg:py-0"
-    >
-      {/* Background video. Muted, inline and looping so it autoplays on every
-          browser; the poster + bg color underneath cover it if it never loads.
-          Reduced-motion users get the still image instead. */}
+    <section id="cta-section" className="relative w-full overflow-hidden bg-pitch-cta-wash">
+      {/* Background video, in normal flow at its intrinsic aspect ratio so it
+          spans the full width uncropped and the section grows to match.
+          Muted + inline + looping so it autoplays everywhere; the poster
+          covers the frame while the video loads. */}
       <video
-        className="absolute inset-0 h-full w-full object-cover lg:object-bottom"
+        className="block w-full"
         autoPlay
         muted
         loop
@@ -26,9 +26,9 @@ export function CtaBanner({ onExplore }: { onExplore: () => void }) {
       </video>
 
       {/* Light wash so the navy copy stays readable over moving footage. */}
-      <div className="absolute inset-0 bg-pitch-cta-wash/70" />
+      {/* <div className="absolute inset-0 bg-pitch-cta-wash/70" /> */}
 
-      <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center space-y-3.5 px-4 text-center sm:space-y-4 sm:px-6 lg:px-8">
+      {/* <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center space-y-3.5 px-4 text-center sm:space-y-4 sm:px-6 lg:px-8">
         <span className="text-xs font-bold uppercase tracking-[0.25em] text-pitch-orange-dark sm:text-sm">
           Be Part of the Action
         </span>
@@ -50,7 +50,7 @@ export function CtaBanner({ onExplore }: { onExplore: () => void }) {
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

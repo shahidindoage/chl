@@ -1,29 +1,66 @@
 import { PageHero } from "../components/PageHero.js";
 
-/** Public FE: about the tournament (static content for now). */
+/**
+ * Public FE: about the tournament.
+ *
+ * Copy is transcribed from about.txt at the repo root — real, sourced content
+ * replacing the earlier placeholder text.
+ */
+
+const intro =
+  "Six franchise teams come together at Raipur's SVP International Hockey Stadium from 21 October to 1 November 2026. Entry is free, and every match streams live on JioHotstar.";
 
 const sections = [
   {
-    title: "What the league is",
+    title: "What CHL is",
     body: [
-      "The Chhattisgarh Hockey League is the state's premier club hockey competition, bringing together franchises from Raipur, Bhilai, Bilaspur, Durg, Korba and Jagdalpur under a single points table.",
-      "Founded on the belief that the game here deserves the same professional structure as the national circuit, the league runs a full season of league fixtures followed by a playoff series, with every match streamed and covered.",
+      "The Chhattisgarh Hockey League (CHL) is the state's own franchise hockey league, sanctioned by Hockey India. Six teams, each representing a region of Chhattisgarh, play for the CHL title over 12 days in Raipur.",
+      "Most players in each squad come from Chhattisgarh, and each team adds a few national and international players. The idea is to give hockey players from this state a professional league at home, in front of their own crowd.",
     ],
   },
   {
-    title: "How the season works",
+    title: "How it started",
     body: [
-      "Clubs play every other side home and away. A win is worth three points and a draw one, with goal difference separating clubs level on points.",
-      "The top four sides at the end of the league stage qualify for the playoffs. Semi-finals are played over a single match, with the final hosted at a neutral venue decided by the league committee.",
+      "CHL is an initiative of the Department of Sports and Youth Welfare, Chhattisgarh, in association with the Government of Chhattisgarh. Hockey India, the national body for the sport, has sanctioned the league.",
+      "Deputy Chief Minister Arun Sao launched the league in Raipur on 26 August 2026. At the launch, the league announced its dates, its six franchises, its mascot Baghwa and its tagline.",
+      "Player trials were held at SVP Stadium on 28 and 29 September 2026, ahead of the player draft.",
     ],
   },
   {
-    title: "Standards and development",
+    title: "Our home ground",
     body: [
-      "The league runs a year-round development programme across the state, with accredited coaches working with school and district-level age groups. Talent identification begins in the under-12 and under-16 categories.",
-      "Clubs are required to field a minimum number of under-23 players in every match, giving young players competition experience rather than bench time.",
+      "Every CHL match is played at Sardar Vallabhbhai Patel International Hockey Stadium on G.E. Road, Raipur. The ground has hosted top-level hockey before.",
+      "In 2015 it staged the men's Hockey World League Final, the first international hockey tournament held in Raipur, and India won bronze there.",
     ],
   },
+];
+
+const teams = [
+  { name: "Rajdhani Royals", home: "Raipur" },
+  { name: "Nyayadhani Knights", home: "Bilaspur" },
+  { name: "Sanskardhani Strikers", home: "Rajnandgaon" },
+  { name: "Chakradhar Champions", home: "Raigarh" },
+  { name: "Bailadila Bulls", home: "Bastar" },
+  { name: "Mainpat Titans", home: "Surguja" },
+];
+
+const howItWorks = [
+  "Each team has 22 players: 18 from Chhattisgarh and 4 from outside the state.",
+  "Every team plays every other team once, which makes 15 league matches.",
+  "The top four teams reach the semi-finals. 1st plays 4th, and 2nd plays 3rd.",
+  "The Final is on 1 November 2026.",
+  "Every match is at SVP International Hockey Stadium, Raipur, and entry is free.",
+  "Every match streams live on JioHotstar.",
+];
+
+const backers = [
+  { label: "In association with", value: "Government of Chhattisgarh" },
+  { label: "Sanctioned by", value: "Hockey India" },
+  {
+    label: "An initiative of",
+    value: "Department of Sports and Youth Welfare, Chhattisgarh",
+  },
+  { label: "Broadcast partner", value: "JioHotstar" },
 ];
 
 export function AboutTournamentPage() {
@@ -31,12 +68,15 @@ export function AboutTournamentPage() {
     <div>
       <PageHero
         title="About the League"
-        description="The Chhattisgarh Hockey League — the state's premier club hockey competition."
+        description="The Chhattisgarh Hockey League — the state's own franchise league."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "About" }]}
       />
 
       <div className="mx-auto max-w-7xl">
-      
+        <p className="mt-10 font-display text-xl font-extrabold leading-snug text-navy sm:text-2xl">
+          About the Chhattisgarh Hockey League
+        </p>
+        <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">{intro}</p>
 
         <div className="mt-10 space-y-8">
           {sections.map((s) => (
@@ -50,6 +90,60 @@ export function AboutTournamentPage() {
             </section>
           ))}
         </div>
+
+        {/* Mascot */}
+        <section className="mt-12 rounded-2xl bg-navy px-6 py-8 sm:px-8">
+          <h2 className="font-display text-2xl font-extrabold text-white">Meet Baghwa</h2>
+          <p className="mt-3 text-sm leading-relaxed text-white/80">
+            Baghwa (बघवा) is the CHL mascot. His name is how people here say bagh, the tiger.
+            Baghwa comes from a Chhattisgarh forest and has a Chhattisgarhi name. That is what he
+            stands for: CHL is Chhattisgarh&apos;s league, played by Chhattisgarh&apos;s players.
+            He also brings the league&apos;s call to every fan in the state:
+          </p>
+          <p lang="hi" className="mt-5 font-display text-xl font-extrabold text-pitch-orange sm:text-2xl">
+            चलौ रे संगीसं गी, हॉ की खेलखे बो
+          </p>
+          <p className="mt-2 text-sm italic text-white/70">Come on, friends, let&apos;s play hockey.</p>
+        </section>
+
+        {/* Teams */}
+        <section className="mt-12">
+          <h2 className="font-display text-2xl font-extrabold text-navy">The six teams</h2>
+          <ul className="mt-4 divide-y divide-slate-100 overflow-hidden rounded-xl border border-slate-200 bg-white">
+            {teams.map((t) => (
+              <li key={t.name} className="flex items-center justify-between gap-4 px-4 py-3">
+                <span className="font-display text-base font-extrabold text-navy">{t.name}</span>
+                <span className="text-sm text-slate-500">{t.home}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* How the league works */}
+        <section className="mt-12">
+          <h2 className="font-display text-2xl font-extrabold text-navy">How the league works</h2>
+          <ul className="mt-4 space-y-2.5">
+            {howItWorks.map((line) => (
+              <li key={line} className="flex gap-3 text-sm leading-relaxed text-slate-600">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-pitch-orange" aria-hidden="true" />
+                {line}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Backers */}
+        <section className="mt-12">
+          <h2 className="font-display text-2xl font-extrabold text-navy">Who&apos;s behind CHL</h2>
+          <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+            {backers.map((b) => (
+              <div key={b.label} className="rounded-xl border border-slate-200 bg-white p-5">
+                <dt className="text-xs font-bold uppercase tracking-wide text-slate-400">{b.label}</dt>
+                <dd className="mt-1 font-display text-base font-extrabold text-navy">{b.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
 
       
       </div>

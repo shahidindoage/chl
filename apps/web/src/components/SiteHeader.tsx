@@ -26,8 +26,8 @@ const NAV_ITEMS = [
 
 /** Pages grouped under the About dropdown. */
 const ABOUT_ITEMS = [
-  { to: "/about", label: "About the Tournament", blurb: "Format, history and development" },
-  { to: "/ambassador", label: "Tournament Ambassador", blurb: "The Face of Chhattisgarh Hockey" },
+  { to: "/about", label: "About the League", blurb: "Format, history and development" },
+  { to: "/ambassador", label: "League Ambassador", blurb: "The Face of Chhattisgarh Hockey" },
   { to: "/sponsors", label: "Sponsors", blurb: "The partners behind the league" },
 ] as const;
 
@@ -256,6 +256,17 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             )}
           </div>
 
+          {/* Secondary league mark, last item in the header. Sized on the
+              same scale as the main logo and dimmed slightly so it reads as
+              secondary to the primary mark on the left. */}
+          <img
+            src={LEAGUE_ASSETS.headerLogo2}
+            alt="Chhattisgarh Hockey League"
+            className={`hidden shrink-0 select-none object-contain opacity-90 transition-all duration-300 lg:block ${
+              solid ? "h-12" : "h-20"
+            }`}
+          />
+
           <div className="flex items-center gap-2 sm:hidden">
             <button onClick={onOpenSearch} aria-label="Search" className="p-2 text-slate-700">
               <Search className="h-5 w-5" />
@@ -268,6 +279,16 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
+
+            {/* Secondary mark, last in the bar on small screens too. Smaller
+                than the main logo for the same reason it is dimmer. */}
+            <img
+              src={LEAGUE_ASSETS.headerLogo2}
+              alt="Chhattisgarh Hockey League"
+              className={`ml-1 shrink-0 select-none object-contain opacity-90 transition-all duration-300 ${
+                solid ? "h-8" : "h-14"
+              }`}
+            />
           </div>
         </div>
       </div>
