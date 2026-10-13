@@ -101,8 +101,8 @@ export function MatchesPage() {
           { label: "Home", to: "/" },
           { label: "Matches" },
         ]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Bailadila%20Bulls%20banner%20with%20updated%20logo-1.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Bailadila%20Bulls%20banner%20with%20final%20logo-2.png"
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_mobile_banner.png"
       />
 
       {/* Live strip — only rendered while a match is actually in progress. */}

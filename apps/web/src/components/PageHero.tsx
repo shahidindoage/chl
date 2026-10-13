@@ -71,7 +71,7 @@ export function PageHero({
         src={art}
         alt=""
         aria-hidden="true"
-        className="hidden h-[260px] w-full select-none object-cover sm:h-[300px] sm:block lg:h-[420px]"
+        className="hidden h-[260px] w-full select-none object-cover sm:h-[300px] sm:block lg:h-[620px]"
         style={{ objectPosition: position }}
       />
 

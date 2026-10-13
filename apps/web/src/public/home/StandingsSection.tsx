@@ -27,12 +27,13 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
           background-size: cover would crop both, which is why neither is a
           background-image any more. */}
 
+
       {/* Desktop art */}
       <img
         src={LEAGUE_ASSETS.standingsDesktop}
         alt=""
         aria-hidden="true"
-        className="col-start-1 row-start-1 hidden w-full select-none sm:block"
+        className="col-start-1 row-start-1 hidden w-full min-w-0 select-none sm:block"
       />
 
       {/* Phone art, and only this one below sm. */}
@@ -40,13 +41,19 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
         src={LEAGUE_ASSETS.standingsMobile}
         alt=""
         aria-hidden="true"
-        className="col-start-1 row-start-1 block w-full select-none sm:hidden"
+        className="col-start-1 row-start-1 block w-full min-w-0 select-none sm:hidden"
       />
 
       {/* <div className="pointer-events-none absolute inset-0 bg-pitch-cream-soft/85 lg:hidden" /> */}
 
-      <div className="relative z-10 col-start-1 row-start-1 pt-10 sm:pt-14 lg:pt-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* min-w-0 is load-bearing. As a grid item this element defaults to
+          min-width:auto, which refuses to shrink below its content. The
+          table's min-w-[560px] would then force this column to 560px wide on
+          a 375px phone, overflow-x-auto below would have nothing to scroll,
+          and the section's overflow-hidden would clip the right-hand columns.
+          min-w-0 lets the column shrink so the scroll container works. */}
+      <div className="relative z-10 col-start-1 row-start-1 min-w-0 pt-10 sm:pt-14 lg:pt-16">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <SectionEyebrow label="League Standings" id="standings-eyebrow" />
@@ -64,7 +71,7 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
           </Link>
         </div>
 
-        <div className="w-full lg:max-w-[56%]">
+        <div className="w-full min-w-0 lg:max-w-[56%]">
           {/* Glass card: translucent white, backdrop blur and a light inner
               highlight along the top edge. Sits over the artwork at every
               width now that the desktop scrim was dropped. */}
@@ -77,11 +84,21 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
                 </p>
               </div>
             ) : (
-              /* The wrapper scrolls; the table needs a floor width for that to have
-                 any effect. With w-full it shrank to fit the phone instead of
-                 overflowing, squeezing the eight columns unreadably. */
-              <div className="-mx-1.5 overflow-x-auto overscroll-x-contain px-1.5 sm:mx-0 sm:px-0">
-                <table className="w-max min-w-[560px] border-collapse text-left text-xs sm:w-full sm:min-w-0 sm:text-[0.8125rem]">
+              /* The wrapper scrolls; the table needs a floor width for that to have any
+                 effect. With w-full it shrank to fit the phone instead of
+                 overflowing, squeezing the eight columns unreadably.
+
+                 The card is overflow-hidden for its rounded corners, which
+                 also clipped the last column when the table reached the
+                 right edge. No negative margin here, so the scroll viewport
+                 stops inside the card, and the table carries its own right
+padding so "Pts" is never flush against that edge. */
+              /* min-w-0 again: this is the flex/block child that must be allowed to be
+                 narrower than the table inside it. Same automatic-minimum-size
+                 trap as the grid item above. */
+              <div className="relative min-w-0 sm:[&_.standings-fade]:hidden">
+                <div className="min-w-0 overflow-x-auto overscroll-x-contain [scrollbar-width:thin]">
+                  <table className="w-max min-w-[560px] border-collapse text-left text-xs sm:w-full sm:min-w-0 sm:text-[0.8125rem]">
                   <thead>
                     <tr className="border-b border-white/70 font-bold text-slate-600">
                       <th className="w-8 py-3 pl-4 pr-2 text-center">#</th>
@@ -128,16 +145,21 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
                       );
                     })}
                   </tbody>
-                </table>
+                  </table>
+                </div>
+
+                {/* Right-edge fade, mobile only. Purely decorative, so it is
+                    hidden from assistive tech. */}
+                <div
+                  aria-hidden="true"
+                  className="standings-fade pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-pitch-cream-soft/90 to-transparent"
+                />
               </div>
             )}
 
             {/* Scroll affordance: the table overflows below sm, which is not
                 obvious on a touch device without a visible hint. */}
-            <p className="flex items-center justify-center gap-1 pt-2 text-[11px] text-slate-500 sm:hidden">
-              <ArrowRight className="h-3 w-3 -rotate-90" />
-              Swipe to see all columns
-            </p>
+            
 
             <div className="pt-2 text-center sm:hidden">
               <Link
