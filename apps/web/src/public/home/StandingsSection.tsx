@@ -45,7 +45,7 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
 
       {/* <div className="pointer-events-none absolute inset-0 bg-pitch-cream-soft/85 lg:hidden" /> */}
 
-      <div className="relative z-10 col-start-1 row-start-1 py-10 sm:py-14 lg:py-16">
+      <div className="relative z-10 col-start-1 row-start-1 pt-10 sm:pt-14 lg:pt-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
@@ -77,12 +77,15 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-left text-xs sm:text-[0.8125rem]">
+              /* The wrapper scrolls; the table needs a floor width for that to have
+                 any effect. With w-full it shrank to fit the phone instead of
+                 overflowing, squeezing the eight columns unreadably. */
+              <div className="-mx-1.5 overflow-x-auto overscroll-x-contain px-1.5 sm:mx-0 sm:px-0">
+                <table className="w-max min-w-[560px] border-collapse text-left text-xs sm:w-full sm:min-w-0 sm:text-[0.8125rem]">
                   <thead>
                     <tr className="border-b border-white/70 font-bold text-slate-600">
                       <th className="w-8 py-3 pl-4 pr-2 text-center">#</th>
-                      <th className="px-3 py-3">Team</th>
+                      <th className="whitespace-nowrap px-3 py-3">Team</th>
                       <th className="px-2.5 py-3 text-center">P</th>
                       <th className="px-2.5 py-3 text-center">W</th>
                       <th className="px-2.5 py-3 text-center">D</th>
@@ -128,6 +131,13 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
                 </table>
               </div>
             )}
+
+            {/* Scroll affordance: the table overflows below sm, which is not
+                obvious on a touch device without a visible hint. */}
+            <p className="flex items-center justify-center gap-1 pt-2 text-[11px] text-slate-500 sm:hidden">
+              <ArrowRight className="h-3 w-3 -rotate-90" />
+              Swipe to see all columns
+            </p>
 
             <div className="pt-2 text-center sm:hidden">
               <Link
