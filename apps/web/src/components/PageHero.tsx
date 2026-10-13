@@ -14,9 +14,7 @@ import { LEAGUE_ASSETS } from "../lib/assets.js";
  *
  * Artwork is an in-flow <img>, not a background-image, so the section is
  * sized by its images: uncapped below sm so portrait mobile banners keep
- * their natural ratio, and a fixed height from sm up with object-cover,
- * because banners vary too much in native aspect ratio to trust them
- * uncapped on desktop. `imageMobile` replaces the art below sm.
+ * their natural ratio, and `imageMobile` replaces the art below sm.
  *
  * Full-bleed: `w-screen` + `left-1/2 -translate-x-1/2` escapes AppShell's
  * `max-w-7xl` container (plain negative margins would only cancel the
@@ -64,24 +62,22 @@ export function PageHero({
   // hardcoded height before.
   return (
     <section className="relative left-1/2 w-screen -translate-x-1/2 overflow-hidden border-b border-stone-200/60 bg-pitch-cream-warm">
-      {/* Desktop artwork. Capped at a fixed height because banners vary widely
-          in native aspect ratio and an uncapped in-flow image made some
-          heroes very tall. object-cover crops rather than distorts. */}
+    
+      {/* Desktop artwork */}
       <img
         src={art}
         alt=""
         aria-hidden="true"
-        className="hidden h-[260px] w-full select-none object-cover sm:h-[300px] sm:block lg:h-[620px]"
+        className="hidden h-auto w-full select-none sm:block"
         style={{ objectPosition: position }}
       />
 
-      {/* Phone artwork. Left uncapped so it keeps its natural ratio, which
-          portrait mobile banners need in order to read properly. */}
+      {/* Phone artwork, same natural-ratio treatment. */}
       <img
         src={mobileArt}
         alt=""
         aria-hidden="true"
-        className="block w-full select-none sm:hidden"
+        className="block h-auto w-full select-none sm:hidden"
         style={{ objectPosition: mobilePosition ?? position }}
       />
 
