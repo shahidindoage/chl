@@ -6,7 +6,7 @@ import * as tournamentApi from "../api/tournament.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
 import { StandingsTable } from "../components/StandingsTable.js";
-import { LEAGUE_ASSETS } from "../lib/assets.js";
+// import { LEAGUE_ASSETS } from "../lib/assets.js";
 import { useSeo } from "../hooks/useSeo.js";
 
 /** Public FE (Module 6): full points table, calculated + cached server-side. */

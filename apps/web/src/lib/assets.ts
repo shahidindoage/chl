@@ -5,6 +5,8 @@
 
 const SUPABASE = "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey";
 
+const HERO_BASE_DESKTOP = `${SUPABASE}/HomeHeros`;
+
 export const LEAGUE_ASSETS = {
   logo: `${SUPABASE}/hockeylogo-rm.png`,
   /** Secondary mark, shown at the far right of the header. */
@@ -12,6 +14,9 @@ export const LEAGUE_ASSETS = {
   patch: `${SUPABASE}/patchnew2.png`,
   heroBanner: `${SUPABASE}/hockey%20banner.jpg%20(2).jpeg`,
   standingBanner: `${SUPABASE}/stand.png`,
+  /** Standings section art on the homepage, split by breakpoint. */
+  standingsDesktop: `${HERO_BASE_DESKTOP}/DESKTOPpoint.png`,
+  standingsMobile: `${HERO_BASE_DESKTOP}/MOBILEpoint.png`,
   ctaBanner: "/banner.png",
   /** Looping background for the mid-page CTA banner. */
   ctaVideo: `${SUPABASE}/HomeHeros/cta.mp4`,
@@ -27,7 +32,7 @@ export const LEAGUE_ASSETS = {
  * manually; the arrays are asserted to be the same length at runtime so a
  * slide index never falls through to the wrong image.
  */
-const HERO_BASE = `${SUPABASE}/HomeHeros`;
+const HERO_BASE = HERO_BASE_DESKTOP;
 
 export const HERO_SLIDES_DESKTOP = [
   `${HERO_BASE}/Hero_banner_1_desktop.png`,

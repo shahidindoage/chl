@@ -15,15 +15,38 @@ import { LEAGUE_ASSETS } from "../../lib/assets.js";
 export function StandingsSection({ standings }: { standings: StandingsDto | null }) {
   const rows = standings?.rows ?? [];
 
+// Both the art and the content occupy the same grid cell. The phone
+  // image is in normal flow, so it sets the section's height from its own
+  // aspect ratio; the content overlays it and only grows the section if the
+  // table is taller than the artwork.
   return (
-    <section
-      id="standings-section"
-      className="relative overflow-hidden bg-pitch-cream-soft bg-cover bg-right bg-no-repeat py-10 sm:py-14 lg:bg-center lg:py-16"
-      style={{ backgroundImage: `url("${LEAGUE_ASSETS.standingBanner}")` }}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-pitch-cream-soft/85 lg:hidden" />
+    <section id="standings-section" className="relative grid overflow-hidden bg-pitch-cream-soft">
+      {/* Both banners are in normal flow and share a grid cell with the
+          content, so each renders at its own aspect ratio and the section
+          takes its height from the artwork instead of a fixed value.
+          background-size: cover would crop both, which is why neither is a
+          background-image any more. */}
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      {/* Desktop art */}
+      <img
+        src={LEAGUE_ASSETS.standingsDesktop}
+        alt=""
+        aria-hidden="true"
+        className="col-start-1 row-start-1 hidden w-full select-none sm:block"
+      />
+
+      {/* Phone art, and only this one below sm. */}
+      <img
+        src={LEAGUE_ASSETS.standingsMobile}
+        alt=""
+        aria-hidden="true"
+        className="col-start-1 row-start-1 block w-full select-none sm:hidden"
+      />
+
+      {/* <div className="pointer-events-none absolute inset-0 bg-pitch-cream-soft/85 lg:hidden" /> */}
+
+      <div className="relative z-10 col-start-1 row-start-1 py-10 sm:py-14 lg:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-6 flex items-end justify-between gap-4">
           <div>
             <SectionEyebrow label="League Standings" id="standings-eyebrow" />
@@ -42,7 +65,10 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
         </div>
 
         <div className="w-full lg:max-w-[56%]">
-          <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-1.5 shadow-sm sm:p-2.5">
+          {/* Glass card: translucent white, backdrop blur and a light inner
+              highlight along the top edge. Sits over the artwork at every
+              width now that the desktop scrim was dropped. */}
+          <div className="overflow-hidden rounded-2xl border border-white/60 bg-white/55 p-1.5 shadow-[0_8px_30px_rgba(15,23,42,0.12)] backdrop-blur-xl backdrop-saturate-150 sm:p-2.5">
             {rows.length === 0 ? (
               <div className="px-4 py-14 text-center">
                 <p className="text-sm font-semibold text-slate-700">No standings yet</p>
@@ -52,9 +78,9 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
               </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-left text-xs sm:text-sm">
+                <table className="w-full border-collapse text-left text-xs sm:text-[0.8125rem]">
                   <thead>
-                    <tr className="border-b border-slate-100 font-bold text-slate-500">
+                    <tr className="border-b border-white/70 font-bold text-slate-600">
                       <th className="w-8 py-3 pl-4 pr-2 text-center">#</th>
                       <th className="px-3 py-3">Team</th>
                       <th className="px-2.5 py-3 text-center">P</th>
@@ -65,13 +91,13 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
                       <th className="py-3 pl-2 pr-4 text-right font-extrabold text-navy">Pts</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-white/60">
                     {rows.map((row) => {
                       const isLeader = row.position === 1;
                       return (
                         <tr
                           key={row.teamId}
-                          className={`relative cursor-pointer transition-colors hover:bg-orange-50/40 ${isLeader ? "bg-emerald-50/20 font-medium" : ""}`}
+                          className={`relative cursor-pointer transition-colors hover:bg-white/60 ${isLeader ? "bg-emerald-50/40 font-medium" : ""}`}
                         >
                           <td className="relative py-3 pl-4 pr-2 text-center font-bold text-slate-700">
                             {isLeader && <span className="absolute bottom-1.5 left-0 top-1.5 w-1 rounded-r bg-[#16a34a]" />}
@@ -106,12 +132,13 @@ export function StandingsSection({ standings }: { standings: StandingsDto | null
             <div className="pt-2 text-center sm:hidden">
               <Link
                 to="/standings"
-                className="block w-full rounded-lg border border-slate-200 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50"
+                className="block w-full rounded-lg border border-white/70 bg-white/50 py-2 text-xs font-medium text-slate-700 backdrop-blur-md transition-colors hover:bg-white/80"
               >
                 View Full Standings →
               </Link>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

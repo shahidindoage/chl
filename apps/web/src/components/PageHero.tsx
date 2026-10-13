@@ -1,5 +1,5 @@
-import { ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+// import { ChevronRight } from "lucide-react";
+// import { Link } from "react-router-dom";
 
 import { LEAGUE_ASSETS } from "../lib/assets.js";
 
@@ -48,7 +48,7 @@ export interface PageHeroProps {
 
 export function PageHero({
   title,
-  breadcrumb,
+  // breadcrumb,
   description,
   image,
   imageMobile,
