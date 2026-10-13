@@ -39,11 +39,11 @@ export function StandingsPage() {
   return (
     <div>
       <PageHero
-        title="Points Table"
-        description="Standings are calculated from every completed match — win 3 points, draw 1, tie-break on goal difference then goals scored."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Standings" }]}
-        image={LEAGUE_ASSETS.standingBanner}
-        position="right center"
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/standing_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/standing_mobile_banner.png"
       />
 
       {/* Filters — the page title now lives in the hero. */}

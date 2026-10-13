@@ -26,9 +26,11 @@ export function GalleryPage() {
   return (
     <div>
       <PageHero
-        title="Photo Gallery"
-        description="Matchday images from every venue."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Gallery" }]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Photo_gallery_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/photo_gallery_mobile_banner.png"
       />
 
       <div className="mt-8 space-y-10">

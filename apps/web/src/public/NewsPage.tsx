@@ -51,9 +51,11 @@ export function NewsPage() {
   return (
     <div>
       <PageHero
-        title="Latest News"
-        description="Match reports, previews and announcements from across the competition."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "News" }]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/news_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/news_mbile_banner.png"
       />
 
       {/* Filters */}

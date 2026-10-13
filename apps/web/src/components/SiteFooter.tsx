@@ -49,7 +49,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-emerald-900/60 bg-[#0c3d2a] pt-14 pb-8 text-emerald-100/90">
+    <footer className="relative overflow-hidden border-t border-[#072B4D]/60 bg-[#072B4D] pt-14 pb-8 text-white/90">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           {/* About */}
@@ -61,12 +61,12 @@ export function SiteFooter() {
                 className="h-20 w-auto select-none object-contain brightness-0 invert transition-transform group-hover:scale-105"
               />
             </Link>
-            <p className="text-xs leading-relaxed text-emerald-100/75 sm:text-sm">
+            <p className="text-xs leading-relaxed text-white/75 sm:text-sm">
               {user
                 ? `Welcome back, ${user.name}. Follow the fixtures, standings and live scores from around the league.`
                 : "The Chhattisgarh Hockey League is the state's premier field hockey championship, uniting franchise teams, world-class synthetic turfs, and rising grassroots stars."}
             </p>
-            <div className="flex items-center gap-2 pt-1 text-xs text-emerald-200/80">
+            <div className="flex items-center gap-2 pt-1 text-xs text-white/80">
               <MapPin className="h-3.5 w-3.5 shrink-0 text-pitch-orange" />
               <span>Raipur, Chhattisgarh, India</span>
             </div>
@@ -80,16 +80,16 @@ export function SiteFooter() {
             </div>
 
             {teams.length === 0 ? (
-              <p className="text-xs text-emerald-300/70">No teams registered yet.</p>
+              <p className="text-xs text-white/70">No teams registered yet.</p>
             ) : (
               <ul className="space-y-2">
                 {teams.map((t) => (
                   <li key={t.id}>
                     <Link
                       to={`/teams/${t.id}`}
-                      className="group inline-flex items-center gap-2 text-emerald-100/80 transition-colors hover:text-white"
+                      className="group inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
                     >
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 transition-colors group-hover:bg-pitch-orange" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#072B4D] transition-colors group-hover:bg-pitch-orange" />
                       <span className="transition-transform group-hover:translate-x-0.5">{t.name}</span>
                     </Link>
                   </li>
@@ -109,9 +109,9 @@ export function SiteFooter() {
                 <li key={link.to}>
                   <Link
                     to={link.to}
-                    className="group inline-flex items-center gap-2 text-emerald-100/80 transition-colors hover:text-white"
+                    className="group inline-flex items-center gap-2 text-white/80 transition-colors hover:text-white"
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 transition-colors group-hover:bg-pitch-orange" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#0084ff] transition-colors group-hover:bg-pitch-orange" />
                     <span className="transition-transform group-hover:translate-x-0.5">{link.label}</span>
                   </Link>
                 </li>
@@ -136,7 +136,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-800/50 bg-emerald-950/60 text-emerald-200 transition-all hover:border-pitch-orange hover:bg-pitch-orange hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#0084ff] bg-[#0084ff] text-white transition-all hover:border-pitch-orange hover:bg-pitch-orange hover:text-white"
                 >
                   <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
                     <path d={social.path} />
@@ -144,11 +144,11 @@ export function SiteFooter() {
                 </a>
               ))}
             </div>
-            <div className="pt-2 text-[11px] text-emerald-300/70">Official Media Partner &amp; Broadcast Hub</div>
+            <div className="pt-2 text-[11px] text-white/70">Official Media Partner &amp; Broadcast Hub</div>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-emerald-900/80 pt-6 text-xs text-emerald-200/70 sm:flex-row sm:pr-40">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#0a3b68] pt-6 text-xs text-white/70 sm:flex-row sm:pr-40">
           <p>&copy; {new Date().getFullYear()} Chhattisgarh Hockey League. All rights reserved.</p>
        
         </div>

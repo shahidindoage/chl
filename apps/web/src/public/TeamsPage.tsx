@@ -24,9 +24,11 @@ export function TeamsPage() {
   return (
     <div>
       <PageHero
-        title="Teams"
-        description="Every franchise in the competition — squads, coaches, form and full match history."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Teams" }]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/teams_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/teams_mobile_banner.png"
       />
 
       {/* Filters — the page title now lives in the hero. */}

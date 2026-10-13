@@ -69,9 +69,11 @@ export function AboutTournamentPage() {
   return (
     <div>
       <PageHero
-        title="About the League"
-        description="The Chhattisgarh Hockey League — the state's own franchise league."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "About" }]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/about_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/about_mobile_banner.png"
       />
 
       <div className="mx-auto max-w-7xl">

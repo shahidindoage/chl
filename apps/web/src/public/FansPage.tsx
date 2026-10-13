@@ -29,9 +29,11 @@ export function FansPage() {
   return (
     <div>
       <PageHero
-        title="Fans"
-        description="Quizzes, predictions and the supporter leaderboard — everything here scores you a place on the table."
+        title=""
+        description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Fans" }]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/fans_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/fans_mobile_banner.png"
       />
 
       <div className="mx-auto max-w-7xl py-12">

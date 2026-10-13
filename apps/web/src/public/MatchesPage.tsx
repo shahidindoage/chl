@@ -95,12 +95,14 @@ export function MatchesPage() {
   return (
     <div>
       <PageHero
-        title="Schedule &amp; Results"
-        description="Every fixture across the tournament, from kickoff times to final scores."
+        title=""
+        description=""
         breadcrumb={[
           { label: "Home", to: "/" },
           { label: "Matches" },
         ]}
+        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_desktop_banner.png"
+        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_mobile_banner.png"
       />
 
       {/* Live strip — only rendered while a match is actually in progress. */}
