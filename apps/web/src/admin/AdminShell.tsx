@@ -33,6 +33,11 @@ const NAV_ITEMS: AdminNavItem[] = [
     label: "News & media",
     roles: ["super_admin", "content_manager"],
   },
+  {
+    to: "/admin/media",
+    label: "Media library",
+    roles: ["super_admin", "content_manager"],
+  },
   { to: "/admin/fans", label: "Quizzes", roles: ["super_admin", "quiz_manager"] },
   { to: "/admin/users", label: "Users", roles: ["super_admin"] },
   {

@@ -20,6 +20,7 @@ import { AccountPage } from "./public/AccountPage.js";
 import { HomePage } from "./public/HomePage.js";
 import { FansPage } from "./public/FansPage.js";
 import { NewsAdminPage } from "./admin/news/NewsAdminPage.js";
+import { MediaAdminPage } from "./admin/media/MediaAdminPage.js";
 import { NewsPage } from "./public/NewsPage.js";
 import { NewsDetailPage } from "./public/NewsDetailPage.js";
 import { ReelsPage } from "./public/ReelsPage.js";
@@ -146,6 +147,14 @@ export const routes = [
         element: (
           <RequireRole roles={["super_admin", "content_manager"]}>
             <NewsAdminPage />
+          </RequireRole>
+        ),
+      },
+      {
+        path: "media",
+        element: (
+          <RequireRole roles={["super_admin", "content_manager"]}>
+            <MediaAdminPage />
           </RequireRole>
         ),
       },

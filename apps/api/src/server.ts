@@ -1,4 +1,5 @@
 import http from "node:http";
+import { mkdir } from "node:fs/promises";
 
 import { createApp } from "./app.js";
 import { env, isProduction } from "./core/config/env.js";
@@ -11,6 +12,12 @@ async function main(): Promise<void> {
   if (isProduction && !mailerConfigured()) {
     throw new Error("SMTP_HOST must be configured in production — OTP emails cannot be delivered otherwise");
   }
+
+  // multer's diskStorage fails with ENOENT if this is missing, which would be
+  // the very first upload on a fresh deploy. Cheap insurance, and idempotent.
+  await mkdir(env.UPLOAD_DIR, { recursive: true }).catch((err: unknown) => {
+    logger.error("could not create UPLOAD_DIR", { dir: env.UPLOAD_DIR, message: (err as Error)?.message });
+  });
 
   // The lazy client may already be connecting (rate-limit store touched it
   // at import time) — only explicitly connect when idle.
