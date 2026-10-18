@@ -32,8 +32,8 @@ export function FansPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Fans" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/fans_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/fans_mobile_banner.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_fans_desktop_banner-d2ff2df69be7e89e.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_fans_mobile_banner-0c4ff7cd2afb2d76.png"
       />
 
       <div className="mx-auto max-w-7xl py-12">

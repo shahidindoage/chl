@@ -27,8 +27,8 @@ export function TeamsPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Teams" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Bailadila%20Bulls%20banner%20with%20updated%20logo-1.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Bailadila%20Bulls%20banner%20with%20final%20logo-2.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_Bailadila%20Bulls%20banner%20with%20updated%20logo-1-87a0af7c230c2b95.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_Bailadila%20Bulls%20banner%20with%20final%20logo-2-556b73136c9845ab.png"
       />
 
       {/* Filters — the page title now lives in the hero. */}

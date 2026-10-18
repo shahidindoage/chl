@@ -54,8 +54,8 @@ export function NewsPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "News" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/news_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/news_mbile_banner.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/news-959f33dfc870e63b.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/newsMobile-0db09273ccb2a788.png"
       />
 
       {/* Filters */}

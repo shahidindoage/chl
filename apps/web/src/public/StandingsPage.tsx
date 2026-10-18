@@ -42,8 +42,8 @@ export function StandingsPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Standings" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/standing_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/standing_mobile_banner.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_standing_desktop_banner-f54e83307dd479a5.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_standing_mobile_banner-5886f8fc98bce1b5.png"
       />
 
       {/* Filters — the page title now lives in the hero. */}

@@ -65,8 +65,8 @@ function SquadCard({ player, team }: { player: PlayerDto; team: TeamWithSponsors
     <div className="group block">
       <div className="relative">
         <div className="h-44 w-full overflow-hidden rounded-lg lg:h-64">
-          {player.backgroundImage ? (
-            <img src={player.backgroundImage} alt="" aria-hidden="true" className="h-full w-full object-cover" />
+          {team.heroImage ? (
+            <img src={team.heroImage} alt="" aria-hidden="true" className="h-full w-full object-cover" />
           ) : (
             <span
               aria-hidden="true"

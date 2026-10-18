@@ -29,8 +29,8 @@ export function GalleryPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Gallery" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/Photo_gallery_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/photo_gallery_mobile_banner.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_Photo_gallery_desktop_banner-b6e421ca3009fb26.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_photo_gallery_mobile_banner-c77eb687b39462db.png"
       />
 
       <div className="mt-8 space-y-10">

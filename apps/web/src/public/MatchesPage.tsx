@@ -101,8 +101,8 @@ export function MatchesPage() {
           { label: "Home", to: "/" },
           { label: "Matches" },
         ]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/matches_mobile_banner.png"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_matches_desktop_banner-1689a49ad71cf09d.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_matches_mobile_banner-86a370b214fe11d6.png"
       />
 
       {/* Live strip — only rendered while a match is actually in progress. */}
