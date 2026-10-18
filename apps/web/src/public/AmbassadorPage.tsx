@@ -13,7 +13,7 @@ const ambassador = {
   role: "League Ambassador",
   line: "Former Captain, Indian Men's Hockey Team",
   initials: "SS",
-  image: "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/Sardara%20Singh%20-%20TOURNAMENT%20AMBASSADOR.webp",
+  image: "https://chhattisgarhhockeyleague.com/uploads/Sardara%20Singh-18e5e7d2c639815f.webp",
   intro:
     "A legendary former captain and midfielder of the Indian men's field hockey team, and one of the most decorated players of his generation.",
   highlights: [

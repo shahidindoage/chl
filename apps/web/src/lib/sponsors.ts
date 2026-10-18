@@ -40,9 +40,9 @@ export const SPONSORS: Sponsor[] = [
   {
     name: "JioHotstar",
     tier: "Broadcast",
-    logo: "https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/logos/jiohotstar.webp",
+    logo: "https://chhattisgarhhockeyleague.com/uploads/imgi_8_jiohotstar-d63c78709f62ca8b.webp",
   },
-  {
+  { 
     name: "SBI",
     tier: "Partner",
     logo: "https://sbi.bank.in/o/SBI-Theme/images/custom/logo.png",

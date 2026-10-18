@@ -72,9 +72,9 @@ export function AboutTournamentPage() {
         title=""
         description=""
         breadcrumb={[{ label: "Home", to: "/" }, { label: "About" }]}
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/about_desktop_banner.png"
-        imageMobile="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/HomeHeros/about_mobile_banner.png"
-      />
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_about_desktop_banner-6acae2a0a1449782.png"
+        imageMobile="https://chhattisgarhhockeyleague.com/uploads/imgi_5_about_mobile_banner-3b12574ce6a040be.png"
+      />  
 
       <div className="mx-auto max-w-7xl">
         <p className="mt-10 font-display text-xl font-extrabold leading-snug text-navy sm:text-2xl">

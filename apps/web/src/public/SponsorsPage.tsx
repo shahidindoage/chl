@@ -10,7 +10,7 @@ export function SponsorsPage() {
   return (
     <div>
       <PageHero
-        image="https://vrfacwizigigcpowkrye.supabase.co/storage/v1/object/public/hockey/logos/banners/Watercolor%20Stadium%20Banner%20with%20Tricolour%20Strokes.jpg.jpeg"
+        image="https://chhattisgarhhockeyleague.com/uploads/imgi_4_Watercolor%20Stadium%20Banner%20with%20Tricolour%20Strokes.jpg-e391ee62ac569fad.jpg"
         title="Sponsors"
         description="The organisations that make the Chhattisgarh Hockey League possible."
         breadcrumb={[{ label: "Home", to: "/" }, { label: "Sponsors" }]}
