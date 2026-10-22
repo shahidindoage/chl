@@ -32,6 +32,8 @@ enum PlayerPosition {
   defender
   midfielder
   forward
+  /// Role not decided yet. Shown as "To Be Confirmed".
+  tbc
 }
 
 enum MatchStatus {

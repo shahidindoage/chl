@@ -1,4 +1,5 @@
 import type { CreateTeamInput, PlayerDto, SponsorDto, TeamDto, TournamentDto } from "@tournament/shared";
+import { playerPositionLabel } from "@tournament/shared";
 import { FormEvent, useCallback, useEffect, useState } from "react";
 
 import * as playerApi from "../../api/player.client.js";
@@ -145,7 +146,7 @@ export function TeamAdminPage() {
               <option value="">No captain set</option>
               {captainOptions.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} (#{p.jerseyNumber} {p.position})
+                  {p.name} (#{p.jerseyNumber} {playerPositionLabel(p.position)})
                 </option>
               ))}
             </select>

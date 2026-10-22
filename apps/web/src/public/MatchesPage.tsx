@@ -10,6 +10,7 @@ import { MatchCard } from "../components/MatchCard.js";
 import { PageHero } from "../components/PageHero.js";
 import { SectionEyebrow } from "../components/SectionEyebrow.js";
 import { useSeo } from "../hooks/useSeo.js";
+import { isMatchHidden } from "../lib/hidden-matches.js";
 
 /** Cards revealed per section before "Load More". */
 const PAGE_SIZE = 4;
@@ -52,6 +53,8 @@ export function MatchesPage() {
       // an alert about what is happening right now rather than a filter.
       matchApi.listMatches({ page: 1, limit: 10, status: "live", ...scope }),
     ]);
+    // The hide list is applied to the schedule below, not to the raw list, so
+    // live matches and past results are never affected by it.
     setMatches(list.items);
     setLive(liveNow.items);
   }, [tFilter, status]);
@@ -81,7 +84,12 @@ export function MatchesPage() {
   const all = matches ?? [];
   const upcomingList = all
     .filter((m) => (m.status === "live" || m.status === "upcoming") && !liveIds.has(m.id))
+    // The hide list applies to the schedule only. A live match is always
+    // shown, or the live score would read as a cancelled fixture.
+    .filter((m) => m.status === "live" || !isMatchHidden(m.id))
     .sort(byDateAsc);
+  // Past results are never hidden: once a fixture has been played its result
+  // must still be visible.
   const pastList = all
     .filter((m) => m.status === "completed" || m.status === "cancelled")
     .sort(byDateDesc);

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import * as teamApi from "../api/team.client.js";
 import { LEAGUE_ASSETS } from "../lib/assets.js";
+import { isTeamHidden } from "../lib/hidden-teams.js";
 import { useAuthStore } from "../store/auth.store.js";
 
 /**
@@ -29,9 +30,10 @@ export function SiteFooter() {
   useEffect(() => {
     let ignore = false;
     teamApi
-      .listTeams({ page: 1, limit: 6 })
+      .listTeams({ page: 1, limit: 20 })
       .then((d) => {
-        if (!ignore) setTeams(d.items);
+        // Same hide list as the teams directory and standings table.
+        if (!ignore) setTeams(d.items.filter((t) => !isTeamHidden(t.id)).slice(0, 6));
       })
       .catch(() => undefined);
     return () => {

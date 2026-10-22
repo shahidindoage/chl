@@ -1,8 +1,13 @@
 import type { StandingsDto } from "@tournament/shared";
 import { Link } from "react-router-dom";
 
+import { visibleStandingsRows } from "../lib/hidden-teams.js";
+
 /** Shared standings table — public page, admin read-only view, homepage card. */
 export function StandingsTable({ standings, compact = false }: { standings: StandingsDto; compact?: boolean }) {
+  // Teams on the hide list are dropped here, so every surface that renders
+  // this table (standings page, admin view) hides them consistently.
+  const rows = visibleStandingsRows(standings.rows);
   const cols: Array<[string, (r: StandingsDto["rows"][number]) => React.ReactNode]> = compact
     ? [
         ["#", (r) => r.position],
@@ -38,10 +43,10 @@ export function StandingsTable({ standings, compact = false }: { standings: Stan
         </tr>
       </thead>
       <tbody>
-        {standings.rows.length === 0 ? (
+        {rows.length === 0 ? (
           <tr><td colSpan={cols.length} className="px-3 py-4 text-center text-slate-400">No teams yet.</td></tr>
         ) : (
-          standings.rows.map((r) => (
+          rows.map((r) => (
             <tr key={r.teamId} className="border-b border-slate-100 last:border-0">
               {cols.map(([h, render]) => <td key={h} className="px-3 py-2">{render(r)}</td>)}
             </tr>

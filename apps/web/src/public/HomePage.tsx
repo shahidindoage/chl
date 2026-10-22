@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { CtaBanner } from "./home/CtaBanner.js";
 import { FanEngagementCta } from "./home/FanEngagementCta.js";
+import { FeaturedMatchesSection } from "./home/FeaturedMatchesSection.js";
 import { HeroSection } from "./home/HeroSection.js";
 import { HomeSponsorsStrip } from "./home/HomeSponsorsStrip.js";
 import { useHomeData } from "./home/HomeDataContext.js";
@@ -63,7 +64,11 @@ export function HomePage() {
           </section>
         )}
 
+         <FeaturedMatchesSection onSelectMatch={openMatch} />
+
         <UpcomingMatchesSection matches={upcoming} onViewAll={openAllMatches} onSelectMatch={openMatch} />
+
+       
 
         <StandingsSection standings={standings} />
 

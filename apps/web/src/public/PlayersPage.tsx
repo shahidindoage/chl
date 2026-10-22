@@ -1,5 +1,5 @@
 import type { PlayerDto } from "@tournament/shared";
-import { PLAYER_POSITIONS } from "@tournament/shared";
+import { PLAYER_POSITIONS, playerPositionLabel } from "@tournament/shared";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,7 @@ import * as playerApi from "../api/player.client.js";
 import * as teamApi from "../api/team.client.js";
 import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
+import { isTeamHidden } from "../lib/hidden-teams.js";
 import type { TeamDto } from "@tournament/shared";
 
 /** Public FE (Module 3): players directory with team/position filters + search. */
@@ -19,7 +20,11 @@ export function PlayersPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    teamApi.listTeams({ page: 1, limit: 100 }).then((d) => setTeams(d.items)).catch(() => undefined);
+    teamApi.listTeams({ page: 1, limit: 100 })
+      // Hidden teams are removed from the filter dropdown as well, so a visitor
+      // cannot pick a team that is not on show anywhere else.
+      .then((d) => setTeams(d.items.filter((t) => !isTeamHidden(t.id))))
+      .catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -83,7 +88,7 @@ export function PlayersPage() {
             <option value="">All positions</option>
             {PLAYER_POSITIONS.map((p) => (
               <option key={p} value={p}>
-                {p}
+                {playerPositionLabel(p)}
               </option>
             ))}
           </select>

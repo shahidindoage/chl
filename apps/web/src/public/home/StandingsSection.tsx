@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { SectionEyebrow } from "../../components/SectionEyebrow.js";
 import { TeamCrest } from "../../components/TeamCrest.js";
 import { LEAGUE_ASSETS } from "../../lib/assets.js";
+import { visibleStandingsRows } from "../../lib/hidden-teams.js";
 
 /**
  * Points table section ported from the design reference. The table is
@@ -13,7 +14,8 @@ import { LEAGUE_ASSETS } from "../../lib/assets.js";
  * where the table covers it.
  */
 export function StandingsSection({ standings }: { standings: StandingsDto | null }) {
-  const rows = standings?.rows ?? [];
+  // Same hide list as the standings page table, so the two can never disagree.
+  const rows = visibleStandingsRows(standings?.rows ?? []);
 
 // Both the art and the content occupy the same grid cell. The phone
   // image is in normal flow, so it sets the section's height from its own

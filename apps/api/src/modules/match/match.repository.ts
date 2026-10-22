@@ -45,6 +45,7 @@ export function listMatches(params: {
   tournamentId?: string;
   from?: Date;
   to?: Date;
+  ids?: string[];
 }): Promise<{ items: MatchWithRelations[]; total: number }> {
   const where: Prisma.MatchWhereInput = {
     ...(params.status ? { status: params.status as never } : {}),
@@ -53,6 +54,9 @@ export function listMatches(params: {
     ...(params.from || params.to
       ? { date: { ...(params.from ? { gte: params.from } : {}), ...(params.to ? { lte: params.to } : {}) } }
       : {}),
+    // Curated id list. An empty array must not match everything, so it is
+    // only applied when it actually holds ids.
+    ...(params.ids && params.ids.length > 0 ? { id: { in: params.ids } } : {}),
   };
   return Promise.all([
     prisma.match.findMany({

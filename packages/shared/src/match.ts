@@ -124,6 +124,26 @@ export const listMatchesQuerySchema = z.object({
   tournamentId: z.string().uuid().optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
+  /**
+   * Comma-separated match ids, e.g. "?ids=uuid1,uuid2". Lets a caller pull a
+   * hand-picked set of fixtures in one request, used by the homepage's
+   * curated matches section.
+   */
+  ids: z
+    .string()
+    .optional()
+    .transform((v) =>
+      v === undefined
+        ? undefined
+        : v
+            .split(",")
+            .map((s) => s.trim())
+            .filter((s) => s.length > 0)
+    )
+    .refine(
+      (ids) => ids === undefined || ids.every((id) => z.string().uuid().safeParse(id).success),
+      { message: "ids must be a comma-separated list of UUIDs" }
+    ),
 });
 export type ListMatchesQuery = z.infer<typeof listMatchesQuerySchema>;
 

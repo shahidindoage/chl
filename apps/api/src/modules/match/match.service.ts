@@ -149,16 +149,29 @@ export async function listMatches(query: ListMatchesQuery): Promise<{
   items: MatchDto[];
   pagination: ReturnType<typeof pagination>;
 }> {
+  const ids = query.ids ?? [];
   const { items, total } = await repo.listMatches({
     skip: (query.page - 1) * query.limit,
-    take: query.limit,
+    // A curated id list must not be truncated by the page size, so the page
+    // is widened to fit every requested id.
+    take: ids.length > 0 ? Math.max(query.limit, ids.length) : query.limit,
     ...(query.status ? { status: query.status } : {}),
     ...(query.teamId ? { teamId: query.teamId } : {}),
     ...(query.tournamentId ? { tournamentId: query.tournamentId } : {}),
     ...(query.from ? { from: query.from } : {}),
     ...(query.to ? { to: query.to } : {}),
+    ...(ids.length > 0 ? { ids } : {}),
   });
-  return { items: items.map(toMatchDto), pagination: pagination(query.page, query.limit, total) };
+
+  let rows = items.map(toMatchDto);
+  if (ids.length > 0) {
+    // Prisma returns date order; a curated list should appear in the order
+    // the ids were given, so the admin controls the sequence.
+    const rank = new Map(ids.map((id, index) => [id, index]));
+    rows = rows.sort((a, b) => (rank.get(a.id) ?? 0) - (rank.get(b.id) ?? 0));
+  }
+
+  return { items: rows, pagination: pagination(query.page, query.limit, total) };
 }
 
 /** Internal data source for Module 6 (standings calc) — exported service, not repo (rule 2). */

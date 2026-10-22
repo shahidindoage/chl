@@ -6,6 +6,7 @@ import { apiErrorMessage } from "../api/client.js";
 import { PageHero } from "../components/PageHero.js";
 import { TeamCard } from "../components/TeamCard.js";
 import { useSeo } from "../hooks/useSeo.js";
+import { isTeamHidden } from "../lib/hidden-teams.js";
 
 /** Public FE (Module 2): teams directory grid, filterable by tournament. */
 export function TeamsPage() {
@@ -15,7 +16,9 @@ export function TeamsPage() {
 
   useEffect(() => {
     teamApi.listTeams({ page: 1, limit: 100 })
-      .then((d) => setTeams(d.items))
+      // Teams on the hide list are dropped here too, so the directory and the
+      // standings table can never disagree about who is on show.
+      .then((d) => setTeams(d.items.filter((t) => !isTeamHidden(t.id))))
       .catch((err) => setError(apiErrorMessage(err)));
   }, []);
 

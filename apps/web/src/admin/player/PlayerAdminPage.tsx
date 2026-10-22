@@ -1,5 +1,5 @@
 import type { PlayerDto, PlayerPositionName, TeamDto } from "@tournament/shared";
-import { PLAYER_POSITIONS } from "@tournament/shared";
+import { PLAYER_POSITIONS, playerPositionLabel } from "@tournament/shared";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 
 import * as playerApi from "../../api/player.client.js";
@@ -124,7 +124,7 @@ export function PlayerAdminPage() {
           <div><label className="label">Jersey number</label><input type="number" required min={1} max={99} className="input" value={form.jerseyNumber} onChange={(e) => setForm({ ...form, jerseyNumber: e.target.value })} /></div>
           <div><label className="label">Position</label>
             <select className="input" value={form.position} onChange={(e) => setForm({ ...form, position: e.target.value as PlayerPositionName })}>
-              {PLAYER_POSITIONS.map((pos) => <option key={pos} value={pos}>{pos}</option>)}
+              {PLAYER_POSITIONS.map((pos) => <option key={pos} value={pos}>{playerPositionLabel(pos)}</option>)}
             </select></div>
           <div><label className="label">Date of birth</label><input type="date" required max={new Date().toISOString().slice(0, 10)} min="1900-01-02" className="input" value={form.dateOfBirth} onChange={(e) => setForm({ ...form, dateOfBirth: e.target.value })} /></div>
           <div><label className="label">Nationality</label><input className="input" required minLength={2} maxLength={60} value={form.nationality} onChange={(e) => setForm({ ...form, nationality: e.target.value })} /></div>
@@ -148,7 +148,7 @@ export function PlayerAdminPage() {
               </select>
               <select className="input w-auto" value={filterPos} onChange={(e) => setFilterPos(e.target.value)} aria-label="Filter by position">
                 <option value="">All positions</option>
-                {PLAYER_POSITIONS.map((pos) => <option key={pos} value={pos}>{pos}</option>)}
+                {PLAYER_POSITIONS.map((pos) => <option key={pos} value={pos}>{playerPositionLabel(pos)}</option>)}
               </select>
             </>
           )}
@@ -171,7 +171,7 @@ export function PlayerAdminPage() {
                       {p.name}
                     </span>
                   </td>
-                  <td className="px-4 py-3"><span className="rounded bg-slate-100 px-2 py-0.5 text-xs">{p.position}</span></td>
+                  <td className="px-4 py-3"><span className="rounded bg-slate-100 px-2 py-0.5 text-xs">{playerPositionLabel(p.position)}</span></td>
                   <td className="px-4 py-3">
                     <select className="input w-auto !py-1 text-xs" value={p.teamId} onChange={(e) => void reassign(p, e.target.value)} aria-label="Reassign team">
                       {(isOwner ? myTeams : teams).map((t) => <option key={t.id} value={t.id}>{t.shortName}</option>)}

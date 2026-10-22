@@ -1,4 +1,5 @@
 import type { PlayerDto, TeamWithSponsorsDto } from "@tournament/shared";
+import { playerPositionGroupLabel, playerPositionLabel } from "@tournament/shared";
 import { Facebook, Globe, Instagram } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -104,7 +105,7 @@ function SquadCard({ player, team }: { player: PlayerDto; team: TeamWithSponsors
       <p className="mt-2 font-display text-base font-extrabold text-navy group-hover:text-pitch-orange-dark">
         {player.name}
       </p>
-      <p className="text-sm text-slate-500">{player.position}</p>
+      <p className="text-sm text-slate-500">{playerPositionLabel(player.position)}</p>
     </div>
   );
 }
@@ -303,18 +304,19 @@ export function TeamProfilePage() {
               <p className="text-sm text-slate-400">No players registered yet.</p>
             ) : (
               <div className="space-y-10">
-                {/* Forwards first, then working backwards to the goalkeeper. */}
-                {(["forward", "midfielder", "defender", "goalkeeper"] as const).map((position) => {
+                {/* Forwards first, then working backwards to the goalkeeper.
+                    "tbc" comes last: players whose role is still undecided sit
+                    at the end of the list rather than up front. */}
+                {(["forward", "midfielder", "defender", "goalkeeper", "tbc"] as const).map((position) => {
                   const group = squad.filter((p) => p.position === position);
                   if (group.length === 0) return null;
                   return (
                     <section key={position}>
                       <div className="mb-4 flex items-baseline gap-3">
                         <h3 className="font-display text-2xl font-extrabold text-navy pb-6">
-                          {/* "goalkeeper" is already singular - no trailing s. */}
-                          {position === "goalkeeper" ? "Goalkeeper" : `${position}s`}
+                          {playerPositionGroupLabel(position)}
                         </h3>
-                      
+
                       </div>
                       <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
                         {group.map((p) => (

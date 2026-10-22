@@ -12,9 +12,22 @@ import type { Paginated } from "./tournament.client.js";
 /** Module 4 — typed functions 1:1 with apps/api match routes (Section 6). */
 
 export async function listMatches(
-  params: { page?: number; limit?: number; status?: string; teamId?: string; tournamentId?: string; from?: string; to?: string } = {}
+  params: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    teamId?: string;
+    tournamentId?: string;
+    from?: string;
+    to?: string;
+    /** Curated match ids. Sent as a comma-separated list. */
+    ids?: string[];
+  } = {}
 ): Promise<Paginated<MatchDto>> {
-  const { data } = await http.get<Paginated<MatchDto>>("/matches", { params });
+  const { ids, ...rest } = params;
+  const { data } = await http.get<Paginated<MatchDto>>("/matches", {
+    params: { ...rest, ...(ids && ids.length > 0 ? { ids: ids.join(",") } : {}) },
+  });
   return data;
 }
 

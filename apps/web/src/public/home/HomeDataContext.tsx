@@ -6,6 +6,8 @@ import * as matchApi from "../../api/match.client.js";
 import * as standingsApi from "../../api/standings.client.js";
 import * as teamApi from "../../api/team.client.js";
 import * as tournamentApi from "../../api/tournament.client.js";
+import { isTeamHidden } from "../../lib/hidden-teams.js";
+import { isMatchHidden } from "../../lib/hidden-matches.js";
 
 /**
  * Single source of truth for the header, footer and homepage sections.
@@ -84,6 +86,9 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
     () =>
       upcomingRaw
         .filter((m) => new Date(m.date).getTime() >= Date.now())
+        // Fixtures on the hide list are dropped here, so the "Next Matches"
+        // preview, the full-schedule modal and the search modal all agree.
+        .filter((m) => !isMatchHidden(m.id))
         .sort((a, b) => a.date.localeCompare(b.date)),
     [upcomingRaw]
   );
@@ -103,6 +108,9 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
     matchApi
       .listMatches({ page: 1, limit: 50, status: "completed" })
       .then((d) => {
+        // Results are NOT filtered by the hide list. A fixture may be hidden
+        // from the schedule before it kicks off, but once it has been played
+        // its result must still be visible.
         const sorted = [...d.items].sort((a, b) => b.date.localeCompare(a.date));
         setRecent(sorted.slice(0, PREVIEW_LIMIT));
         setAllResults(sorted);
@@ -116,6 +124,9 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
   const fetchLive = useCallback(() => {
     matchApi
       .listMatches({ page: 1, limit: 10, status: "live" })
+      // Live matches are NOT filtered by the hide list either. The live strip
+      // and the Live Match Center must keep showing a fixture that is in
+      // progress - omitting it would tell supporters the match was off.
       .then((d) => setLive(d.items))
       .catch(() => undefined);
   }, []);
@@ -128,8 +139,12 @@ export function HomeDataProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     teamApi
-      .listTeams({ page: 1, limit: 1 })
-      .then((d) => setCounts((c) => ({ ...c, teams: d.pagination.total })))
+      .listTeams({ page: 1, limit: 100 })
+      // The displayed count must exclude hidden teams, so the whole list is
+      // fetched and filtered rather than trusting pagination.total.
+      .then((d) =>
+        setCounts((c) => ({ ...c, teams: d.items.filter((t) => !isTeamHidden(t.id)).length }))
+      )
       .catch(() => undefined);
     tournamentApi
       .listVenues({ page: 1, limit: 1 })
