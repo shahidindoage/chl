@@ -41,7 +41,7 @@ const teams = [
   { name: "Nyayadhani Knights", home: "Bilaspur" },
   { name: "Sanskardhani Strikers", home: "Rajnandgaon" },
   { name: "Chakradhar Champions", home: "Raigarh" },
-  { name: "Bailadila Bulls", home: "Bastar" },
+  { name: "Bailadila Bulls", home: "Bailadila Hills" },
   { name: "Mainpat Titans", home: "Surguja" },
 ];
 
@@ -55,13 +55,21 @@ const howItWorks = [
 ];
 
 const backers = [
-  { label: "In association with", value: "Government of Chhattisgarh" },
-  { label: "Sanctioned by", value: "Hockey India" },
+  {
+    label: "Sanctioned by",
+    value: "Hockey India",
+    img: "https://chhattisgarhhockeyleague.com/uploads/Hockey_India-684807b5f95e2e52.webp",
+  },
   {
     label: "An initiative of",
     value: "Department of Sports and Youth Welfare, Chhattisgarh",
+    img: "https://chhattisgarhhockeyleague.com/uploads/imgi_3_headerlogo2-aa95653e9290615f.png",
   },
-  { label: "Broadcast partner", value: "JioHotstar" },
+  {
+    label: "Broadcast partner",
+    value: "JioHotstar",
+    img: "https://chhattisgarhhockeyleague.com/uploads/imgi_8_jiohotstar-d63c78709f62ca8b.webp",
+  },
 ];
 
 export function AboutTournamentPage() {
@@ -105,7 +113,7 @@ export function AboutTournamentPage() {
             He also brings the league&apos;s call to every fan in the state:
           </p>
           <p lang="hi" className="mt-5 font-display text-xl font-extrabold text-pitch-orange sm:text-2xl">
-            चलौ रे संगीसं गी, हॉ की खेलखे बो
+            चलौ रे संगी, हॉकी खेलबों
           </p>
           <p className="mt-2 text-sm italic text-white/70">Come on, friends, let&apos;s play hockey.</p>
         </section>
@@ -139,11 +147,24 @@ export function AboutTournamentPage() {
         {/* Backers */}
         <section className="mt-12">
           <h2 className="font-display text-2xl font-extrabold text-navy">Who&apos;s behind CHL</h2>
-          <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+          <dl className="mt-4 grid gap-4 sm:grid-cols-3">
             {backers.map((b) => (
-              <div key={b.label} className="rounded-xl border border-slate-200 bg-white p-5">
-                <dt className="text-xs font-bold uppercase tracking-wide text-slate-400">{b.label}</dt>
-                <dd className="mt-1 font-display text-base font-extrabold text-navy">{b.value}</dd>
+              <div
+                key={b.label}
+                className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-5"
+              >
+                {b.img && (
+                  <img
+                    src={b.img}
+                    alt={b.value}
+                    loading="lazy"
+                    className="h-14 w-14 shrink-0 rounded-lg object-contain"
+                  />
+                )}
+                <div className="min-w-0">
+                  <dt className="text-xs font-bold uppercase tracking-wide text-slate-400">{b.label}</dt>
+                  <dd className="mt-1 font-display text-base font-extrabold text-navy">{b.value}</dd>
+                </div>
               </div>
             ))}
           </dl>
