@@ -27,6 +27,7 @@ function toCommentaryDto(c: Commentary): CommentaryDto {
     id: c.id,
     matchId: c.matchId,
     minute: c.minute,
+    period: c.period,
     text: c.text,
     type: c.type,
     createdAt: c.createdAt.toISOString(),
@@ -160,6 +161,7 @@ export async function publishCommentary(id: string, input: PublishCommentaryInpu
   const created = await repo.createCommentary({
     matchId: id,
     minute: input.minute,
+    period: input.period ?? null,
     text: input.text,
     type: input.type,
   });

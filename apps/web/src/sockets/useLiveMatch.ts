@@ -28,6 +28,8 @@ export interface LiveMatchState {
   status: LiveStatusDto | null;
   events: MatchEventDto[];
   commentary: CommentaryDto[];
+  /** Ids deleted while this page was open, so REST snapshots can drop them too. */
+  deletedCommentaryIds: string[];
   connected: boolean;
 }
 
@@ -36,6 +38,7 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
     status: initial,
     events: [],
     commentary: [],
+    deletedCommentaryIds: [],
     connected: false,
   });
   const statusRef = useRef(initial);
@@ -54,8 +57,16 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
     };
     const onScore = (p: LiveStatusDto) => setState((s) => ({ ...s, status: p }));
     const onEvent = (e: MatchEventDto) => setState((s) => ({ ...s, events: [...s.events, e] }));
-    const onCommentary = (c: CommentaryDto) => setState((s) => ({ ...s, commentary: [c, ...s.commentary] }));
-    const onDeleted = (p: { id: string }) => setState((s) => ({ ...s, commentary: s.commentary.filter((c) => c.id !== p.id) }));
+    // Append, not prepend: commentary reads oldest -> newest, so a new line
+    // belongs at the bottom of the feed.
+    const onCommentary = (c: CommentaryDto) => setState((s) => ({ ...s, commentary: [...s.commentary, c] }));
+    const onDeleted = (p: { id: string }) => setState((s) => ({
+      ...s,
+      commentary: s.commentary.filter((c) => c.id !== p.id),
+      deletedCommentaryIds: s.deletedCommentaryIds.includes(p.id)
+        ? s.deletedCommentaryIds
+        : [...s.deletedCommentaryIds, p.id],
+    }));
     const onConnect = () => setState((s) => ({ ...s, connected: true }));
     const onDisconnect = () => setState((s) => ({ ...s, connected: false }));
 

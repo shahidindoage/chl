@@ -102,7 +102,11 @@ export type MatchEventWithNames = Awaited<ReturnType<typeof listEventsForMatch>>
 export function listEventsForMatch(matchId: string) {
   return prisma.matchEvent.findMany({
     where: { matchId },
-    orderBy: [{ minute: "asc" }, { createdAt: "asc" }],
+    // Recording order, not minute order: minutes repeat every period (a 5'
+    // event in the 1st belongs before a 2' event in the 3rd), and period is
+    // free text so it cannot be sorted reliably. Events are logged as the
+    // match unfolds, so createdAt matches game order.
+    orderBy: [{ createdAt: "asc" }],
     include: {
       team: { select: { name: true } },
       player: { select: { name: true } },

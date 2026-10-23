@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { CtaBanner } from "./home/CtaBanner.js";
 import { FanEngagementCta } from "./home/FanEngagementCta.js";
-import { FeaturedMatchesSection } from "./home/FeaturedMatchesSection.js";
+// import { FeaturedMatchesSection } from "./home/FeaturedMatchesSection.js";
 import { HeroSection } from "./home/HeroSection.js";
 import { HomeSponsorsStrip } from "./home/HomeSponsorsStrip.js";
 import { useHomeData } from "./home/HomeDataContext.js";
@@ -11,6 +11,7 @@ import { LatestNewsSection } from "./home/LatestNewsSection.js";
 import { StandingsSection } from "./home/StandingsSection.js";
 import { UpcomingMatchesSection } from "./home/UpcomingMatchesSection.js";
 import { useSeo } from "../hooks/useSeo.js";
+import { RecentResultsSection } from "./home/RecentResultsSection.js";
 
 /**
  * Public homepage rebuilt to match the design reference in ../../design.
@@ -20,8 +21,8 @@ import { useSeo } from "../hooks/useSeo.js";
 export function HomePage() {
   useSeo();
   const navigate = useNavigate();
-  const { tournament, upcoming, live, standings, openAllMatches, openMatch } = useHomeData();
-// , openAllResults, recent
+  const { tournament, upcoming, live, standings, openAllMatches, openMatch,recent,openAllResults } = useHomeData();
+
   const exploreMatches = () => {
     const el = document.getElementById("upcoming-matches-section");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -64,7 +65,7 @@ export function HomePage() {
           </section>
         )}
 
-         <FeaturedMatchesSection onSelectMatch={openMatch} />
+         {/* <FeaturedMatchesSection onSelectMatch={openMatch} /> */}
 
         <UpcomingMatchesSection matches={upcoming} onViewAll={openAllMatches} onSelectMatch={openMatch} />
 
@@ -72,7 +73,7 @@ export function HomePage() {
 
         <StandingsSection standings={standings} />
 
-        {/* <RecentResultsSection matches={recent} onViewAll={openAllResults} onSelectMatch={openMatch} /> */}
+        <RecentResultsSection matches={recent} onViewAll={openAllResults} onSelectMatch={openMatch} />
 
         <CtaBanner onExplore={exploreMatches} />
 

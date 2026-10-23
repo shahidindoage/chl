@@ -306,6 +306,7 @@ function toEventDto(e: repo.MatchEventWithNames): MatchEventDto {
     playerId: e.playerId,
     playerName: e.player?.name ?? null,
     minute: e.minute,
+    period: e.period,
     description: e.description,
     createdAt: e.createdAt.toISOString(),
   };
@@ -336,6 +337,7 @@ export async function addEvent(matchId: string, input: AddMatchEventInput): Prom
     teamId: input.teamId ?? null,
     playerId: input.playerId ?? null,
     minute: input.minute,
+    period: input.period ?? null,
     description: input.description ?? null,
   });
   // Re-read to embed team/player names via the relation include.

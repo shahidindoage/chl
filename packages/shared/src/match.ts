@@ -43,6 +43,7 @@ export const matchEventSchema = z.object({
   playerId: z.string().uuid().nullable(),
   playerName: z.string().nullable(),
   minute: z.number().int(),
+  period: z.string().nullable(),
   description: z.string().nullable(),
   createdAt: z.string().datetime(),
 });
@@ -153,6 +154,7 @@ export const addMatchEventSchema = z.object({
   teamId: z.string().uuid().nullish(),
   playerId: z.string().uuid().nullish(),
   minute: z.coerce.number().int().min(0).max(200),
+  period: z.string().trim().max(24).nullish(),
   description: z.string().trim().max(500).nullish(),
 });
 export type AddMatchEventInput = z.infer<typeof addMatchEventSchema>;

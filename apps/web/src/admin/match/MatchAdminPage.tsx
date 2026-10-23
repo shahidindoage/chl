@@ -285,7 +285,7 @@ function MatchManager({ matchId, onDone, onError }: {
   const [scoreA, setScoreA] = useState("");
   const [scoreB, setScoreB] = useState("");
   const [summary, setSummary] = useState("");
-  const [ev, setEv] = useState({ eventType: "goal" as MatchEventTypeName, teamId: "", playerId: "", minute: "", description: "" });
+  const [ev, setEv] = useState({ eventType: "goal" as MatchEventTypeName, teamId: "", playerId: "", minute: "", period: "", description: "" });
   const [busy, setBusy] = useState(false);
 
   const load = useCallback(async () => {
@@ -318,9 +318,10 @@ function MatchManager({ matchId, onDone, onError }: {
         teamId: ev.teamId || null,
         playerId: ev.playerId || null,
         minute: Number(ev.minute),
+        period: ev.period || null,
         description: ev.description || null,
       });
-      setEv({ ...ev, minute: "", description: "", playerId: "" });
+      setEv({ ...ev, minute: "", period: "", description: "", playerId: "" });
       await load(); await onDone();
     } catch (err) { onError(apiErrorMessage(err, "Add event failed")); }
     finally { setBusy(false); }
@@ -376,6 +377,7 @@ function MatchManager({ matchId, onDone, onError }: {
               {teamPlayers(ev.teamId).map((p) => <option key={p.id} value={p.id}>#{p.jerseyNumber} {p.name}</option>)}
             </select>
             <input type="number" min={0} max={200} required className="input w-20" placeholder="min" value={ev.minute} onChange={(e) => setEv({ ...ev, minute: e.target.value })} />
+            <input className="input w-24" placeholder="period" maxLength={24} value={ev.period} onChange={(e) => setEv({ ...ev, period: e.target.value })} />
             <input className="input w-56 flex-1" placeholder="description (optional)" maxLength={500} value={ev.description} onChange={(e) => setEv({ ...ev, description: e.target.value })} />
             <button className="btn-primary" disabled={busy}>Add</button>
           </form>
@@ -383,7 +385,7 @@ function MatchManager({ matchId, onDone, onError }: {
         <ul className="space-y-1">
           {detail.events.map((e) => (
             <li key={e.id} className="flex items-center gap-2 rounded bg-white px-3 py-2 text-sm">
-              <span className="w-10 font-bold">{e.minute}'</span>
+              <span className="w-10 font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}'</span>
               <span className="w-24 capitalize">{e.eventType.replace("_", " ")}</span>
               <span className="flex-1 text-slate-600">
                 {[e.teamName, e.playerName && `— ${e.playerName}`, e.description].filter(Boolean).join(" ")}

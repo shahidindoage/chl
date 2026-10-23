@@ -7,6 +7,7 @@ export const commentarySchema = z.object({
   id: z.string().uuid(),
   matchId: z.string().uuid(),
   minute: z.number().int(),
+  period: z.string().nullable(),
   text: z.string(),
   type: z.enum(COMMENTARY_TYPES),
   createdAt: z.string().datetime(),
@@ -15,6 +16,7 @@ export type CommentaryDto = z.infer<typeof commentarySchema>;
 
 export const publishCommentarySchema = z.object({
   minute: z.coerce.number().int().min(0).max(200),
+  period: z.string().trim().max(24).nullish(),
   text: z.string().trim().min(1, "Commentary text is required").max(500),
   type: z.enum(COMMENTARY_TYPES).default("info"),
 });

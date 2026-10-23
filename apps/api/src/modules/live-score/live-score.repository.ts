@@ -30,7 +30,9 @@ export function listCommentary(params: {
   const where = { matchId: params.matchId };
   const order = params.newestFirst
     ? ([{ createdAt: "desc" }] as Prisma.CommentaryOrderByWithRelationInput[])
-    : ([{ minute: "asc" }, { createdAt: "asc" }] as Prisma.CommentaryOrderByWithRelationInput[]);
+    // Chronological log: createdAt, not minute, because minutes repeat each
+    // period (a 5' line in the 1st belongs before a 5' line in the 3rd).
+    : ([{ createdAt: "asc" }] as Prisma.CommentaryOrderByWithRelationInput[]);
   return Promise.all([
     prisma.commentary.findMany({ where, skip: params.skip, take: params.take, orderBy: order }),
     prisma.commentary.count({ where }),

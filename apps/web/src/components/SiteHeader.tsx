@@ -120,7 +120,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
           <div className="flex min-w-0 items-center">
             <button
               onClick={() => setMobileMenuOpen((v) => !v)}
-              className="-ml-2 flex shrink-0 items-center rounded-lg p-2 text-slate-700 transition-colors hover:text-slate-950 sm:hidden"
+              className="-ml-2 flex shrink-0 items-center rounded-lg p-2 text-slate-700 transition-colors hover:text-slate-950 lg:hidden"
               aria-label="Toggle navigation menu"
               aria-expanded={mobileMenuOpen}
             >
@@ -142,13 +142,13 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             </Link>
           </div>
 
-          <nav className="hidden items-center gap-8 lg:gap-10 md:flex" id="header-nav">
+          <nav className="hidden items-center gap-5 lg:flex xl:gap-10" id="header-nav">
             {/* First item is always Home. */}
             <NavLink
               to="/"
               end
               className={({ isActive }) =>
-                `relative py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
+                `relative whitespace-nowrap py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
                   isActive ? "text-pitch-orange-dark" : "text-[#1e293b] hover:text-pitch-orange-dark"
                 }`
               }
@@ -175,7 +175,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
                 aria-expanded={aboutOpen}
                 aria-haspopup="true"
                 onClick={() => setAboutOpen((v) => !v)}
-                className={`relative flex items-center py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
+                className={`relative flex items-center whitespace-nowrap py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
                   aboutOpen || ABOUT_ROUTES.has(pathname)
                     ? "text-pitch-orange-dark"
                     : "text-[#1e293b] hover:text-pitch-orange-dark"
@@ -211,7 +211,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
                 to={item.to}
                 end={item.end}
                 className={({ isActive }) =>
-                  `relative py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
+                  `relative whitespace-nowrap py-2 text-sm font-semibold transition-colors duration-200 lg:text-[15px] ${
                     isActive ? "text-pitch-orange-dark" : "text-[#1e293b] hover:text-pitch-orange-dark"
                   }`
                 }
@@ -230,7 +230,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
 
           {/* Search first, auth last: the account action is always the
               right-most control in the header. */}
-          <div className="hidden items-center gap-4 sm:flex lg:gap-5">
+          <div className="hidden items-center gap-4 lg:flex lg:gap-5">
             <button
               onClick={onOpenSearch}
               aria-label="Search league"
@@ -244,7 +244,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
                 {isAdmin && (
                   <Link
                     to="/admin"
-                    className="text-sm font-semibold text-pitch-orange-dark transition-colors hover:text-pitch-orange"
+                    className="whitespace-nowrap text-sm font-semibold text-pitch-orange-dark transition-colors hover:text-pitch-orange"
                   >
                     Admin
                   </Link>
@@ -261,7 +261,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
             ) : (
               <button
                 onClick={openAuth}
-                className="rounded-full bg-pitch-orange px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-pitch-orange-dark hover:shadow"
+                className="whitespace-nowrap rounded-full bg-pitch-orange px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-pitch-orange-dark hover:shadow"
               >
                 Sign in
               </button>
@@ -281,7 +281,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
 
           {/* Search and the secondary mark, right-aligned on mobile. The
               hamburger now lives on the far left. */}
-          <div className="flex items-center gap-2 sm:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <button onClick={onOpenSearch} aria-label="Search" className="p-2 text-slate-700">
               <Search className="h-5 w-5" />
             </button>
@@ -300,7 +300,7 @@ export function SiteHeader({ onOpenSearch, onOpenLiveScores, onOpenAbout: _onOpe
       </div>
 
       {mobileMenuOpen && (
-        <div className="border-b border-slate-200 bg-white px-4 pb-6 pt-3 shadow-lg sm:hidden">
+        <div className="border-b border-slate-200 bg-white px-4 pb-6 pt-3 shadow-lg lg:hidden">
           <div className="space-y-1">
             {NAV_ITEMS.map((item) => (
               <NavLink

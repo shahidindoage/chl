@@ -34,7 +34,7 @@ export function MatchDetailPage() {
         {t.logo ? (
           <img src={t.logo} alt={`${t.name} logo`} className="h-12 w-12 object-contain" />
         ) : (
-          <span className="text-lg font-black text-white">{t.shortName}</span>
+            <span className="text-lg font-black text-slate-900">{t.shortName}</span>
         )}
       </span>
         <Link
@@ -84,7 +84,7 @@ export function MatchDetailPage() {
           />
         </div>
 
-        <div className="relative px-6 py-5">
+        <div className="relative px-4 py-4 sm:px-6 sm:py-5">
           <p className="text-center text-xs font-bold uppercase tracking-widest text-white drop-shadow">
             {match.status} · {new Date(match.date).toLocaleString()}
           </p>
@@ -96,14 +96,14 @@ export function MatchDetailPage() {
         </div>
 
         {match.venue && (
-          <p className="relative flex items-center justify-center gap-1.5 border-t border-white/20 bg-black/30 px-6 py-3 text-sm text-white">
+          <p className="relative flex items-center justify-center gap-1.5 border-t border-white/20 bg-black/30 px-4 py-3 text-sm text-white sm:px-6">
             <MapPin className="h-4 w-4 shrink-0 text-white/80" aria-hidden="true" />
             <span>{match.venue.name}</span>
             <span>, {match.venue.city}</span>
           </p>
         )}
         {finished && match.summary && (
-          <p className="relative border-t border-white/20 bg-black/30 px-6 py-4 text-sm text-white">
+          <p className="relative border-t border-white/20 bg-black/30 px-4 py-4 text-sm text-white sm:px-6">
             {match.summary}
           </p>
         )}
@@ -115,10 +115,18 @@ export function MatchDetailPage() {
           {match.events.length === 0 ? <p className="text-sm text-slate-400">No events recorded.</p> : (
             <ul className="space-y-1">
               {match.events.map((e) => (
-                <li key={e.id} className="flex items-center gap-2 text-sm">
-                  <span className="w-10 font-bold text-slate-500">{e.minute}'</span>
-                  <span className="w-24 capitalize">{e.eventType.replace("_", " ")}</span>
-                  <span className="text-slate-600">{[e.teamName, e.playerName && `— ${e.playerName}`, e.description].filter(Boolean).join(" ")}</span>
+                <li key={e.id} className="flex flex-col gap-0.5 text-sm sm:flex-row sm:items-center sm:gap-2">
+                  {/* Mobile: time + type on one line, description below.
+                      Desktop (sm:contents): back to the original single row. */}
+                  <div className="flex items-center gap-2 sm:contents">
+                    <span className="shrink-0 whitespace-nowrap font-bold text-slate-500 sm:w-20">
+                      {e.period ? `${e.period} · ` : ""}{e.minute}'
+                    </span>
+                    <span className="shrink-0 capitalize sm:w-24">{e.eventType.replace("_", " ")}</span>
+                  </div>
+                  <span className="min-w-0 text-slate-600 sm:flex-1">
+                    {[e.teamName, e.playerName && `— ${e.playerName}`, e.description].filter(Boolean).join(" ")}
+                  </span>
                 </li>
               ))}
             </ul>

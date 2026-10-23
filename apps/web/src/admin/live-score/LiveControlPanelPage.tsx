@@ -86,7 +86,13 @@ function ControlPanel({ match, onChanged, onError }: {
 
   const liveStatus: LiveStatusDto | null = status ?? restFeed?.status ?? null;
   const isLive = liveStatus?.status === "live";
-  const lines = feed.commentary.length ? feed.commentary : restFeed?.commentary ?? [];
+  // Snapshot is newest-first; reverse it so the log reads oldest -> newest and
+  // append any lines that arrived over the socket since load. Deleted ids are
+  // removed from both sources.
+  const deletedCom = new Set(feed.deletedCommentaryIds);
+  const restLines = [...(restFeed?.commentary ?? [])].reverse().filter((c) => !deletedCom.has(c.id));
+  const restSeen = new Set(restLines.map((c) => c.id));
+  const lines = [...restLines, ...feed.commentary.filter((c) => !restSeen.has(c.id) && !deletedCom.has(c.id))];
 
   async function run(fn: () => Promise<unknown>, msg: string) {
     setBusy(true);
@@ -94,6 +100,16 @@ function ControlPanel({ match, onChanged, onError }: {
     catch (err) { onError(apiErrorMessage(err, msg)); }
     finally { setBusy(false); }
   }
+
+  const removeCommentary = (id: string) => {
+    void run(async () => {
+      await liveApi.deleteCommentaryLine(id);
+      // Refetch the snapshot so the line disappears even if this client's
+      // socket is offline; connected viewers get the socket broadcast.
+      const f = await liveApi.getLiveFeed(match.id, { page: 1, limit: 50 });
+      setRestFeed({ status: f.status, commentary: f.commentary });
+    }, "Delete commentary failed");
+  };
 
   async function addEvent(e: React.FormEvent) {
     e.preventDefault();
@@ -104,6 +120,7 @@ function ControlPanel({ match, onChanged, onError }: {
         teamId: ev.teamId || null,
         playerId: ev.playerId || null,
         minute: Number(minute) || liveStatus?.currentMinute || 0,
+        period: period || null,
         description: ev.description || null,
       });
       setEv({ ...ev, description: "", playerId: "" });
@@ -212,7 +229,7 @@ function ControlPanel({ match, onChanged, onError }: {
         <ul className="max-h-48 space-y-1 overflow-y-auto text-sm">
           {[...timeline].map((e) => (
             <li key={e.id} className="flex gap-2 rounded bg-slate-50 px-2 py-1">
-              <span className="font-bold">{e.minute}′</span>
+              <span className="font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}′</span>
               <span className="capitalize">{e.eventType.replace("_", " ")}</span>
               <span className="flex-1 truncate text-slate-600">{[e.teamName, e.playerName, e.description].filter(Boolean).join(" · ")}</span>
             </li>
@@ -224,7 +241,7 @@ function ControlPanel({ match, onChanged, onError }: {
           <form onSubmit={async (e) => {
             e.preventDefault();
             await run(async () => {
-              await liveApi.publishCommentary(match.id, { minute: Number(minute) || 0, text: commentary, type: "info" });
+              await liveApi.publishCommentary(match.id, { minute: Number(minute) || 0, period: period || null, text: commentary, type: "info" });
               setCommentary("");
             }, "Commentary failed");
           }} className="flex gap-2 border-t pt-3">
@@ -234,9 +251,18 @@ function ControlPanel({ match, onChanged, onError }: {
         )}
         <ul className="max-h-56 space-y-1 overflow-y-auto text-sm">
           {lines.map((c) => (
-            <li key={c.id} className="flex gap-2 rounded bg-slate-50 px-2 py-1">
-              <span className="font-bold">{c.minute}′</span>
-              <span className="flex-1">{c.text}</span>
+            <li key={c.id} className="flex items-center gap-2 rounded bg-slate-50 px-2 py-1">
+              <span className="font-bold">{c.period ? `${c.period} · ` : ""}{c.minute}′</span>
+              <span className="min-w-0 flex-1">{c.text}</span>
+              <button
+                type="button"
+                className="shrink-0 text-xs text-red-600 hover:underline disabled:opacity-50"
+                disabled={busy}
+                onClick={() => removeCommentary(c.id)}
+                aria-label={`Delete commentary at ${c.period ? `${c.period} ` : ""}${c.minute} minutes`}
+              >
+                Delete
+              </button>
             </li>
           ))}
           {lines.length === 0 && <li className="text-slate-400">No commentary yet.</li>}
