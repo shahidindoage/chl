@@ -297,8 +297,8 @@ function MatchManager({ matchId, onDone, onError }: {
 
   useEffect(() => {
     void load().then(async (d) => {
-      const list = await playerApi.listPlayers({ page: 1, limit: 100 });
-      setPlayers(list.items.filter((p) => p.teamId === d.teamAId || p.teamId === d.teamBId));
+      const list = await playerApi.listAllPlayers();
+      setPlayers(list.filter((p) => p.teamId === d.teamAId || p.teamId === d.teamBId));
     }).catch((err) => onError(apiErrorMessage(err)));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [load]);

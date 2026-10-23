@@ -274,9 +274,9 @@ function ControlPanel({ match, onChanged, onError }: {
 
 async function playerApiLoad(matchId: string) {
   const d = await matchApi.getMatch(matchId);
-  const { listPlayers } = await import("../../api/player.client.js");
-  const all = await listPlayers({ page: 1, limit: 100, tournamentId: d.tournamentId });
-  return all.items
+  const { listAllPlayers } = await import("../../api/player.client.js");
+  const all = await listAllPlayers({ tournamentId: d.tournamentId });
+  return all
     .filter((p) => p.teamId === d.teamAId || p.teamId === d.teamBId)
     .map((p) => ({ id: p.id, name: p.name, teamId: p.teamId, jerseyNumber: p.jerseyNumber }));
 }

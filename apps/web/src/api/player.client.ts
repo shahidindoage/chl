@@ -16,6 +16,21 @@ export async function listPlayers(
   return data;
 }
 
+/**
+ * Every player matching the filters. The API caps `limit` at 100, so this walks
+ * the pages instead of silently truncating large rosters.
+ */
+export async function listAllPlayers(
+  params: { teamId?: string; tournamentId?: string; position?: string } = {}
+): Promise<PlayerDto[]> {
+  const all: PlayerDto[] = [];
+  for (let page = 1; ; page += 1) {
+    const { items, pagination } = await listPlayers({ ...params, page, limit: 100 });
+    all.push(...items);
+    if (items.length === 0 || page >= pagination.totalPages) return all;
+  }
+}
+
 export async function getPlayer(id: string): Promise<PlayerProfileDto> {
   const { data } = await http.get<{ player: PlayerProfileDto }>(`/players/${id}`);
   return data.player;

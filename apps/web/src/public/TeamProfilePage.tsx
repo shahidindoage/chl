@@ -125,8 +125,8 @@ export function TeamProfilePage() {
     // never lands on an empty "Squad" tab from the previous team.
     setTab("overview");
     teamApi.getTeam(id).then(setTeam).catch((err) => setError(apiErrorMessage(err)));
-    playerApi.listPlayers({ page: 1, limit: 100, teamId: id })
-      .then((d) => setSquad(d.items))
+    playerApi.listAllPlayers({ teamId: id })
+      .then(setSquad)
       .catch(() => undefined);
   }, [id]);
 

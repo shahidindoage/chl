@@ -28,13 +28,11 @@ export function PlayersPage() {
   }, []);
 
   useEffect(() => {
-    playerApi.listPlayers({
-      page: 1,
-      limit: 100,
+    playerApi.listAllPlayers({
       ...(teamFilter ? { teamId: teamFilter } : {}),
       ...(posFilter ? { position: posFilter } : {}),
     })
-      .then((d) => setPlayers(d.items))
+      .then(setPlayers)
       .catch((err) => setError(apiErrorMessage(err)));
   }, [teamFilter, posFilter]);
 

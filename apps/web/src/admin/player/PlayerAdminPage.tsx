@@ -32,10 +32,10 @@ export function PlayerAdminPage() {
   const load = useCallback(async () => {
     try {
       const [pl, tm] = await Promise.all([
-        playerApi.listPlayers({ page: 1, limit: 100 }),
+        playerApi.listAllPlayers(),
         teamApi.listTeams({ page: 1, limit: 100 }),
       ]);
-      setPlayers(pl.items);
+      setPlayers(pl);
       setTeams(tm.items);
     } catch (err) { setToast({ kind: "error", text: apiErrorMessage(err) }); }
   }, []);

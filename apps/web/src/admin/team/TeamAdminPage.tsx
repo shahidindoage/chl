@@ -48,8 +48,8 @@ export function TeamAdminPage() {
     if (!form.tournamentId) { setSquad([]); return; }
     let cancelled = false;
     playerApi
-      .listPlayers({ page: 1, limit: 100, tournamentId: form.tournamentId })
-      .then((d) => { if (!cancelled) setSquad(d.items); })
+      .listAllPlayers({ tournamentId: form.tournamentId })
+      .then((items) => { if (!cancelled) setSquad(items); })
       .catch(() => { if (!cancelled) setSquad([]); });
     return () => { cancelled = true; };
   }, [form.tournamentId]);
