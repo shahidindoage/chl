@@ -111,6 +111,16 @@ function ControlPanel({ match, onChanged, onError }: {
     }, "Delete commentary failed");
   };
 
+  const removeEvent = (id: string) => {
+    void run(async () => {
+      await matchApi.deleteEvent(id);
+      // Refetch so the row disappears even if this client's socket is offline;
+      // connected viewers get the socket broadcast.
+      const d = await matchApi.getMatch(match.id);
+      setTimeline(d.events);
+    }, "Delete event failed");
+  };
+
   async function addEvent(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
@@ -227,11 +237,20 @@ function ControlPanel({ match, onChanged, onError }: {
           </form>
         )}
         <ul className="max-h-48 space-y-1 overflow-y-auto text-sm">
-          {[...timeline].map((e) => (
-            <li key={e.id} className="flex gap-2 rounded bg-slate-50 px-2 py-1">
-              <span className="font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}′</span>
-              <span className="capitalize">{e.eventType.replace("_", " ")}</span>
-              <span className="flex-1 truncate text-slate-600">{[e.teamName, e.playerName, e.description].filter(Boolean).join(" · ")}</span>
+          {timeline.map((e) => (
+            <li key={e.id} className="flex items-center gap-2 rounded bg-slate-50 px-2 py-1">
+              <span className="shrink-0 font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}′</span>
+              <span className="shrink-0 capitalize">{e.eventType.replace("_", " ")}</span>
+              <span className="min-w-0 flex-1 truncate text-slate-600">{[e.teamName, e.playerName, e.description].filter(Boolean).join(" · ")}</span>
+              <button
+                type="button"
+                className="shrink-0 text-xs text-red-600 hover:underline disabled:opacity-50"
+                disabled={busy}
+                onClick={() => removeEvent(e.id)}
+                aria-label={`Delete ${e.eventType.replace("_", " ")} at ${e.period ? `${e.period} ` : ""}${e.minute} minutes`}
+              >
+                Delete
+              </button>
             </li>
           ))}
           {timeline.length === 0 && <li className="text-slate-400">No events yet.</li>}

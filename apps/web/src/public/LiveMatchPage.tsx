@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { MapPin } from "lucide-react";
 
-import type { CommentaryDto, LiveStatusDto, MatchDetailDto } from "@tournament/shared";
+import type { CommentaryDto, LiveStatusDto, MatchDetailDto, MatchEventDto } from "@tournament/shared";
 import * as liveApi from "../api/live.client.js";
 import * as matchApi from "../api/match.client.js";
 import { apiErrorMessage } from "../api/client.js";
@@ -43,6 +43,20 @@ export function LiveMatchPage() {
       ...[...initialCommentary].reverse().filter((c) => !deleted.has(c.id)),
       ...live.commentary.filter((c) => !seen.has(c.id) && !deleted.has(c.id)),
     ];
+  })();
+
+  // Events stream in over the socket while the snapshot came from REST, so
+  // dedupe by id and drop anything deleted while this page has been open.
+  const timeline = (() => {
+    const seen = new Set<string>();
+    const deleted = new Set(live.deletedEventIds);
+    const out: MatchEventDto[] = [];
+    for (const e of [...(detail?.events ?? []), ...live.events]) {
+      if (deleted.has(e.id) || seen.has(e.id)) continue;
+      seen.add(e.id);
+      out.push(e);
+    }
+    return out;
   })();
 
   if (error) return <p className="alert-error">{error}</p>;
@@ -160,14 +174,14 @@ export function LiveMatchPage() {
         <section className="card min-w-0">
           <h2 className="mb-2 font-bold">Timeline</h2>
           <ul className="max-h-64 space-y-1 overflow-y-auto text-sm">
-            {[...detail.events, ...live.events].map((e, i) => (
-              <li key={`${e.id}-${i}`} className="flex gap-2 rounded bg-slate-50 px-2 py-1">
-                <span className="shrink-0 font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}′</span>
+            {timeline.map((e) => (
+              <li key={e.id} className="flex gap-2 rounded bg-slate-50 px-2 py-1">
+                <span className="shrink-0 font-bold">{e.period ? `${e.period} · ` : ""}{e.minute}'</span>
                 <span className="shrink-0 capitalize">{e.eventType.replace("_", " ")}</span>
-                <span className="min-w-0 flex-1 truncate text-slate-600">{[e.teamName, e.playerName, e.description].filter(Boolean).join(" · ")}</span>
+                <span className="min-w-0 flex-1 truncate text-slate-600">{[e.teamName, e.playerName, e.description].filter(Boolean).join(" — ")}</span>
               </li>
             ))}
-            {detail.events.length === 0 && live.events.length === 0 && (
+            {timeline.length === 0 && (
               <li className="text-slate-400">{isLive ? "Events appear live…" : "No events recorded."}</li>
             )}
           </ul>

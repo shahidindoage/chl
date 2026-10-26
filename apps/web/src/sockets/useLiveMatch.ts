@@ -30,6 +30,7 @@ export interface LiveMatchState {
   commentary: CommentaryDto[];
   /** Ids deleted while this page was open, so REST snapshots can drop them too. */
   deletedCommentaryIds: string[];
+  deletedEventIds: string[];
   connected: boolean;
 }
 
@@ -39,6 +40,7 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
     events: [],
     commentary: [],
     deletedCommentaryIds: [],
+    deletedEventIds: [],
     connected: false,
   });
   const statusRef = useRef(initial);
@@ -67,6 +69,13 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
         ? s.deletedCommentaryIds
         : [...s.deletedCommentaryIds, p.id],
     }));
+    const onEventDeleted = (p: { id: string }) => setState((s) => ({
+      ...s,
+      events: s.events.filter((e) => e.id !== p.id),
+      deletedEventIds: s.deletedEventIds.includes(p.id)
+        ? s.deletedEventIds
+        : [...s.deletedEventIds, p.id],
+    }));
     const onConnect = () => setState((s) => ({ ...s, connected: true }));
     const onDisconnect = () => setState((s) => ({ ...s, connected: false }));
 
@@ -74,6 +83,7 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
     socket.on("match:status", onStatus);
     socket.on("match:score", onScore);
     socket.on("match:event", onEvent);
+    socket.on("match:event:deleted", onEventDeleted);
     socket.on("commentary:new", onCommentary);
     socket.on("commentary:deleted", onDeleted);
     socket.on("connect", onConnect);
@@ -84,6 +94,7 @@ export function useLiveMatch(matchId: string | undefined, initial: LiveMatchStat
       socket.off("match:status", onStatus);
       socket.off("match:score", onScore);
       socket.off("match:event", onEvent);
+      socket.off("match:event:deleted", onEventDeleted);
       socket.off("commentary:new", onCommentary);
       socket.off("commentary:deleted", onDeleted);
       socket.off("connect", onConnect);

@@ -356,5 +356,7 @@ export async function deleteEvent(eventId: string): Promise<{ deleted: true; id:
   const existing = await repo.findEventById(eventId);
   if (!existing) throw ApiError.notFound("Event not found");
   await repo.deleteEvent(eventId);
+  // Connected live pages drop it without waiting for a refetch.
+  await publishLiveEvent(existing.matchId, "match:event:deleted", { id: eventId });
   return { deleted: true, id: eventId };
 }
