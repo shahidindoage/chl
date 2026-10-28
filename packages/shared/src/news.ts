@@ -69,8 +69,8 @@ export const gallerySchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   thumbnailUrl: z.string().nullable(),
-  bannerUrl: z.string().nullable(),
-  bannerMobileUrl: z.string().nullable(),
+  // bannerUrl: z.string().nullable(),
+  // bannerMobileUrl: z.string().nullable(),
   matchId: z.string().uuid().nullable(),
   isPublished: z.boolean(),
   publishedAt: z.string().datetime().nullable(),
@@ -88,18 +88,18 @@ export function galleryThumbnailUrl(
 }
 
 /** Album hero banner: the explicit banner, else the cover. */
-export function galleryBannerUrl(
-  gallery: Pick<GalleryDto, "bannerUrl" | "thumbnailUrl" | "images">
-): string | null {
-  return gallery.bannerUrl ?? galleryThumbnailUrl(gallery);
-}
+// export function galleryBannerUrl(
+//   gallery: Pick<GalleryDto, "bannerUrl" | "thumbnailUrl" | "images">
+// ): string | null {
+//   return gallery.bannerUrl ?? galleryThumbnailUrl(gallery);
+// }
 
 /** Phone crop of the album hero, falling back to the desktop banner. */
-export function galleryBannerMobileUrl(
-  gallery: Pick<GalleryDto, "bannerUrl" | "bannerMobileUrl" | "thumbnailUrl" | "images">
-): string | null {
-  return gallery.bannerMobileUrl ?? galleryBannerUrl(gallery);
-}
+// export function galleryBannerMobileUrl(
+//   gallery: Pick<GalleryDto, "bannerUrl" | "bannerMobileUrl" | "thumbnailUrl" | "images">
+// ): string | null {
+//   return gallery.bannerMobileUrl ?? galleryBannerUrl(gallery);
+// }
 
 /** Tag: lowercase slug-ish, stored as a plain string[] in Postgres. */
 const tag = z
@@ -139,8 +139,8 @@ export type UpdateReelInput = z.infer<typeof createReelSchema>;
 const galleryFields = {
   title: z.string().trim().min(2, "Title is required").max(200),
   thumbnailUrl: mediaUrl.nullish(),
-  bannerUrl: mediaUrl.nullish(),
-  bannerMobileUrl: mediaUrl.nullish(),
+  // bannerUrl: mediaUrl.nullish(),
+  // bannerMobileUrl: mediaUrl.nullish(),
   matchId: z.string().uuid("Match id must be a UUID").nullish(),
   images: z
     .array(

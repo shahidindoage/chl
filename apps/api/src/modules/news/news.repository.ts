@@ -170,8 +170,8 @@ const galleryInclude = { images: { orderBy: { sortOrder: "asc" as const } } };
 export function createGallery(data: {
   title: string;
   thumbnailUrl: string | null;
-  bannerUrl: string | null;
-  bannerMobileUrl: string | null;
+  // bannerUrl: string | null;
+  // bannerMobileUrl: string | null;
   matchId: string | null;
   images: { url: string; caption: string | null }[];
 }): Promise<GalleryRow> {
@@ -179,8 +179,8 @@ export function createGallery(data: {
     data: {
       title: data.title,
       thumbnailUrl: data.thumbnailUrl,
-      bannerUrl: data.bannerUrl,
-      bannerMobileUrl: data.bannerMobileUrl,
+      // bannerUrl: data.bannerUrl,
+      // bannerMobileUrl: data.bannerMobileUrl,
       matchId: data.matchId,
       images: { create: data.images.map((img, i) => ({ ...img, sortOrder: i })) },
     },
