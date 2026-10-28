@@ -1,5 +1,5 @@
 import type { ArticleDto, CreateArticleInput, GalleryDto, ReelDto, UpdateArticleInput } from "@tournament/shared";
-import { NEWS_CATEGORIES, newsCategoryLabel } from "@tournament/shared";
+import { NEWS_CATEGORIES, newsCategoryLabel, galleryThumbnailUrl } from "@tournament/shared";
 import { useCallback, useEffect, useState } from "react";
 
 import * as newsApi from "../../api/news.client.js";
@@ -369,6 +369,7 @@ function GalleriesTab() {
   const [items, setItems] = useState<GalleryDto[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
+  const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [imageUrls, setImageUrls] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -382,9 +383,13 @@ function GalleriesTab() {
     setError(null);
     const urls = imageUrls.split("\n").map((u) => u.trim()).filter(Boolean);
     try {
-      const g = await newsApi.createGallery({ title, images: urls.map((url) => ({ url })) });
+      const g = await newsApi.createGallery({
+        title,
+        thumbnailUrl: thumbnailUrl.trim() || null,
+        images: urls.map((url) => ({ url })),
+      });
       await newsApi.publishGallery(g.id);
-      setTitle(""); setImageUrls("");
+      setTitle(""); setThumbnailUrl(""); setImageUrls("");
       load();
     } catch (e) {
       setError(apiErrorMessage(e, "Create failed"));
@@ -405,6 +410,20 @@ function GalleriesTab() {
             <input id="ng-title" className="input" value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
           <div>
+            <label className="label" htmlFor="ng-thumb">Thumbnail image URL (optional)</label>
+            <input
+              id="ng-thumb"
+              className="input"
+              value={thumbnailUrl}
+              onChange={(e) => setThumbnailUrl(e.target.value)}
+              placeholder="/uploads/... or https://..."
+            />
+            <p className="mt-1 text-xs text-slate-400">Shown on the gallery card. Leave empty to use the first image.</p>
+            {thumbnailUrl.trim() && (
+              <img src={thumbnailUrl.trim()} alt="" className="mt-2 h-28 w-48 rounded object-cover" />
+            )}
+          </div>
+          <div>
             <label className="label" htmlFor="ng-images">Image URLs — one per line</label>
             <textarea id="ng-images" className="input font-mono text-sm" rows={5} value={imageUrls} onChange={(e) => setImageUrls(e.target.value)} />
           </div>
@@ -418,17 +437,21 @@ function GalleriesTab() {
         <p className="text-sm text-slate-400">No galleries yet.</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          {items.map((g) => (
+          {items.map((g) => {
+            const cover = galleryThumbnailUrl(g);
+            return (
             <div key={g.id} className="card">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-bold">{g.title}</h3>
                 <PublishBadge published={g.isPublished} />
               </div>
-              <div className="mt-2 grid grid-cols-3 gap-1">
-                {g.images.slice(0, 6).map((img) => (
-                  <img key={img.id} src={img.url} alt={img.caption ?? ""} className="aspect-square w-full rounded object-cover" />
-                ))}
-              </div>
+              {cover ? (
+                <img src={cover} alt="" className="mt-2 aspect-video w-full rounded object-cover" />
+              ) : (
+                <div className="mt-2 flex aspect-video w-full items-center justify-center rounded bg-slate-100 text-xs text-slate-400">
+                  No cover image
+                </div>
+              )}
               <p className="mt-2 text-xs text-slate-400">{g.images.length} images</p>
               <div className="mt-2">
                 <button
@@ -445,7 +468,8 @@ function GalleriesTab() {
                 </button>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

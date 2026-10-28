@@ -169,12 +169,18 @@ const galleryInclude = { images: { orderBy: { sortOrder: "asc" as const } } };
 
 export function createGallery(data: {
   title: string;
+  thumbnailUrl: string | null;
+  bannerUrl: string | null;
+  bannerMobileUrl: string | null;
   matchId: string | null;
   images: { url: string; caption: string | null }[];
 }): Promise<GalleryRow> {
   return prisma.gallery.create({
     data: {
       title: data.title,
+      thumbnailUrl: data.thumbnailUrl,
+      bannerUrl: data.bannerUrl,
+      bannerMobileUrl: data.bannerMobileUrl,
       matchId: data.matchId,
       images: { create: data.images.map((img, i) => ({ ...img, sortOrder: i })) },
     },
@@ -189,7 +195,12 @@ export function findGalleryById(id: string): Promise<GalleryRow | null> {
 /** Images are replaced wholesale — an editor works on a whole set at a time. */
 export function updateGallery(
   id: string,
-  data: { title: string; matchId: string | null; images: { url: string; caption: string | null }[] }
+  data: {
+    title: string;
+    thumbnailUrl: string | null;
+    matchId: string | null;
+    images: { url: string; caption: string | null }[];
+  }
 ): Promise<GalleryRow> {
   return prisma.$transaction(async (tx) => {
     await tx.galleryImage.deleteMany({ where: { galleryId: id } });
@@ -197,6 +208,7 @@ export function updateGallery(
       where: { id },
       data: {
         title: data.title,
+        thumbnailUrl: data.thumbnailUrl,
         matchId: data.matchId,
         images: { create: data.images.map((img, i) => ({ ...img, sortOrder: i })) },
       },
@@ -222,17 +234,19 @@ export function listGalleries(params: {
   take: number;
   includeUnpublished: boolean;
   matchId?: string;
+  oldestFirst?: boolean;
 }): Promise<{ items: GalleryRow[]; total: number }> {
   const where = {
     ...(params.includeUnpublished ? {} : { isPublished: true }),
     ...(params.matchId ? { matchId: params.matchId } : {}),
   };
+  const direction = params.oldestFirst ? "asc" : "desc";
   return Promise.all([
     prisma.gallery.findMany({
       where,
       skip: params.skip,
       take: params.take,
-      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
+      orderBy: [{ publishedAt: direction }, { createdAt: direction }],
       include: galleryInclude,
     }),
     prisma.gallery.count({ where }),

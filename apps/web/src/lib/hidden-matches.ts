@@ -27,7 +27,7 @@
 export const HIDDEN_MATCH_IDS: string[] = [
   // "Match id here",
 
-  '095b5af3-1573-445b-8637-de58acb426f1'
+
 ];
 
 /** True when a match id is on the hide list. */

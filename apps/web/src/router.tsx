@@ -25,6 +25,7 @@ import { NewsPage } from "./public/NewsPage.js";
 import { NewsDetailPage } from "./public/NewsDetailPage.js";
 import { ReelsPage } from "./public/ReelsPage.js";
 import { GalleryPage } from "./public/GalleryPage.js";
+import { GalleryDetailPage } from "./public/GalleryDetailPage.js";
 import { QuizPage } from "./public/QuizPage.js";
 import { PredictPage } from "./public/PredictPage.js";
 import { LeaderboardPage } from "./public/LeaderboardPage.js";
@@ -64,6 +65,7 @@ export const routes = [
   { path: "/news/:slug", element: <NewsDetailPage /> },
   { path: "/reels", element: <ReelsPage /> },
   { path: "/gallery", element: <GalleryPage /> },
+  { path: "/gallery/:id", element: <GalleryDetailPage /> },
   { path: "/quizzes", element: <QuizPage /> },
   { path: "/predict", element: <PredictPage /> },
   { path: "/leaderboard", element: <LeaderboardPage /> },

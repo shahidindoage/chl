@@ -82,6 +82,7 @@ function toGalleryDto(g: repo.GalleryRow): GalleryDto {
   return {
     id: g.id,
     title: g.title,
+    thumbnailUrl: g.thumbnailUrl,
     matchId: g.matchId,
     isPublished: g.isPublished,
     publishedAt: g.publishedAt ? g.publishedAt.toISOString() : null,
@@ -265,6 +266,7 @@ export async function createGallery(input: CreateGalleryInput): Promise<GalleryD
   return toGalleryDto(
     await repo.createGallery({
       title: input.title,
+      thumbnailUrl: input.thumbnailUrl ?? null,
       matchId: input.matchId ?? null,
       images: input.images.map((i) => ({ url: i.url, caption: i.caption ?? null })),
     })
@@ -277,6 +279,7 @@ export async function updateGallery(id: string, input: UpdateGalleryInput): Prom
   return toGalleryDto(
     await repo.updateGallery(id, {
       title: input.title,
+      thumbnailUrl: input.thumbnailUrl ?? null,
       matchId: input.matchId ?? null,
       images: input.images.map((i) => ({ url: i.url, caption: i.caption ?? null })),
     })
@@ -319,6 +322,7 @@ export async function listGalleries(
     take: query.limit,
     includeUnpublished,
     ...(query.matchId ? { matchId: query.matchId } : {}),
+    oldestFirst: query.sort === "oldest",
   });
   return { items: items.map(toGalleryDto), pagination: pagination(query.page, query.limit, total) };
 }

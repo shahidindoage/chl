@@ -107,7 +107,7 @@ export async function deleteReel(id: string): Promise<void> {
 /* ---------------- Gallery ---------------- */
 
 export async function listGalleries(
-  params: { page?: number; limit?: number; matchId?: string; scope?: NewsScope } = {}
+  params: { page?: number; limit?: number; matchId?: string; scope?: NewsScope; sort?: "newest" | "oldest" } = {}
 ): Promise<Paginated<GalleryDto>> {
   const { data } = await http.get<Paginated<GalleryDto>>("/news/galleries", { params });
   return data;
